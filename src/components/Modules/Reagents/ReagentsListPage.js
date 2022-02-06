@@ -30,6 +30,10 @@ function ReagentsListPage(props) {
 
 	const columns = [
 		{
+			Header: "Id",
+			accessor: "_id",
+		},
+		{
 			Header: "Código do Reagente",
 			accessor: "cod",
 		},
@@ -45,10 +49,7 @@ function ReagentsListPage(props) {
 			Header: "Atualizado por",
 			accessor: "updatedBy",
 		},
-		{
-			Header: "Id",
-			accessor: "_id",
-		},
+	
 	];
 
 	return (
