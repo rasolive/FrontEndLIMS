@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 const StyledCard = styled(Card)`
-	max-width: min-content;
+	max-width: 80%;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
@@ -153,16 +153,23 @@ function ReagentsDetailsPage(props) {
 			/>
 				<Container showModal={showModal}>
 				<Header
-					title="Cadastro de Matéria-Prima Vegetal"
+					title="Cadastro de Reagentes"
 					showReturnButton
 				/>
 				<StyledCard>
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
-						<FieldSet>
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
 							<FormGroup>
 								<Label htmlFor="cod">Código do Reagente</Label>
-								<FieldSet alignItems="center">
+								<FieldSet style={{
+											flexWrap: "wrap",
+											alignItems: "center",
+										}}>
 									<InputNumber
 										type="number"
 										id="cod"
@@ -181,7 +188,10 @@ function ReagentsDetailsPage(props) {
 								/>
 							</FormGroup>
 						</FieldSet>
-						<FieldSet>
+						<FieldSet style={{
+											flexWrap: "wrap",
+											alignItems: "center",
+										}}>
 							<FormGroup>
 								<Label htmlFor="createdBy">
 									Criado Por
