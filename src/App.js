@@ -8,6 +8,7 @@ import Home from "./components/home/Home";
 import NotFoundPage from "./components/Modules/NotFound/NotFoundPage";
 import ReagentsListPage from "./components/Modules/Reagents/ReagentsListPage";
 // import { AuthProvider } from "./context/AuthContext";
+import ReagentsDetailsPage from "./components/Modules/Reagents/ReagentsDetailsPage";
 
 
 function App() {
@@ -15,8 +16,8 @@ function App() {
 		// <AuthProvider>
 			<Switch>
                 <Route path="/" exact name="Home" component={Home} />
-                <Route exact path="/db/reagents" name="ReagentsListPage" component={ReagentsListPage}
-						/>
+                <Route exact path="/db/reagents" name="ReagentsListPage" component={ReagentsListPage}/>
+                <Route exact path="/db/reagents/:id" name="ReagentsDetailsPage" component={ReagentsDetailsPage}/>
                 <Route component={NotFoundPage} />
 				{/* <Route path="/login" name="LoginPage" component={LoginPage} />
 				
