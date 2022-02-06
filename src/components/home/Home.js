@@ -1,10 +1,30 @@
 import React from "react";
-
-function Home() {
-    return(
-        <h1>Hello World!</h1>
-    )
-    }
+import Button from "../Layout/Button/Button";
+import ButtonGroup from "../Layout/ButtonGroup/ButtonGroup";
 
 
-export default Home
+function Home(props) {
+
+    const handleRedirectReagents= () => {
+        props.history.push("/db/reagents")
+    };
+    
+
+    return (
+        <>
+            <ButtonGroup>
+                <Button
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectReagents}
+                    info
+                >
+                    Reagentes
+                </Button>
+
+            </ButtonGroup>
+        </>
+    );
+}
+
+export default Home;
