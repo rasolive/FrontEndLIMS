@@ -172,10 +172,10 @@ function UploadPage(props) {
 	const selectedModule = path[2];
 	//const isAdmin = hasPermissionAdm();
 
-	// useEffect(() => {
-		// console.log('files',files)
-		// console.log('files length',files.length)
-	// }, [files, setFiles])
+	useEffect(() => {
+		console.log('files',files)
+		console.log('files length',files.length)
+	}, [files, setFiles])
 
 	useEffect(() => {
 		setSettingsFlow(Object.assign({settingsFlow}, { 
@@ -221,8 +221,8 @@ function UploadPage(props) {
 	
 	};
 
-	const docExtras =
-		uploadedFiles.find((uf) => uf.folder === "extras") || {};
+	const docExtras = []
+		//uploadedFiles.find((uf) => uf.folder === "extras") || {};
 
 	const selectedProject =
 		!newProject &&
@@ -258,47 +258,6 @@ function UploadPage(props) {
 		setShowModal(false);
 		setLoading(true);
 		//deleteProject();
-	};
-
-	const handleAddEquipmentTableChange = (equipment) => {
-		setProjectEquipments([...projectEquipments, equipment]);
-	};
-
-	const handleRemoveEquipmentTableChange = (equipments) => {
-		setProjectEquipments(equipments);
-	};
-
-	const handleAddUserTableChange = (user) => {
-		setProjectUsers([...projectUsers, user]);
-	};
-
-	const handleRemoveUserTableChange = (users) => {
-		setProjectUsers(users);
-	};
-
-	const formatDate = (datetime) => {
-		if (datetime) {
-			return new Date(datetime).toLocaleString(["pt-BR"]);
-		} else return "";
-	};
-
-	const handleShowSpecies = () => {
-		setShowSpecies(!showSpecies);
-	};
-
-	const handleShowRawMaterial = () => {
-		setShowRawMaterial(!showRawMaterial);
-	};
-
-	const handleShowDocuments = () => {
-		setShowDocuments(!showDocuments);
-	};
-
-	const handleAddSpecie = () => {
-		if (!fields.specie) {
-			toast.error("Nenhuma espécie selecionada");
-			return;
-		}
 
 		const result = species.find(
 			(specie) => specie._id === Number(fields.specie)
@@ -308,70 +267,76 @@ function UploadPage(props) {
 	
 	};
 
-	const handleRemoveSpecie = (id) => {
-		const result = selectedSpecies.filter((sele) => sele._id !== id);
-		setSelectedSpecies(result);
-	};
 
 	const handleFileInput = (e, path) => {
+		// if (!fields.projectId) {
+		// 	toast.error("Selecione um projeto");
+		// 	return;
+		// }
 
-		const project = Object.assign({}, { projectName });
-	
-		const hasPicture = e.target.files.length > 0 && path.includes("Foto"); // Boolean - comparativo
+		const project = projects.find(
+			(p) => p._id === parseInt(fields.projectId)
+		);
+
+		const hasPicture = e.target.files.length > 0 && path.includes("Foto");
 		hasPicture && setImage(URL.createObjectURL(e.target.files[0]));
-	
+
 		const newFiles = e.target.files;
+
 		let newFilesDescription = [...files];
-	
+
 		for (let i = 0; i < newFiles.length; i++) {
 			const sameFileAndFolder = newFilesDescription.find(
 				(fileObj) =>
 					fileObj.name === newFiles[i].name &&
 					fileObj.size === newFiles[i].size &&
-					fileObj.file.lastModified === newFiles[i].lastModified
-					// fileObj.path === projectName,
-					// fileObj.path === `${project.projectName}/${path}`
+					fileObj.file.lastModified === newFiles[i].lastModified &&
+					fileObj.path === `${path}`
 			);
-	
+
 			if (sameFileAndFolder) {
 				toast.error(`Arquivo ${newFiles[i].name} já foi inserido`);
 				continue;
 			}
-	
+
 			newFilesDescription.push({
 				name: newFiles[i].name,
 				size: newFiles[i].size,
-				path: `${path}`,				
+				path: `${path}`,
 				file: newFiles[i],
 			});
 		}
-	
+
 		e.target.value = null;
 		setFiles(newFilesDescription);
 	};
 
 	const handleUploadFiles = async (id, project) => {
 		if (files.length === 0) {
-
+			toast.success("Aspecto legal criado com sucesso");			
+			props.history.push({
+				pathname: "/upload",
+				state: { ...settingsFlow },
+			});
 			return;
 		}
-	
+
 		for (const [idx, fileObj] of files.entries()) {
 			setLoading(true);
-	
-			const path = fileObj.path ? fileObj.path.replace(":id", id) : null
-			console.log('fileObj',fileObj)
-			console.log('fileObj path',path)
+
+			console.log(fileObj);
+			const path = fileObj.path.replace(":id", id);
+
 			const archiveData = {
 				project,
 				path,
 			};
-	
+
 			const formData = new FormData();
 			formData.append("Hostname", "frontend");
 			formData.append("archiveFullData", JSON.stringify(archiveData));
 			formData.append("files", fileObj.file);
-	
+
 			await BackendLIMSAxios
 				.post(`/anexos/upload`, formData, {
 					"Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
@@ -383,8 +348,11 @@ function UploadPage(props) {
 						autoClose: false,
 					});
 					if (idx === files.length - 1) {
-						toast.success("Anexo criado com sucesso");
-						props.history.push(`/db/${selectedModule}/projects`);
+						toast.success("Aspecto legal criado com sucesso");
+						props.history.push({
+							pathname: "/upload",
+							state: { ...settingsFlow },
+						});
 					}
 				})
 				.catch((err) => {
@@ -396,7 +364,6 @@ function UploadPage(props) {
 				});
 		}
 	};
-
 	
 
 	return (
@@ -415,12 +382,9 @@ function UploadPage(props) {
 					<Form flexFlow="row wrap">
 						<FieldSet>
 							
-								<FormGroup>
-									<Label>
-										Arquivos deste projeto: { numberExtraFiles }
-									</Label>
+						<FormGroup>
 									<LabelFile htmlFor="files">
-										Inserir documentos
+										Inserir Anexo
 									</LabelFile>
 									<InputFile
 										type="file"
@@ -429,7 +393,7 @@ function UploadPage(props) {
 										onChange={(e) =>
 											handleFileInput(
 												e,
-												"anexos/extras"
+												"anexos/upload"
 											)
 										}
 										multiple
@@ -437,7 +401,7 @@ function UploadPage(props) {
 									{docExtras.length === 0 &&
 									files.length === 0 ? (
 										<NoImgLabel>
-											Nenhum arquivo selecionado
+											Nenhum arquivo anexo
 										</NoImgLabel>
 									) : (
 										<>
@@ -457,7 +421,7 @@ function UploadPage(props) {
 											{files.map((file) => {
 												const fileCheck =
 													file.path.includes(
-														"extras"
+														"anexos"
 													);
 												return (
 													fileCheck && (
