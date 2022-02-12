@@ -1,24 +1,42 @@
-import React, { useState, useEffect} from "react";
-import { Trash2, Search, Feather } from "react-feather";
-import { toast } from "react-toastify";
+import React, { useState, useEffect, useContext } from "react";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
+import { toast } from "react-toastify";
+import { Trash2, Search, Feather } from "react-feather";
+
 import useDynamicForm from "../../../hooks/useDynamicForm";
-// import { AuthContext } from "../../../../../context/AuthContext";
+//import { AuthContext } from "../../../../../context/AuthContext";
 import Header from "../../Layout/Header/Header";
 import Modal from "../../Layout/Modal/Modal";
 import Form from "../../Layout/Form/Form";
 import Card from "../../Layout/Card/Card";
 import FormGroup from "../../Layout/FormGroup/FormGroup";
 import Label from "../../Layout/Label/Label";
-import { InputText, Select,InputFile, InputNumber} from "../../Layout/Input/Input";
+import {
+	InputText,
+	TextArea,
+	Select,
+	InputFile,
+	InputNumber,
+} from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
+import Subtitle from "../../Layout/Subtitle/Subtitle";
 import styled, { css } from "styled-components";
 import Button from "../../Layout/Button/Button";
 import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
+import { object } from "prop-types";
 
+const Container = styled.div`
+	${(props) =>
+		props.showModal &&
+		css`
+			opacity: ${(props) => (props.showModal ? "0.4" : "none")};
+			cursor: ${(props) => props.showModal && "not-allowed"};
+			pointer-events: ${(props) => props.showModal && "none"};
+		`};
+`;
 
 const StyledCard = styled(Card)`
 	max-width: min-content;
@@ -116,116 +134,99 @@ const SearchButton = styled(Button)`
 	box-shadow: none;
 `;
 
-
-const Container = styled.div`
-	${(props) =>
-		props.showModal &&
-		css`
-			opacity: ${(props) => (props.showModal ? "0.4" : "none")};
-			cursor: ${(props) => props.showModal && "not-allowed"};
-			pointer-events: ${(props) => props.showModal && "none"};
-		`};
-`;
-
-
-function ReagentsDetailsPage(props) {
-	const { fields, setFields, handleInputChange } = useDynamicForm();
+function UploadPage(props) {
 	const [loading, setLoading] = useState(false);
-	// const { session } = useContext(AuthContext);
+	const { fields, setFields, handleInputChange } = useDynamicForm();
+	//const { session, hasPermissionAdm } = useContext(AuthContext);
 	const [showModal, setShowModal] = useState(false);
-	const [uploadedFiles, setUploadedFiles] = useState([]);
+	const [projectEquipments, setProjectEquipments] = useState([]);
+	const [projectUsers, setProjectUsers] = useState([]);
+	const [projects, setProjects] = useState([]);
+	const [users, setUsers] = useState([]);
+	const [showSpecies, setShowSpecies] = useState(true);
+	const [showRawMaterial, setShowRawMaterial] = useState(true);
+	const [rawMaterials, setRawMaterials] = useState([]);
 	const [showDocuments, setShowDocuments] = useState(true);
-	const [numberExtraFiles, setNumberExtraFiles] = useState(0);
+	const [species, setSpecies] = useState([]);
+	const [selectedSpecies, setSelectedSpecies] = useState([]);
 	const [files, setFiles] = useState([]);
+	const [projectName, setProjectName] = useState(null);
 	const [image, setImage] = useState(null);
+	const [uploadedFiles, setUploadedFiles] = useState([]);
+	const [numberExtraFiles, setNumberExtraFiles] = useState(0);
+	
 
-	const reagentId = props.match.params.id;
-	const newReagent = reagentId === "new";
+	const location = props.location;
 
-		useEffect(() => {
+	const [settingsFlow,  setSettingsFlow] = useState({
+		projectId: null,
+		projectName: null,
+		specieId: null,
+		specieName: null,
+		partPlant: null
+	});
+	
+	const projectId = props.match.params.id;
+	const newProject = projectId === "new";
+	const path = window.location.pathname.split("/");
+	const selectedModule = path[2];
+	//const isAdmin = hasPermissionAdm();
 
-		async function getReagent() {
-			const response = await BackendLIMSAxios.get(
-				`reagents/${reagentId}`
-			);
+	// useEffect(() => {
+		// console.log('files',files)
+		// console.log('files length',files.length)
+	// }, [files, setFiles])
+
+	useEffect(() => {
+		setSettingsFlow(Object.assign({settingsFlow}, { 
+			projectId: projectId || null,
+			projectName: fields.projectName || null,
+		 }))
+
+		 async function populateSelectedSpeciesTable() {			
+			const speciesIds = fields.species;
 			
-			setFields(response.data || {});
-	    	setLoading(false);
+			const getSpecies = species.filter(item => speciesIds.includes(item._id));
+
+			setSelectedSpecies([...selectedSpecies, ...getSpecies ]);			
 		}
-
-
-
-		if (!newReagent) {
-			setLoading(true);
-			getReagent();
-		}
-	}, [reagentId, newReagent, setFields]);
+		populateSelectedSpeciesTable()
+		
+	}, [fields.species])
+	
+	// useEffect(() => {
+	// 	console.log("selectedSpecies",selectedSpecies)
+	// }, [setSelectedSpecies, selectedSpecies])
+	
+	// useEffect(() => {
+	// 	console.log("species",species)
+	// }, [setSpecies, species])
 
 	
+	const createProject = async () => {
 
-	const createReagent = async () => {
-		const body = Object.assign({}, fields)
-
-		body.user = "Usuário de Criação" //session && session.email;
-
-		const response = await BackendLIMSAxios.post("reagents",body);
-
-		setLoading(false);
-
-		const status = response.status || {};
-		if (status === 200) {
-			toast.success("Reagente Criado com sucesso");
-			props.history.push("/db/reagents");
-
-		}
-	};
-
-	const updateReagent = async () => {
-		const body = Object.assign({}, fields)
-
-		body.user = "Usuário de Alteração" //session && session.email;
+		handleUploadFiles(1, 'teste');
 		
-		const response = await BackendLIMSAxios.put(`reagents/${reagentId}`, body);
-
+		
 		setLoading(false);
-		const id = response.data._id;
 
-		const status = response.status || {};
-		if (status === 200) {
-			handleUploadFiles(id, "projectName");
-		}
-		setLoading(false);		
 	};
 
-	const deleteReagent = async () => {
-		const body = {
-			// token: session && session.token,
-			cod_grupo: parseInt(fields.cod_grupo),
-		};
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
+		setLoading(true);
 
-        body.user = "Usuário de Alteração" //session && session.email;
-
-		const response = await BackendLIMSAxios.delete(`reagents/${reagentId}`, body);
-		const data = response.data || {};
-
-		setLoading(false);
-		if (data.success) {
-			toast.success("Reagent Excluído com sucesso");
-			props.history.push("/db/reagents");
-		}
-	};
-
-	const handleDownload = async () => {
-
-		const response = await BackendLIMSAxios.delete(`anexos/download`)
+		
+		createProject();
 	
-				new Blob([response.data])
-		
-
-	}
+	};
 
 	const docExtras =
-	uploadedFiles.find((uf) => uf.folder === "extras") || {};
+		uploadedFiles.find((uf) => uf.folder === "extras") || {};
+
+	const selectedProject =
+		!newProject &&
+		projects.find((p) => p._id === parseInt(fields._id));
 
 	const handleFileClick = (project) => {
 		if (!project) {
@@ -236,18 +237,86 @@ function ReagentsDetailsPage(props) {
 			pathname: `/db/intake/workflows/${project._id}`,
 			state: {
 				type: "Download",
-				project: project.projectName,
+				project: 'teste',
 				equipment: `anexos/extras`,
 			},
 		});
+	};
+	const removeFile = (fileObj) => {
+		const filteredFiles = files.filter(
+			(file) => file.name !== fileObj.name || file.path !== fileObj.path
+		);
+
+		setFiles(filteredFiles);
+	};
+
+	const handleToggleModal = () => {
+		setShowModal(!showModal);
+	};
+
+	const handleConfirmModalButton = () => {
+		setShowModal(false);
+		setLoading(true);
+		//deleteProject();
+	};
+
+	const handleAddEquipmentTableChange = (equipment) => {
+		setProjectEquipments([...projectEquipments, equipment]);
+	};
+
+	const handleRemoveEquipmentTableChange = (equipments) => {
+		setProjectEquipments(equipments);
+	};
+
+	const handleAddUserTableChange = (user) => {
+		setProjectUsers([...projectUsers, user]);
+	};
+
+	const handleRemoveUserTableChange = (users) => {
+		setProjectUsers(users);
+	};
+
+	const formatDate = (datetime) => {
+		if (datetime) {
+			return new Date(datetime).toLocaleString(["pt-BR"]);
+		} else return "";
+	};
+
+	const handleShowSpecies = () => {
+		setShowSpecies(!showSpecies);
+	};
+
+	const handleShowRawMaterial = () => {
+		setShowRawMaterial(!showRawMaterial);
 	};
 
 	const handleShowDocuments = () => {
 		setShowDocuments(!showDocuments);
 	};
 
+	const handleAddSpecie = () => {
+		if (!fields.specie) {
+			toast.error("Nenhuma espécie selecionada");
+			return;
+		}
+
+		const result = species.find(
+			(specie) => specie._id === Number(fields.specie)
+		);
+		setSelectedSpecies([...selectedSpecies, result]);
+		setFields({ ...fields, specie: "" });
+	
+	};
+
+	const handleRemoveSpecie = (id) => {
+		const result = selectedSpecies.filter((sele) => sele._id !== id);
+		setSelectedSpecies(result);
+	};
+
 	const handleFileInput = (e, path) => {
 
+		const project = Object.assign({}, { projectName });
+	
 		const hasPicture = e.target.files.length > 0 && path.includes("Foto"); // Boolean - comparativo
 		hasPicture && setImage(URL.createObjectURL(e.target.files[0]));
 	
@@ -281,43 +350,9 @@ function ReagentsDetailsPage(props) {
 		setFiles(newFilesDescription);
 	};
 
-	const handleFormSubmit = (e) => {
-		e.preventDefault();
-		setLoading(true);
-
-		if (newReagent) {
-			createReagent();
-		} else {
-			updateReagent();
-		}
-	};
-
-	const removeFile = (fileObj) => {
-		const filteredFiles = files.filter(
-			(file) => file.name !== fileObj.name || file.path !== fileObj.path
-		);
-
-		setFiles(filteredFiles);
-	};
-
-
-	const handleToggleModal = () => {
-		setShowModal(!showModal);
-	};
-
-	const handleConfirmModalButton = () => {
-		setShowModal(false);
-		setLoading(true);
-		deleteReagent();
-	};
-
 	const handleUploadFiles = async (id, project) => {
 		if (files.length === 0) {
-			// toast.success("Laudo Botânico criado com sucesso"); //
-			// props.history.push({
-			// 	pathname: "/db/bioagriculture/deliveryspecies",
-			// 	state: { ...settingsFlow },
-			// });
+
 			return;
 		}
 	
@@ -338,7 +373,7 @@ function ReagentsDetailsPage(props) {
 			formData.append("files", fileObj.file);
 	
 			await BackendLIMSAxios
-				.post(`anexos/upload`, formData, {
+				.post(`/anexos/upload`, formData, {
 					"Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
 				})
 				.then((response) => {
@@ -349,7 +384,7 @@ function ReagentsDetailsPage(props) {
 					});
 					if (idx === files.length - 1) {
 						toast.success("Anexo criado com sucesso");
-						props.history.push(`/db/reagents`);
+						props.history.push(`/db/${selectedModule}/projects`);
 					}
 				})
 				.catch((err) => {
@@ -362,7 +397,7 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
-		
+	
 
 	return (
 		<>
@@ -373,111 +408,13 @@ function ReagentsDetailsPage(props) {
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
 			/>
-				<Container showModal={showModal}>
-				<Header
-					title="Cadastro de Reagentes"
-					showReturnButton
-				/>
+			<Container showModal={showModal}>
+				<Header title="Cadastro de Projeto" showReturnButton />
 				<StyledCard>
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="cod">Código do Reagente</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputNumber
-										type="number"
-										id="cod"
-										defaultValue={fields.cod}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="nome_mp">Nome do Reagente</Label>
-								<InputText
-									type="text"
-									id="name"
-									defaultValue={fields.name}
-									onChange={handleInputChange}
-								/>
-							</FormGroup>
-						</FieldSet>
-						<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-							<FormGroup>
-								<Label htmlFor="createdBy">
-									Criado Por
-								</Label>
-								<InputText
-									type="text"
-									id="createdBy"
-									defaultValue={fields.createdBy}
-									onChange={handleInputChange}
-									disabled
-								/>
-							</FormGroup>
-                            <FormGroup>
-								<Label htmlFor="updatedBy">
-									Atualizado Por
-								</Label>
-								<InputText
-									type="text"
-									id="updatedBy"
-									defaultValue={fields.updatedBy}
-									onChange={handleInputChange}
-									disabled
-								/>
-							</FormGroup>
-						</FieldSet>
-						
 						<FieldSet>
-							<FormGroup>
-								<Label htmlFor="aparence">
-									Aparência
-								</Label>
-								<Select
-									id="aparence"
-									onChange={handleInputChange}
-									value={fields.aparence}
-								>
-									<option value="">Selecione</option>
-									<option value="Sólido">Sólido</option>
-									<option value="Liquido">Liquido</option>
-									
-								</Select>
-							</FormGroup>
-							<FormGroup>
-								<Group>
-									<LeftPanel>Documentos extras</LeftPanel>
-									<RightPanel>
-										<SmallButton
-											type="button"
-											small
-											onClick={handleShowDocuments}
-										>
-											{showDocuments ? (
-												<DownIcon />
-											) : (
-												<UpIcon />
-											)}
-										</SmallButton>
-									</RightPanel>
-								</Group>
-								<Hr />
-							</FormGroup>
-						</FieldSet>
-						<Collapse className={`${showDocuments && "collapsed"}`}>
-							<FieldSet>
+							
 								<FormGroup>
 									<Label>
 										Arquivos deste projeto: { numberExtraFiles }
@@ -508,11 +445,11 @@ function ReagentsDetailsPage(props) {
 												className={"hasFiles"}
 												onClick={() =>
 													handleFileClick(
-														"selectedProject"
+														selectedProject
 													)
 												}
 											>
-												{!newReagent &&
+												{!newProject &&
 													docExtras.length > 0 &&
 													`${docExtras.length} arquivo(s) salvo(s)`}
 											</NoImgLabel>
@@ -545,12 +482,10 @@ function ReagentsDetailsPage(props) {
 									)}
 								</FormGroup>
 							</FieldSet>
-						</Collapse>
-														
-
+						
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newReagent && (
+								{!newProject &&  (
 									<Button
 										type="button"
 										onClick={handleToggleModal}
@@ -561,17 +496,10 @@ function ReagentsDetailsPage(props) {
 								)}
 								<Button
 									type="button"
-									success
 									onClick={handleFormSubmit}
+									success
 								>
 									Salvar
-								</Button>
-								<Button
-									type="button"
-									success
-									onClick={handleDownload}
-								>
-									Download
 								</Button>
 							</ButtonGroup>
 						</FieldSet>
@@ -582,4 +510,4 @@ function ReagentsDetailsPage(props) {
 	);
 }
 
-export default ReagentsDetailsPage;
+export default UploadPage;
