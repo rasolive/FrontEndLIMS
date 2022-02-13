@@ -121,10 +121,12 @@ function ReagentsDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [showFileModal, setShowFileModal] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [showDocuments, setShowDocuments] = useState(true);
 	const [filesOnGcp, setFilesOnGcp] = useState([]);
 	const [files, setFiles] = useState([]);
+	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
 
 	const reagentId = props.match.params.id;
@@ -305,9 +307,10 @@ function ReagentsDetailsPage(props) {
 		setFiles(filteredFiles);
 	};
 
-	const removeGcpFile = async (fileName) => {
-		const body = Object.assign({}, fields)
+	const removeGcpFile = async () => {
 
+
+		const body = Object.assign({}, fields)
 		body.fileName = fileName
 
 	
@@ -315,21 +318,35 @@ function ReagentsDetailsPage(props) {
 				`anexos/delete`, body
 			);
 
-		// const filteredFiles = files.filter(
-		// 	(file) => file.name !== fileObj.name || file.path !== fileObj.path
-		// );
+			const data = response.data || {};
+			const status = response.status || {};
 
-		// setFiles(filteredFiles);
+			setLoading(false);
+			if (status === 200) {
+				toast.success(`Arquivo ${fileName} Excluído com sucesso`);
+			}
 	};
 
 	const handleToggleModal = () => {
 		setShowModal(!showModal);
 	};
 
+	const handleToggleFileModal = (fileName) => {
+		setFileName(fileName)
+		setShowFileModal(!showFileModal);
+		
+	};
+
 	const handleConfirmModalButton = () => {
 		setShowModal(false);
 		setLoading(true);
 		deleteReagent();
+	};
+
+	const handleConfirmFileModalButton = () => {
+		setShowFileModal(false);
+		setLoading(true);
+		removeGcpFile();
 	};
 
 	const handleUploadFiles = async (id) => {
@@ -392,6 +409,13 @@ function ReagentsDetailsPage(props) {
 				modalBody="Caso continue, essas informações serão perdidas!"
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
+			/>
+			<Modal
+				showModal={showFileModal}
+				modalTitle={`Tem certeza que deseja excluir Arquivo?`}
+				modalBody="Caso continue, essas informações serão perdidas!"
+				handleToggleModal={handleToggleFileModal}
+				handleConfirmModalButton={handleConfirmFileModalButton}
 			/>
 				<Container showModal={showModal}>
 				<Header
@@ -535,7 +559,7 @@ function ReagentsDetailsPage(props) {
 																	color="#dc3545"
 																	size={20}
 																	onClick={() =>
-																		removeGcpFile(
+																		handleToggleFileModal(
 																			file.name
 																		)
 																	}
