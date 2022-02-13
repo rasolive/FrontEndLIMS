@@ -126,6 +126,7 @@ function ReagentsDetailsPage(props) {
 	const [showDocuments, setShowDocuments] = useState(true);
 	const [filesOnGcp, setFilesOnGcp] = useState([]);
 	const [files, setFiles] = useState([]);
+	const [file, setFile] = useState([]);
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -313,6 +314,8 @@ function ReagentsDetailsPage(props) {
 		const body = Object.assign({}, fields)
 		body.fileName = fileName
 
+		const fileObj = file
+
 	
 		const response = await BackendLIMSAxios.post(
 				`anexos/delete`, body
@@ -324,6 +327,11 @@ function ReagentsDetailsPage(props) {
 			setLoading(false);
 			if (status === 200) {
 				toast.success(`Arquivo ${fileName} Excluído com sucesso`);
+				const filteredFiles = filesOnGcp.filter(
+					(file) => file.name !== fileObj.name || file.path !== fileObj.path
+				);
+		
+				setFilesOnGcp(filteredFiles);
 			}
 	};
 
@@ -331,8 +339,9 @@ function ReagentsDetailsPage(props) {
 		setShowModal(!showModal);
 	};
 
-	const handleToggleFileModal = (fileName) => {
+	const handleToggleFileModal = (file, fileName) => {
 		setFileName(fileName)
+		setFile(file)
 		setShowFileModal(!showFileModal);
 		
 	};
@@ -546,12 +555,8 @@ function ReagentsDetailsPage(props) {
 											</NoImgLabel>
 
 											{filesOnGcp.map((file) => {
-												const fileCheck =
-													file.path.includes(
-														"anexos"
-													);
 												return (
-													fileCheck && (
+													
 														<>
 															<NoImgLabel>
 																{file.name}
@@ -559,14 +564,14 @@ function ReagentsDetailsPage(props) {
 																	color="#dc3545"
 																	size={20}
 																	onClick={() =>
-																		handleToggleFileModal(
+																		handleToggleFileModal(file,
 																			file.name
 																		)
 																	}
 																/>
 															</NoImgLabel>
 														</>
-													)
+													
 												);
 											})}
 										</>
