@@ -67,8 +67,8 @@ const RightPanel = styled.div`
 `;
 
 const Trash = styled(Trash2)`
-	margin-left: 5px;
-	:hover {
+	margin-left: 15px;
+		:hover {
 		cursor: pointer;
 		stroke: #a71d2a;
 	}
@@ -93,8 +93,8 @@ const LabelFile = styled(Label)`
 const NoImgLabel = styled(Label)`
 	display: flex;
 	align-items: center;
-	align-content: center;
-	justify-content: center;
+	align-content: left;
+	justify-content: left;
 
 	&.hasFiles {
 		font-size: 12px;
@@ -123,6 +123,7 @@ function ReagentsDetailsPage(props) {
 	const [showModal, setShowModal] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [showDocuments, setShowDocuments] = useState(true);
+	const [filesOnGcp, setFilesOnGcp] = useState([]);
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -139,7 +140,7 @@ function ReagentsDetailsPage(props) {
 				`anexos/list`, body
 			);
 			
-			setFields(response.data || {});
+			setFilesOnGcp(response.data || {});
 			setLoading(false);
 		}
 
@@ -157,7 +158,7 @@ function ReagentsDetailsPage(props) {
 			getReagent();
 			getGcpDocuments();
 		}
-	}, [reagentId, newReagent, setFields]);
+	}, [reagentId, newReagent, setFields, setFiles]);
 
 	
 
@@ -282,6 +283,7 @@ function ReagentsDetailsPage(props) {
 	
 		e.target.value = null;
 		setFiles(newFilesDescription);
+		console.log("50",newFilesDescription)
 	};
 
 	const handleFormSubmit = (e) => {
@@ -482,6 +484,55 @@ function ReagentsDetailsPage(props) {
 							</FormGroup>
 						</FieldSet>
 						<Collapse className={`${showDocuments && "collapsed"}`}>
+						<FieldSet>
+							<FormGroup>
+									{filesOnGcp.length === 0 ? (
+										<NoImgLabel>
+											Nenhum arquivo anexo
+										</NoImgLabel>
+									) : (
+										<>
+											<NoImgLabel
+												className={"hasFiles"}
+												onClick={() =>
+													handleFileClick(
+														selectedProject
+													)
+												}
+											>
+												{!newReagent &&
+													docExtras.length > 0 &&
+													`${docExtras.length} arquivo(s) salvo(s)`}
+											</NoImgLabel>
+
+											{filesOnGcp.map((file) => {
+												const fileCheck =
+													file.path.includes(
+														"anexos"
+													);
+												return (
+													fileCheck && (
+														<>
+															<NoImgLabel>
+																{file.name}
+																<Trash
+																	color="#dc3545"
+																	size={20}
+																	onClick={() =>
+																		removeFile(
+																			file
+																		)
+																	}
+																/>
+															</NoImgLabel>
+														</>
+													)
+												);
+											})}
+										</>
+									)}
+								</FormGroup>
+							</FieldSet>
 							<FieldSet>
 							<FormGroup>
 									<LabelFile htmlFor="files">
@@ -501,7 +552,7 @@ function ReagentsDetailsPage(props) {
 									/>
 									{files.length === 0 ? (
 										<NoImgLabel>
-											Nenhum arquivo anexo
+											
 										</NoImgLabel>
 									) : (
 										<>
