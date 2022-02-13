@@ -21,7 +21,7 @@ import Hr from "../../Layout/Hr/Hr";
 
 
 const StyledCard = styled(Card)`
-	max-width: min-content;
+	max-width: 500px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
@@ -66,11 +66,6 @@ const RightPanel = styled.div`
 	width: 50%;
 `;
 
-const AddButton = styled(Button)`
-	margin: 0px;
-	/* align-self: flex-end; */
-`;
-
 const Trash = styled(Trash2)`
 	margin-left: 5px;
 	:hover {
@@ -110,12 +105,6 @@ const NoImgLabel = styled(Label)`
 	}
 `;
 
-const SearchButton = styled(Button)`
-	margin: 0;
-	margin-left: -40px;
-	box-shadow: none;
-`;
-
 
 const Container = styled.div`
 	${(props) =>
@@ -131,11 +120,9 @@ const Container = styled.div`
 function ReagentsDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
-	// const { session } = useContext(AuthContext);
 	const [showModal, setShowModal] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [showDocuments, setShowDocuments] = useState(true);
-	const [numberExtraFiles, setNumberExtraFiles] = useState(0);
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -152,8 +139,6 @@ function ReagentsDetailsPage(props) {
 			setFields(response.data || {});
 	    	setLoading(false);
 		}
-
-
 
 		if (!newReagent) {
 			setLoading(true);
@@ -173,7 +158,12 @@ function ReagentsDetailsPage(props) {
 		setLoading(false);
 
 		const status = response.status || {};
+		const id = response.data.message._id;
+		console.log(response)
+		console.log(response.data)
+		console.log(response.data.message._id)
 		if (status === 200) {
+			handleUploadFiles(id);
 			toast.success("Reagente Criado com sucesso");
 			props.history.push("/db/reagents");
 
@@ -192,7 +182,9 @@ function ReagentsDetailsPage(props) {
 
 		const status = response.status || {};
 		if (status === 200) {
-			handleUploadFiles(id, "projectName");
+			handleUploadFiles(id);
+			toast.success("Reagente Atualizado com sucesso");
+			props.history.push("/db/reagents");
 		}
 		setLoading(false);		
 	};
@@ -260,8 +252,6 @@ function ReagentsDetailsPage(props) {
 					fileObj.name === newFiles[i].name &&
 					fileObj.size === newFiles[i].size &&
 					fileObj.file.lastModified === newFiles[i].lastModified
-					// fileObj.path === projectName,
-					// fileObj.path === `${project.projectName}/${path}`
 			);
 	
 			if (sameFileAndFolder) {
@@ -311,7 +301,7 @@ function ReagentsDetailsPage(props) {
 		deleteReagent();
 	};
 
-	const handleUploadFiles = async (id, project) => {
+	const handleUploadFiles = async (id) => {
 		if (files.length === 0) {
 			// toast.success("Laudo Botânico criado com sucesso"); //
 			// props.history.push({
@@ -324,16 +314,14 @@ function ReagentsDetailsPage(props) {
 		for (const [idx, fileObj] of files.entries()) {
 			setLoading(true);
 	
-			const path = fileObj.path ? fileObj.path.replace(":id", id) : null
+			const path = `${fileObj.path}/${id}`
 			console.log('fileObj',fileObj)
 			console.log('fileObj path',path)
 			const archiveData = {
-				project,
-				path,
+				path
 			};
 	
 			const formData = new FormData();
-			formData.append("Hostname", "frontend");
 			formData.append("archiveFullData", JSON.stringify(archiveData));
 			formData.append("files", fileObj.file);
 	
@@ -345,12 +333,11 @@ function ReagentsDetailsPage(props) {
 					setLoading(false);
 					toast.success(`Arquivo ${fileObj.name} adicionado`, {
 						closeOnClick: true,
-						autoClose: false,
+						autoClose: true,
 					});
 					if (idx === files.length - 1) {
 						toast.success("Anexo criado com sucesso");
-						props.history.push(`/db/reagents`);
-					}
+						}
 				})
 				.catch((err) => {
 					setLoading(false);
@@ -362,7 +349,9 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
-		
+	const selectedProject =
+	!newReagent &&
+	files.find((p) => p._id === parseInt(fields._id));
 
 	return (
 		<>
@@ -456,9 +445,12 @@ function ReagentsDetailsPage(props) {
 									
 								</Select>
 							</FormGroup>
+							</FieldSet>
+							<FieldSet>
+							
 							<FormGroup>
 								<Group>
-									<LeftPanel>Documentos extras</LeftPanel>
+									<LeftPanel>Anexos</LeftPanel>
 									<RightPanel>
 										<SmallButton
 											type="button"
@@ -478,12 +470,9 @@ function ReagentsDetailsPage(props) {
 						</FieldSet>
 						<Collapse className={`${showDocuments && "collapsed"}`}>
 							<FieldSet>
-								<FormGroup>
-									<Label>
-										Arquivos deste projeto: { numberExtraFiles }
-									</Label>
+							<FormGroup>
 									<LabelFile htmlFor="files">
-										Inserir documentos
+										Inserir Anexo
 									</LabelFile>
 									<InputFile
 										type="file"
@@ -492,15 +481,14 @@ function ReagentsDetailsPage(props) {
 										onChange={(e) =>
 											handleFileInput(
 												e,
-												"anexos/extras"
+												`anexos/reagents`
 											)
 										}
 										multiple
 									/>
-									{docExtras.length === 0 &&
-									files.length === 0 ? (
+									{files.length === 0 ? (
 										<NoImgLabel>
-											Nenhum arquivo selecionado
+											Nenhum arquivo anexo
 										</NoImgLabel>
 									) : (
 										<>
@@ -508,7 +496,7 @@ function ReagentsDetailsPage(props) {
 												className={"hasFiles"}
 												onClick={() =>
 													handleFileClick(
-														"selectedProject"
+														selectedProject
 													)
 												}
 											>
@@ -520,7 +508,7 @@ function ReagentsDetailsPage(props) {
 											{files.map((file) => {
 												const fileCheck =
 													file.path.includes(
-														"extras"
+														"anexos"
 													);
 												return (
 													fileCheck && (
@@ -566,13 +554,13 @@ function ReagentsDetailsPage(props) {
 								>
 									Salvar
 								</Button>
-								<Button
+								{/* <Button
 									type="button"
 									success
 									onClick={handleDownload}
 								>
 									Download
-								</Button>
+								</Button> */}
 							</ButtonGroup>
 						</FieldSet>
 					</Form>
