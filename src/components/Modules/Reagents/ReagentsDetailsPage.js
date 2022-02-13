@@ -555,11 +555,10 @@ function ReagentsDetailsPage(props) {
 											</NoImgLabel>
 
 											{filesOnGcp.map((file) => {
-												return (
-													
+												return (													
 														<>
 															<NoImgLabel>
-																{file.name}
+																{file.name.replace(`anexos/reagents/${reagentId}/`,"")}
 																<Trash
 																	color="#dc3545"
 																	size={20}
@@ -615,12 +614,7 @@ function ReagentsDetailsPage(props) {
 											</NoImgLabel>
 
 											{files.map((file) => {
-												const fileCheck =
-													file.path.includes(
-														"anexos"
-													);
-												return (
-													fileCheck && (
+												return (													
 														<>
 															<NoImgLabel>
 																{file.name}
@@ -635,7 +629,7 @@ function ReagentsDetailsPage(props) {
 																/>
 															</NoImgLabel>
 														</>
-													)
+													
 												);
 											})}
 										</>
