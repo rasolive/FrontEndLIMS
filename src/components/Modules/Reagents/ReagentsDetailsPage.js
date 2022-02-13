@@ -130,6 +130,18 @@ function ReagentsDetailsPage(props) {
 	const newReagent = reagentId === "new";
 
 		useEffect(() => {
+		const body = Object.assign({}, fields)
+
+		body.gcpPatch = `anexos/reagents/${reagentId}`
+
+		async function getGcpDocuments() {
+			const response = await BackendLIMSAxios.post(
+				`anexos/list`, body
+			);
+			
+			setFields(response.data || {});
+			setLoading(false);
+		}
 
 		async function getReagent() {
 			const response = await BackendLIMSAxios.get(
@@ -143,6 +155,7 @@ function ReagentsDetailsPage(props) {
 		if (!newReagent) {
 			setLoading(true);
 			getReagent();
+			getGcpDocuments();
 		}
 	}, [reagentId, newReagent, setFields]);
 
