@@ -305,6 +305,22 @@ function ReagentsDetailsPage(props) {
 		setFiles(filteredFiles);
 	};
 
+	const removeGcpFile = async (fileName) => {
+		const body = Object.assign({}, fields)
+
+		body.fileName = fileName
+
+	
+		const response = await BackendLIMSAxios.post(
+				`anexos/delete`, body
+			);
+
+		// const filteredFiles = files.filter(
+		// 	(file) => file.name !== fileObj.name || file.path !== fileObj.path
+		// );
+
+		// setFiles(filteredFiles);
+	};
 
 	const handleToggleModal = () => {
 		setShowModal(!showModal);
@@ -519,8 +535,8 @@ function ReagentsDetailsPage(props) {
 																	color="#dc3545"
 																	size={20}
 																	onClick={() =>
-																		removeFile(
-																			file
+																		removeGcpFile(
+																			file.name
 																		)
 																	}
 																/>
