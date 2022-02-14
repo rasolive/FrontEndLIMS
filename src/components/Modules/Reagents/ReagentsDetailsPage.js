@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { Trash2, Search, Feather } from "react-feather";
+import { Trash2, Search, Feather, DownloadCloud} from "react-feather";
 import { toast } from "react-toastify";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import useDynamicForm from "../../../hooks/useDynamicForm";
@@ -67,6 +67,14 @@ const RightPanel = styled.div`
 `;
 
 const Trash = styled(Trash2)`
+	margin-left: 15px;
+		:hover {
+		cursor: pointer;
+		stroke: #a71d2a;
+	}
+`;
+
+const Download = styled(DownloadCloud)`
 	margin-left: 15px;
 		:hover {
 		cursor: pointer;
@@ -406,6 +414,42 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
+	const handleDownloadButtonClick = async (path, file) => {
+		
+
+			await BackendLIMSAxios({
+				url: `/anexos/download?path=${path}`,
+				method: "GET",
+				responseType: "blob", // important
+			})
+				.then((response) => {
+					const url = window.URL.createObjectURL(
+						new Blob([response.data])
+					);
+					const link = document.createElement("a");
+
+					link.href = url;
+					link.setAttribute("download", `${file}`);
+					document.body.appendChild(link);
+					link.click();
+
+					setLoading(false);
+					toast.success(`Arquivo ${file} baixado`, {
+						closeOnClick: true,
+						autoClose: false,
+					});
+					
+				})
+				.catch((err) => {
+					setLoading(false);
+					toast.error(`Erro ao baixar arquivo ${fileName}`, {
+						closeOnClick: true,
+						autoClose: false,
+					});
+				});
+		
+	};
+
 	const selectedProject =
 	!newReagent &&
 	files.find((p) => p._id === parseInt(fields._id));
@@ -559,6 +603,16 @@ function ReagentsDetailsPage(props) {
 														<>
 															<NoImgLabel>
 																{file.name.replace(`anexos/reagents/${reagentId}/`,"")}
+
+																<Download
+																	color="#34b6c8"
+																	size={20}
+																	onClick={() =>
+																		handleDownloadButtonClick(file.name,
+																			file.name.replace(`anexos/reagents/${reagentId}/`,"")
+																		)
+																	}
+																/>
 																<Trash
 																	color="#dc3545"
 																	size={20}
@@ -568,7 +622,9 @@ function ReagentsDetailsPage(props) {
 																		)
 																	}
 																/>
+																
 															</NoImgLabel>
+															
 														</>
 													
 												);
@@ -628,6 +684,7 @@ function ReagentsDetailsPage(props) {
 																	}
 																/>
 															</NoImgLabel>
+															
 														</>
 													
 												);
