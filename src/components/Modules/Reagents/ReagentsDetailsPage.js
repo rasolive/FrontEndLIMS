@@ -78,7 +78,7 @@ const Download = styled(DownloadCloud)`
 	margin-left: 15px;
 		:hover {
 		cursor: pointer;
-		stroke: #a71d2a;
+		stroke: #246586;
 	}
 `;
 
@@ -415,13 +415,12 @@ function ReagentsDetailsPage(props) {
 	};
 
 	const handleDownloadButtonClick = async (path, file) => {
-		
+		const body = Object.assign({}, fields)
+		body.path = path
 
-			await BackendLIMSAxios({
-				url: `/anexos/download?path=${path}`,
-				method: "GET",
-				responseType: "blob", // important
-			})
+			await BackendLIMSAxios.post(`/anexos/download`,
+				body// important
+			)
 				.then((response) => {
 					const url = window.URL.createObjectURL(
 						new Blob([response.data])
@@ -436,13 +435,13 @@ function ReagentsDetailsPage(props) {
 					setLoading(false);
 					toast.success(`Arquivo ${file} baixado`, {
 						closeOnClick: true,
-						autoClose: false,
+						autoClose: true,
 					});
 					
 				})
 				.catch((err) => {
 					setLoading(false);
-					toast.error(`Erro ao baixar arquivo ${fileName}`, {
+					toast.error(`Erro ao baixar arquivo ${file}`, {
 						closeOnClick: true,
 						autoClose: false,
 					});
