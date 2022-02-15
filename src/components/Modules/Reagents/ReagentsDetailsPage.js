@@ -144,7 +144,7 @@ function ReagentsDetailsPage(props) {
 		useEffect(() => {
 		const body = Object.assign({}, fields)
 
-		body.gcpPatch = `anexos/reagents/${reagentId}`
+		body.gcpPatch = `prd/anexos/reagents/${reagentId}`
 
 		async function getGcpDocuments() {
 			const response = await BackendLIMSAxios.post(
@@ -601,14 +601,14 @@ function ReagentsDetailsPage(props) {
 												return (													
 														<>
 															<NoImgLabel>
-																{file.name.replace(`anexos/reagents/${reagentId}/`,"")}
+																{file.name.replace(`prd/anexos/reagents/${reagentId}/`,"")}
 
 																<Download
 																	color="#34b6c8"
 																	size={20}
 																	onClick={() =>
 																		handleDownloadButtonClick(file.name,
-																			file.name.replace(`anexos/reagents/${reagentId}/`,"")
+																			file.name.replace(`prd/anexos/reagents/${reagentId}/`,"")
 																		)
 																	}
 																/>
@@ -644,7 +644,7 @@ function ReagentsDetailsPage(props) {
 										onChange={(e) =>
 											handleFileInput(
 												e,
-												`anexos/reagents`
+												`prd/anexos/reagents`
 											)
 										}
 										multiple
