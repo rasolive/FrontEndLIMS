@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from "react";
-import { Trash2, Search, Feather, DownloadCloud} from "react-feather";
 import { toast } from "react-toastify";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import useDynamicForm from "../../../hooks/useDynamicForm";
@@ -10,7 +9,7 @@ import Form from "../../Layout/Form/Form";
 import Card from "../../Layout/Card/Card";
 import FormGroup from "../../Layout/FormGroup/FormGroup";
 import Label from "../../Layout/Label/Label";
-import { InputText, Select,InputFile, InputNumber} from "../../Layout/Input/Input";
+import { InputText, Select, InputNumber} from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../../Layout/Button/Button";
@@ -18,7 +17,7 @@ import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
-import AnexosPage from "../Anexos/Anexos";
+import AnexosPage from "../Anexos/AnexosPage";
 
 
 const StyledCard = styled(Card)`
@@ -81,36 +80,39 @@ const Container = styled.div`
 
 
 function ReagentsDetailsPage(props) {
+	const page = `reagents`
+	const gcpPatch = `prd/anexos/${page}`
+
+
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
 	const [showModal, setShowModal] = useState(false);
-	const [showFileModal, setShowFileModal] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [showDocuments, setShowDocuments] = useState(true);
-	const [filesOnGcp, setFilesOnGcp] = useState([]);
 	const [files, setFiles] = useState([]);
-	const [file, setFile] = useState([]);
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
 
 	const reagentId = props.match.params.id;
 	const newReagent = reagentId === "new";
 
-		useEffect(() => {
-		
-		async function getReagent() {
+	
+
+	useEffect(() => {
+
+		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
-				`reagents/${reagentId}`
+				`${page}/${itemId}`
 			);
-			
+
 			setFields(response.data || {});
-	    	setLoading(false);
+			setLoading(false);
 		}
 
 		if (!newReagent) {
 			setLoading(true);
-			getReagent();
-			}
+			getItem(reagentId);
+		}
 	}, [reagentId, newReagent, setFields, setFiles]);
 
 	
@@ -120,7 +122,7 @@ function ReagentsDetailsPage(props) {
 
 		body.user = "Usuário de Criação" //session && session.email;
 
-		const response = await BackendLIMSAxios.post("reagents",body);
+		const response = await BackendLIMSAxios.post(`${page}`,body);
 
 		setLoading(false);
 
@@ -132,7 +134,7 @@ function ReagentsDetailsPage(props) {
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success("Reagente Criado com sucesso");
-			props.history.push("/db/reagents");
+			props.history.push(`/db/${page}`);
 
 		}
 	};
@@ -142,7 +144,7 @@ function ReagentsDetailsPage(props) {
 
 		body.user = "Usuário de Alteração" //session && session.email;
 		
-		const response = await BackendLIMSAxios.put(`reagents/${reagentId}`, body);
+		const response = await BackendLIMSAxios.put(`${page}/${reagentId}`, body);
 
 		setLoading(false);
 		const id = response.data._id;
@@ -152,7 +154,7 @@ function ReagentsDetailsPage(props) {
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success("Reagente Atualizado com sucesso");
-			props.history.push("/db/reagents");
+			props.history.push(`/db/${page}`);
 		}
 		setLoading(false);		
 	};
@@ -165,13 +167,13 @@ function ReagentsDetailsPage(props) {
 
         body.user = "Usuário de Alteração" //session && session.email;
 
-		const response = await BackendLIMSAxios.delete(`reagents/${reagentId}`, body);
+		const response = await BackendLIMSAxios.delete(`${page}/${reagentId}`, body);
 		const data = response.data || {};
 
 		setLoading(false);
 		if (data.success) {
 			toast.success("Reagent Excluído com sucesso");
-			props.history.push("/db/reagents");
+			props.history.push(`/db/${page}`);
 		}
 	};
 
@@ -179,21 +181,7 @@ function ReagentsDetailsPage(props) {
 	const docExtras =
 	uploadedFiles.find((uf) => uf.folder === "extras") || {};
 
-	const handleFileClick = (project) => {
-		if (!project) {
-			return;
-		}
-
-		props.history.push({
-			pathname: `/db/intake/workflows/${project._id}`,
-			state: {
-				type: "Download",
-				project: project.projectName,
-				equipment: `anexos/extras`,
-			},
-		});
-	};
-
+	
 	const handleShowDocuments = () => {
 		setShowDocuments(!showDocuments);
 	};
@@ -251,43 +239,11 @@ function ReagentsDetailsPage(props) {
 		setFiles(filteredFiles);
 	};
 
-	const removeGcpFile = async () => {
-
-
-		const body = Object.assign({}, fields)
-		body.fileName = fileName
-
-		const fileObj = file
-
 	
-		const response = await BackendLIMSAxios.post(
-				`anexos/delete`, body
-			);
-
-			const data = response.data || {};
-			const status = response.status || {};
-
-			setLoading(false);
-			if (status === 200) {
-				toast.success(`Arquivo ${fileName} Excluído com sucesso`);
-				const filteredFiles = filesOnGcp.filter(
-					(file) => file.name !== fileObj.name || file.path !== fileObj.path
-				);
-		
-				setFilesOnGcp(filteredFiles);
-			}
-	};
-
 	const handleToggleModal = () => {
 		setShowModal(!showModal);
 	};
 
-	const handleToggleFileModal = (file, fileName) => {
-		setFileName(fileName)
-		setFile(file)
-		setShowFileModal(!showFileModal);
-		
-	};
 
 	const handleConfirmModalButton = () => {
 		setShowModal(false);
@@ -295,11 +251,6 @@ function ReagentsDetailsPage(props) {
 		deleteReagent();
 	};
 
-	const handleConfirmFileModalButton = () => {
-		setShowFileModal(false);
-		setLoading(true);
-		removeGcpFile();
-	};
 
 	const handleUploadFiles = async (id) => {
 		console.log(files)
@@ -473,10 +424,11 @@ function ReagentsDetailsPage(props) {
 								fileName = {fileName}
 								newReagent = {newReagent}
 								docExtras = {docExtras}
-								reagentId = {reagentId}
+								itemtId = {reagentId}
 								handleFileInput = {handleFileInput}
 								files = {files}
 								removeFile = {removeFile}
+								gcpPatch = {gcpPatch}
 															
 							/>
 						

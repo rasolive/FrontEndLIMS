@@ -83,7 +83,7 @@ export default function AnexosSPage(props) {
 	useEffect(() => {
 		const body = Object.assign({}, fields)
 
-		body.gcpPatch = `prd/anexos/reagents/${props.reagentId}`
+		body.gcpPatch = `${props.gcpPatch}/${props.itemtId}`
 
 		async function getGcpDocuments() {
 			const response = await BackendLIMSAxios.post(
@@ -98,7 +98,7 @@ export default function AnexosSPage(props) {
 			setLoading(true);
 			getGcpDocuments();
 		}
-	}, [fields, props.newReagent, props.reagentId]);
+	}, [fields, props.newReagent, props.itemtId]);
 
 	
 	const handleDownloadButtonClick = async (path, file) => {
@@ -204,14 +204,14 @@ export default function AnexosSPage(props) {
 								return (
 									<>
 										<NoImgLabel>
-											{file.name.replace(`prd/anexos/reagents/${props.reagentId}/`, "")}
+											{file.name.replace(`${props.gcpPatch}/${props.itemtId}/`, "")}
 
 											<Download
 												color="#34b6c8"
 												size={20}
 												onClick={() =>
 													handleDownloadButtonClick(file.name,
-														file.name.replace(`prd/anexos/reagents/${props.reagentId}/`, "")
+														file.name.replace(`${props.gcpPatch}/${props.itemtId}/`, "")
 													)
 												}
 											/>
@@ -247,7 +247,7 @@ export default function AnexosSPage(props) {
 						onChange={(e) =>
 							props.handleFileInput(
 								e,
-								`prd/anexos/reagents`
+								`${props.gcpPatch}`
 							)
 						}
 						multiple
