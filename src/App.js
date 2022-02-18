@@ -1,7 +1,9 @@
 import React from "react";
+
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 
 import Home from "./components/home/Home";
+import Login from "./components/Login/Login";
 // import HomeToLogin from "./components/Redirects/HomeToLogin.js";
 // import Layout from "./components/Layout/Layout";
 // import LoginPage from "./components/Login/LoginPage";
@@ -20,7 +22,8 @@ function App() {
 	return (
 		// <AuthProvider>
 			<Switch>
-                <Route path="/" exact name="Home" component={Home} />
+				<Route path="/" exact name="Login" component={Login} />
+                <Route path="/home" exact name="Home" component={Home} />
                 <Route exact path="/db/reagents" name="ReagentsListPage" component={ReagentsListPage}/>
                 <Route exact path="/db/reagents/:id" name="ReagentsDetailsPage" component={ReagentsDetailsPage}/>
 
