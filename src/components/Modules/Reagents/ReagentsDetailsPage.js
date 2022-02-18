@@ -18,6 +18,7 @@ import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
+import AnexosPage from "../Anexos/Anexos";
 
 
 const StyledCard = styled(Card)`
@@ -66,52 +67,6 @@ const RightPanel = styled.div`
 	width: 50%;
 `;
 
-const Trash = styled(Trash2)`
-	margin-left: 15px;
-		:hover {
-		cursor: pointer;
-		stroke: #a71d2a;
-	}
-`;
-
-const Download = styled(DownloadCloud)`
-	margin-left: 15px;
-		:hover {
-		cursor: pointer;
-		stroke: #246586;
-	}
-`;
-
-const LabelFile = styled(Label)`
-	background-color: ${(props) => props.theme.primary};
-	border-radius: 10px;
-	color: #fff;
-	cursor: pointer;
-	margin: 10px 0px;
-	padding: 6px 0px;
-	text-align: center;
-	width: 100%;
-	align-self: flex-end;
-
-	:hover {
-		background: ${(props) => props.theme.primaryDark};
-	}
-`;
-
-const NoImgLabel = styled(Label)`
-	display: flex;
-	align-items: center;
-	align-content: left;
-	justify-content: left;
-
-	&.hasFiles {
-		font-size: 12px;
-		:hover {
-			cursor: pointer;
-			color: #282828;
-		}
-	}
-`;
 
 
 const Container = styled.div`
@@ -142,19 +97,7 @@ function ReagentsDetailsPage(props) {
 	const newReagent = reagentId === "new";
 
 		useEffect(() => {
-		const body = Object.assign({}, fields)
-
-		body.gcpPatch = `prd/anexos/reagents/${reagentId}`
-
-		async function getGcpDocuments() {
-			const response = await BackendLIMSAxios.post(
-				`anexos/list`, body
-			);
-			
-			setFilesOnGcp(response.data || {});
-			setLoading(false);
-		}
-
+		
 		async function getReagent() {
 			const response = await BackendLIMSAxios.get(
 				`reagents/${reagentId}`
@@ -167,8 +110,7 @@ function ReagentsDetailsPage(props) {
 		if (!newReagent) {
 			setLoading(true);
 			getReagent();
-			getGcpDocuments();
-		}
+			}
 	}, [reagentId, newReagent, setFields, setFiles]);
 
 	
@@ -206,6 +148,7 @@ function ReagentsDetailsPage(props) {
 		const id = response.data._id;
 
 		const status = response.status || {};
+		console.log("10",files)
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success("Reagente Atualizado com sucesso");
@@ -232,15 +175,7 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
-	const handleDownload = async () => {
-
-		const response = await BackendLIMSAxios.delete(`anexos/download`)
 	
-				new Blob([response.data])
-		
-
-	}
-
 	const docExtras =
 	uploadedFiles.find((uf) => uf.folder === "extras") || {};
 
@@ -367,6 +302,7 @@ function ReagentsDetailsPage(props) {
 	};
 
 	const handleUploadFiles = async (id) => {
+		console.log(files)
 		if (files.length === 0) {
 			// toast.success("Laudo Botânico criado com sucesso"); //
 			// props.history.push({
@@ -414,45 +350,7 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
-	const handleDownloadButtonClick = async (path, file) => {
-		const body = Object.assign({}, fields)
-		body.path = path
-
-			await BackendLIMSAxios.post(`/anexos/download`,
-				body// important
-			)
-				.then((response) => {
-					const url = window.URL.createObjectURL(
-						new Blob([response.data])
-					);
-					const link = document.createElement("a");
-
-					link.href = url;
-					link.setAttribute("download", `${file}`);
-					document.body.appendChild(link);
-					link.click();
-
-					setLoading(false);
-					toast.success(`Arquivo ${file} baixado`, {
-						closeOnClick: true,
-						autoClose: true,
-					});
-					
-				})
-				.catch((err) => {
-					setLoading(false);
-					toast.error(`Erro ao baixar arquivo ${file}`, {
-						closeOnClick: true,
-						autoClose: false,
-					});
-				});
-		
-	};
-
-	const selectedProject =
-	!newReagent &&
-	files.find((p) => p._id === parseInt(fields._id));
-
+	
 	return (
 		<>
 			<Modal
@@ -462,14 +360,7 @@ function ReagentsDetailsPage(props) {
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
 			/>
-			<Modal
-				showModal={showFileModal}
-				modalTitle={`Tem certeza que deseja excluir Arquivo?`}
-				modalBody="Caso continue, essas informações serão perdidas!"
-				handleToggleModal={handleToggleFileModal}
-				handleConfirmModalButton={handleConfirmFileModalButton}
-			/>
-				<Container showModal={showModal}>
+			<Container showModal={showModal}>
 				<Header
 					title="Cadastro de Reagentes"
 					showReturnButton
@@ -577,121 +468,19 @@ function ReagentsDetailsPage(props) {
 						</FieldSet>
 						<Collapse className={`${showDocuments && "collapsed"}`}>
 						<FieldSet>
-							<FormGroup>
-									{filesOnGcp.length === 0 ? (
-										<NoImgLabel>
-											Nenhum arquivo anexo
-										</NoImgLabel>
-									) : (
-										<>
-											<NoImgLabel
-												className={"hasFiles"}
-												onClick={() =>
-													handleFileClick(
-														selectedProject
-													)
-												}
-											>
-												{!newReagent &&
-													docExtras.length > 0 &&
-													`${docExtras.length} arquivo(s) salvo(s)`}
-											</NoImgLabel>
 
-											{filesOnGcp.map((file) => {
-												return (													
-														<>
-															<NoImgLabel>
-																{file.name.replace(`prd/anexos/reagents/${reagentId}/`,"")}
-
-																<Download
-																	color="#34b6c8"
-																	size={20}
-																	onClick={() =>
-																		handleDownloadButtonClick(file.name,
-																			file.name.replace(`prd/anexos/reagents/${reagentId}/`,"")
-																		)
-																	}
-																/>
-																<Trash
-																	color="#dc3545"
-																	size={20}
-																	onClick={() =>
-																		handleToggleFileModal(file,
-																			file.name
-																		)
-																	}
-																/>
-																
-															</NoImgLabel>
+							<AnexosPage
+								fileName = {fileName}
+								newReagent = {newReagent}
+								docExtras = {docExtras}
+								reagentId = {reagentId}
+								handleFileInput = {handleFileInput}
+								files = {files}
+								removeFile = {removeFile}
 															
-														</>
-													
-												);
-											})}
-										</>
-									)}
-								</FormGroup>
-							</FieldSet>
-							<FieldSet>
-							<FormGroup>
-									<LabelFile htmlFor="files">
-										Inserir Anexo
-									</LabelFile>
-									<InputFile
-										type="file"
-										name="files"
-										id="files"
-										onChange={(e) =>
-											handleFileInput(
-												e,
-												`prd/anexos/reagents`
-											)
-										}
-										multiple
-									/>
-									{files.length === 0 ? (
-										<NoImgLabel>
-											
-										</NoImgLabel>
-									) : (
-										<>
-											<NoImgLabel
-												className={"hasFiles"}
-												onClick={() =>
-													handleFileClick(
-														selectedProject
-													)
-												}
-											>
-												{!newReagent &&
-													docExtras.length > 0 &&
-													`${docExtras.length} arquivo(s) salvo(s)`}
-											</NoImgLabel>
-
-											{files.map((file) => {
-												return (													
-														<>
-															<NoImgLabel>
-																{file.name}
-																<Trash
-																	color="#dc3545"
-																	size={20}
-																	onClick={() =>
-																		removeFile(
-																			file
-																		)
-																	}
-																/>
-															</NoImgLabel>
-															
-														</>
-													
-												);
-											})}
-										</>
-									)}
-								</FormGroup>
-							</FieldSet>
+							/>
+						
+						</FieldSet>
 						</Collapse>
 														
 

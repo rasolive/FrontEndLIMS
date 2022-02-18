@@ -9,7 +9,7 @@ import NotFoundPage from "./components/Modules/NotFound/NotFoundPage";
 import ReagentsListPage from "./components/Modules/Reagents/ReagentsListPage";
 // import { AuthProvider } from "./context/AuthContext";
 import ReagentsDetailsPage from "./components/Modules/Reagents/ReagentsDetailsPage";
-import UploadPage from "./components/Modules/Upload/UploadPage";
+
 
 
 function App() {
@@ -19,8 +19,7 @@ function App() {
                 <Route path="/" exact name="Home" component={Home} />
                 <Route exact path="/db/reagents" name="ReagentsListPage" component={ReagentsListPage}/>
                 <Route exact path="/db/reagents/:id" name="ReagentsDetailsPage" component={ReagentsDetailsPage}/>
-				<Route exact path="/upload" name="UploadPage" component={UploadPage}/>
-                <Route component={NotFoundPage} />
+			    <Route component={NotFoundPage} />
 				{/* <Route path="/login" name="LoginPage" component={LoginPage} />
 				
 				<Redirect push from="/db/settings" exact to="/db/settings/computers"/>
