@@ -80,9 +80,9 @@ const Container = styled.div`
 
 
 function ReagentsDetailsPage(props) {
-	const page = `reagents`
+	const page = `lotes`
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Reagente`
+	const item = `Lote`
 
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
@@ -309,7 +309,7 @@ function ReagentsDetailsPage(props) {
 			/>
 			<Container showModal={showModal}>
 				<Header
-					title="Cadastro de Reagentes"
+					title={`Cadastro de ${item}`}
 					showReturnButton
 				/>
 				<StyledCard>

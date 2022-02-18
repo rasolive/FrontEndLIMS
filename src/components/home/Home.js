@@ -9,6 +9,9 @@ function Home(props) {
         props.history.push("/db/reagents")
     };
      
+    const handleRedirectLotes= () => {
+        props.history.push("/db/lotes")
+    };
 
     return (
         <>
@@ -20,6 +23,15 @@ function Home(props) {
                     info
                 >
                     Reagentes
+                </Button>
+                
+                <Button
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectLotes}
+                    info
+                >
+                    Lotes
                 </Button>
             </ButtonGroup>
         </>

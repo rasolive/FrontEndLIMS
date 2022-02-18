@@ -10,6 +10,10 @@ import ReagentsListPage from "./components/Modules/Reagents/ReagentsListPage";
 // import { AuthProvider } from "./context/AuthContext";
 import ReagentsDetailsPage from "./components/Modules/Reagents/ReagentsDetailsPage";
 
+import LotesListPage from "./components/Modules/Lotes/LotesListPage";
+// import { AuthProvider } from "./context/AuthContext";
+import LotesDetailsPage from "./components/Modules/Lotes/LotesDetailsPage";
+
 
 
 function App() {
@@ -19,6 +23,10 @@ function App() {
                 <Route path="/" exact name="Home" component={Home} />
                 <Route exact path="/db/reagents" name="ReagentsListPage" component={ReagentsListPage}/>
                 <Route exact path="/db/reagents/:id" name="ReagentsDetailsPage" component={ReagentsDetailsPage}/>
+
+				<Route exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
+                <Route exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
+				
 			    <Route component={NotFoundPage} />
 				{/* <Route path="/login" name="LoginPage" component={LoginPage} />
 				

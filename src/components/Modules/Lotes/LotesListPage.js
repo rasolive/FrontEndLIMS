@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
-// import { AuthContext } from "../../../../../context/AuthContext";
 import Header from "../../Layout/Header/Header";
 import Table from "../../Layout/Table/Table";
 
-function ReagentsListPage(props) {
-	const page = `reagents` // nome da rota no backend
-	const item = `Reagentes` // nome do Tipo de item
+function LotesListPage(props) {
+
+	const page = `lotes`
+	const item = `Lotes`
 
 
 	const [loading, setLoading] = useState(false);
@@ -78,4 +78,4 @@ function ReagentsListPage(props) {
 	);
 }
 
-export default ReagentsListPage;
+export default LotesListPage;
