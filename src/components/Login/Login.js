@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login"
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import Card from "../Layout/Card/Card";
 import Header from "../Layout/Header/Header";
 import FieldSet from "../Layout/FieldSet/FieldSet";
@@ -36,7 +37,7 @@ const StyledCard = styled(Card)`
 
 const StyledHr = styled(Hr)`
 background: #ff9977;
-	width: 40%;
+	width: 45%;
 	border: 0;
 	height: 1px;
 `;
@@ -68,6 +69,13 @@ function Login(props) {
         setEmail(email)
         setisLoggedIn(true)
     }
+
+    const responseFacebook = (response) => {
+        console.log(response.name);
+        setName(response.name)
+        setEmail(response.email)
+        setisLoggedIn(true)
+      }
 
 
     async function LoginDb(){
@@ -133,17 +141,28 @@ function Login(props) {
                     </Button>
 
                 </ButtonGroup>
-                <Hr2/>
-                <StyledHr/>
-                          ou             
-                <StyledHr/>
-                    <GoogleLogin
-                        clientId="740172199715-nbnl62219tbaq0vov9uekvj5ptcvjm62.apps.googleusercontent.com"
-                        buttonText="Faça login com Google"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                        cookiePolicy={'single_host_origin'} />
-            
+                <Hr2 />
+                <StyledHr />
+                ou
+                <StyledHr />
+                <GoogleLogin
+                    clientId="740172199715-nbnl62219tbaq0vov9uekvj5ptcvjm62.apps.googleusercontent.com"
+                    buttonText="Faça login com Google"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'} />
+                <Hr2 />
+                <FacebookLogin
+                    appId="1784312231764830"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    textButton = "Login com Facebook"
+                    callback={responseFacebook}
+                    render={renderProps => (
+                        <button onClick={renderProps.onClick}  >Faça login com Facebook</button>
+                      )}
+                                         />
+
                 {isLoggedIn ? props.history.push("/home") : ""}
 
             </StyledCard>
