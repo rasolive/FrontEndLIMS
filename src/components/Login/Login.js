@@ -14,6 +14,7 @@ import Button from "../Layout/Button/Button";
 import ButtonGroup from "../Layout/ButtonGroup/ButtonGroup";
 import { BackendLIMSAxios } from "../../utils/axiosInstances";
 import Hr from "../Layout/Hr/Hr";
+import './Login.css'
 
 const Container = styled.div`
 	${(props) =>
@@ -26,7 +27,7 @@ const Container = styled.div`
 `;
 
 const StyledCard = styled(Card)`
-	max-width: 600px;
+	max-width: 350px;
     margin: auto;
 	overflow: hidden;
 	width: 70%;
@@ -150,16 +151,18 @@ function Login(props) {
                     buttonText="Faça login com Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'} />
+                    cookiePolicy={'single_host_origin'}
+                    render={renderProps => (
+                        <button class="loginBtn loginBtn--google" onClick={renderProps.onClick}  >  Faça login com Google   </button>
+                      )} />
                 <Hr2 />
                 <FacebookLogin
                     appId="1784312231764830"
                     autoLoad={true}
                     fields="name,email,picture"
-                    textButton = "Login com Facebook"
                     callback={responseFacebook}
                     render={renderProps => (
-                        <button onClick={renderProps.onClick}  >Faça login com Facebook</button>
+                        <button class="loginBtn loginBtn--facebook" onClick={renderProps.onClick}  >Faça login com Facebook</button>
                       )}
                                          />
 
