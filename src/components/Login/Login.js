@@ -64,18 +64,32 @@ function Login(props) {
     const { fields, setFields, handleInputChange } = useDynamicForm();
     const [loading, setLoading] = useState(false);
 
-    const responseGoogle = (response) => {
+   async function responseGoogle(response) {
         console.log("google", response);
         const { profileObj: { name, email } } = response;
         setName(name)
         setEmail(email)
+        const body = Object.assign({}, fields)
+        body.name = name
+        body.email = email
+        body.role = "visitante"
+        const token = await BackendLIMSAxios.post("auth/authenticatevisitant", body);
+
+        localStorage.setItem('token', token.data.token)
         setisLoggedIn(true)
     }
 
-    const responseFacebook = (response) => {
+    async function responseFacebook(response) {
         console.log(response.name);
         setName(response.name)
         setEmail(response.email)
+        const body = Object.assign({}, fields)
+        body.name = response.name
+        body.email = response.email
+        body.role = "visitante"
+        const token = await BackendLIMSAxios.post("auth/authenticatevisitant", body);
+
+        localStorage.setItem('token', token.data.token)
         setisLoggedIn(true)
       }
 
