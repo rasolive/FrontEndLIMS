@@ -101,9 +101,17 @@ function ReagentsDetailsPage(props) {
 
 	useEffect(() => {
 
+		const token = localStorage.getItem("token")
+		console.log(token)
+
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
-				`${page}/${itemId}`
+				`${page}/${itemId}`,
+				{
+					headers: {
+					  'authorization': `${token}` 
+					}
+				  }
 			);
 
 			setFields(response.data || {});
@@ -120,10 +128,14 @@ function ReagentsDetailsPage(props) {
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
+		const token = localStorage.getItem("token")
+		console.log(token)
 
-		body.user = "Usuário de Criação" //session && session.email;
-
-		const response = await BackendLIMSAxios.post(`${page}`,body);
+		const response = await BackendLIMSAxios.post(`${page}`,body,{
+			headers: {
+			  'authorization': `${token}` 
+			}
+		  });
 
 		setLoading(false);
 
@@ -143,9 +155,14 @@ function ReagentsDetailsPage(props) {
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
 
-		body.user = "Usuário de Alteração" //session && session.email;
+		const token = localStorage.getItem("token")
+		console.log(token)
 		
-		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body);
+		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, {
+			headers: {
+			  'authorization': `${token}` 
+			}
+		  });
 
 		setLoading(false);
 		const id = response.data._id;
@@ -165,10 +182,17 @@ function ReagentsDetailsPage(props) {
 			// token: session && session.token,
 			cod_grupo: parseInt(fields.cod_grupo),
 		};
+		
+		const token = localStorage.getItem("token")
+		console.log(token)
+		
 
-        body.user = "Usuário de Alteração" //session && session.email;
-
-		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`, body);
+        
+		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`,{
+			headers: {
+			  'authorization': `${token}` 
+			}
+		  });
 		const data = response.data || {};
 
 		setLoading(false);

@@ -15,8 +15,15 @@ function ReagentsListPage(props) {
 
 
 	useEffect(() => {
+		const token = localStorage.getItem("token")
+		console.log(token)
+
 		async function getReagents() {
-			const response = await BackendLIMSAxios.get(`${page}`);
+			const response = await BackendLIMSAxios.get(`${page}`, {
+				headers: {
+				  'authorization': `${token}` 
+				}
+			  });
 
 
 			setData(response.data || []);
