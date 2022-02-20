@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login"
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
@@ -79,28 +80,52 @@ function Login(props) {
       }
 
 
-    async function LoginDb(){
+    async function LoginDb() {
         const body = Object.assign({}, fields)
-    
-              
-            const response = await BackendLIMSAxios.post("ssad",body);
-    
-            const status = response.status || {};
-            const id = response.data.message._id;
-            console.log(response)
-            console.log(response.data)
-            console.log(response.data.message._id)
-            if (status === 200) {
-                console.log("ok");
-    
-            }
-    }
 
+        try {
+            const response = await BackendLIMSAxios.post("auth/finduser", body);
+            console.log("1", body)
+            if (!body.password)
+                toast.error(`preencha a senha`, {
+                    closeOnClick: true,
+                    autoClose: true,
+                });
+            else
+                try {
+                    const response = await BackendLIMSAxios.post("auth/authenticate", body);
+
+                    localStorage.setItem('token', response.data.token)
+                    setisLoggedIn(true)
+                    if (isLoggedIn)
+                        (props.history.push("/home"))
+                }
+                catch (err) {
+                    toast.error(`Senha inválida`, {
+                        closeOnClick: true,
+                        autoClose: true,
+                    });
+                }
+
+        }
+        catch (err) {
+            toast.error(`Usuário não encontrado`, {
+                closeOnClick: true,
+                autoClose: true,
+            });
+        }
+
+
+               
+               
+
+    }
+ 
     const handleFormSubmit = (e) => {
 		e.preventDefault();
 		setLoading(true);
 
-		LoginDb()
+        LoginDb()
 	};
 
     
@@ -124,11 +149,11 @@ function Login(props) {
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
-								<Label htmlFor="senha">Senha:</Label>
+								<Label htmlFor="password">Senha:</Label>
 								<InputText
 									type="text"
-									id="senha"
-                        defaultValue={fields.senha}
+									id="password"
+                        defaultValue={fields.password}
                         onChange={handleInputChange}
                     />
                 </FormGroup>
