@@ -13,6 +13,36 @@ function ReagentsListPage(props) {
 	const [data, setData] = useState([]);
 	// const { session } = useContext(AuthContext);
 
+	useEffect(() => {
+		const token = localStorage.getItem("token")
+		console.log(token)
+
+		async function isAuthenticated() {
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, {
+				headers: {
+				  'authorization': `${token}` 
+				}
+			  });
+
+
+			console.log("10",response)
+
+			if (response.data.isAuthenticated === "true"){
+
+			  	console.log(response.data.isAuthenticated);
+
+			}else {
+				props.history.push(`/`);
+			};
+
+			setLoading(false);
+		}
+		
+			isAuthenticated()
+		
+
+	}, []);
+
 
 	useEffect(() => {
 		const token = localStorage.getItem("token")
