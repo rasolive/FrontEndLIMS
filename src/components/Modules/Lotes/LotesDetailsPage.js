@@ -93,20 +93,15 @@ function ReagentsDetailsPage(props) {
 	const [files, setFiles] = useState([]);
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
 	useEffect(() => {
-		const token = localStorage.getItem("token")
-		console.log(token)
-
 		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, {
-				headers: {
-				  'authorization': `${token}` 
-				}
-			  });
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
 
 
 			console.log("10",response)
@@ -132,8 +127,7 @@ function ReagentsDetailsPage(props) {
 
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
-				`${page}/${itemId}`
-			);
+				`${page}/${itemId}`,header);
 
 			setFields(response.data || {});
 			setLoading(false);
@@ -152,7 +146,7 @@ function ReagentsDetailsPage(props) {
 
 		body.user = "Usuário de Criação" //session && session.email;
 
-		const response = await BackendLIMSAxios.post(`${page}`,body);
+		const response = await BackendLIMSAxios.post(`${page}`,body, header);
 
 		setLoading(false);
 
@@ -174,7 +168,7 @@ function ReagentsDetailsPage(props) {
 
 		body.user = "Usuário de Alteração" //session && session.email;
 		
-		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body);
+		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
 		setLoading(false);
 		const id = response.data._id;
@@ -189,7 +183,7 @@ function ReagentsDetailsPage(props) {
 		setLoading(false);		
 	};
 
-	const deleteReagent = async () => {
+	const deleteItem = async () => {
 		const body = {
 			// token: session && session.token,
 			cod_grupo: parseInt(fields.cod_grupo),
@@ -197,7 +191,7 @@ function ReagentsDetailsPage(props) {
 
         body.user = "Usuário de Alteração" //session && session.email;
 
-		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`, body);
+		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`, body, header);
 		const data = response.data || {};
 
 		setLoading(false);
@@ -278,7 +272,7 @@ function ReagentsDetailsPage(props) {
 	const handleConfirmModalButton = () => {
 		setShowModal(false);
 		setLoading(true);
-		deleteReagent();
+		deleteItem();
 	};
 
 

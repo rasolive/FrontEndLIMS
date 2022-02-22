@@ -11,18 +11,14 @@ function ReagentsListPage(props) {
 
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState([]);
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	// const { session } = useContext(AuthContext);
 
 	useEffect(() => {
-		const token = sessionStorage.getItem("token")
-		console.log(token)
-
+	
 		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, {
-				headers: {
-				  'authorization': `${token}` 
-				}
-			  });
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
 
 
 			console.log("10",response)
@@ -45,15 +41,9 @@ function ReagentsListPage(props) {
 
 
 	useEffect(() => {
-		const token = sessionStorage.getItem("token")
-		console.log(token)
-
-		async function getReagents() {
-			const response = await BackendLIMSAxios.get(`${page}`, {
-				headers: {
-				  'authorization': `${token}` 
-				}
-			  });
+		
+		async function getItens() {
+			const response = await BackendLIMSAxios.get(`${page}`, header);
 
 
 			setData(response.data || []);
@@ -61,7 +51,7 @@ function ReagentsListPage(props) {
 		}
 	
 		setLoading(true);
-		getReagents();
+		getItens();
 
 	}, []);
 

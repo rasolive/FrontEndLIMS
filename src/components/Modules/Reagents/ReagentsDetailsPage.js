@@ -178,7 +178,7 @@ function ReagentsDetailsPage(props) {
 		setLoading(false);		
 	};
 
-	const deleteReagent = async () => {
+	const deleteItem = async () => {
 	       
 		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`,header);
 		const data = response.data || {};
@@ -261,7 +261,7 @@ function ReagentsDetailsPage(props) {
 	const handleConfirmModalButton = () => {
 		setShowModal(false);
 		setLoading(true);
-		deleteReagent();
+		deleteItem();
 	};
 
 
