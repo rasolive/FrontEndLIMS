@@ -18,6 +18,7 @@ import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
+//import { header } from "../../../utils/functions";
 
 
 const StyledCard = styled(Card)`
@@ -84,7 +85,6 @@ function ReagentsDetailsPage(props) {
 	const gcpPatch = `prd/anexos/${page}`
 	const item = `Reagente`
 
-
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
 	const [showModal, setShowModal] = useState(false);
@@ -93,20 +93,16 @@ function ReagentsDetailsPage(props) {
 	const [files, setFiles] = useState([]);
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
 	useEffect(() => {
-		const token = localStorage.getItem("token")
-		console.log(token)
-
+		
 		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, {
-				headers: {
-				  'authorization': `${token}` 
-				}
-			  });
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
 
 
 			console.log("10",response)
@@ -129,19 +125,9 @@ function ReagentsDetailsPage(props) {
 
 
 	useEffect(() => {
-
-		const token = localStorage.getItem("token")
-		console.log(token)
-
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
-				`${page}/${itemId}`,
-				{
-					headers: {
-					  'authorization': `${token}` 
-					}
-				  }
-			);
+				`${page}/${itemId}`,header);
 
 			setFields(response.data || {});
 			setLoading(false);
@@ -157,14 +143,7 @@ function ReagentsDetailsPage(props) {
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
-		const token = localStorage.getItem("token")
-		console.log(token)
-
-		const response = await BackendLIMSAxios.post(`${page}`,body,{
-			headers: {
-			  'authorization': `${token}` 
-			}
-		  });
+		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
 
@@ -184,14 +163,7 @@ function ReagentsDetailsPage(props) {
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
 
-		const token = localStorage.getItem("token")
-		console.log(token)
-		
-		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, {
-			headers: {
-			  'authorization': `${token}` 
-			}
-		  });
+		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
 		setLoading(false);
 		const id = response.data._id;
@@ -207,21 +179,8 @@ function ReagentsDetailsPage(props) {
 	};
 
 	const deleteReagent = async () => {
-		const body = {
-			// token: session && session.token,
-			cod_grupo: parseInt(fields.cod_grupo),
-		};
-		
-		const token = localStorage.getItem("token")
-		console.log(token)
-		
-
-        
-		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`,{
-			headers: {
-			  'authorization': `${token}` 
-			}
-		  });
+	       
+		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`,header);
 		const data = response.data || {};
 
 		setLoading(false);

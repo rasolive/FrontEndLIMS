@@ -75,8 +75,9 @@ function Login(props) {
         body.role = "visitante"
         const token = await BackendLIMSAxios.post("auth/authenticatevisitant", body);
 
-        localStorage.setItem('token', token.data.token)
+        sessionStorage.setItem('token', token.data.token)
         setisLoggedIn(true)
+        props.history.push(`/home?session=${token.data.token}`)
     }
 
     async function responseFacebook(response) {
@@ -89,8 +90,9 @@ function Login(props) {
         body.role = "visitante"
         const token = await BackendLIMSAxios.post("auth/authenticatevisitant", body);
 
-        localStorage.setItem('token', token.data.token)
+        sessionStorage.setItem('token', token.data.token)
         setisLoggedIn(true)
+        props.history.push(`/home?session=${token.data.token}`)
       }
 
 
@@ -109,10 +111,8 @@ function Login(props) {
                 try {
                     const response = await BackendLIMSAxios.post("auth/authenticate", body);
 
-                    localStorage.setItem('token', response.data.token)
-                    setisLoggedIn(true)
-                    if (isLoggedIn)
-                        (props.history.push("/home"))
+                    sessionStorage.setItem('token', response.data.token)
+                    props.history.push(`/home?session=${response.data.token}`)
                 }
                 catch (err) {
                     toast.error(`Senha inválida`, {
@@ -205,7 +205,6 @@ function Login(props) {
                       )}
                                          />
 
-                {isLoggedIn ? props.history.push("/home") : ""}
 
             </StyledCard>
         </>

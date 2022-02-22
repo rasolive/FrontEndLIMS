@@ -14,7 +14,7 @@ function ReagentsListPage(props) {
 	// const { session } = useContext(AuthContext);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token")
+		const token = sessionStorage.getItem("token")
 		console.log(token)
 
 		async function isAuthenticated() {
@@ -45,7 +45,7 @@ function ReagentsListPage(props) {
 
 
 	useEffect(() => {
-		const token = localStorage.getItem("token")
+		const token = sessionStorage.getItem("token")
 		console.log(token)
 
 		async function getReagents() {
