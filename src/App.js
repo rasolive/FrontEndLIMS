@@ -16,6 +16,7 @@ import ReagentsDetailsPage from "./components/Modules/Reagents/ReagentsDetailsPa
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
 // import { AuthProvider } from "./context/AuthContext";
 import LotesDetailsPage from "./components/Modules/Lotes/LotesDetailsPage";
+import GraficoPage from "./components/Modules/Grafico/GraficoPage";
 
 
 
@@ -31,6 +32,7 @@ function App() {
 
 				<Route exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
                 <Route exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
+				<Route exact path="/db/grafico" name="GraficoPage" component={GraficoPage}/>
 				
 			    <Route component={NotFoundPage} />
 				//<Redirect push from="/" exact to="/login"/>

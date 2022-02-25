@@ -17,14 +17,23 @@ axios.interceptors.request.use((config) => {
 	return config;
 });
 
-// Transcriptome
+// Backend Node
 const BackendLIMSAxios = axios.create({
 	baseURL: `http://localhost:8089/v1/`,
 });
 
 BackendLIMSAxios.interceptors.request.use((config) => {
 	config.params = config.params || {};
-	// config.params["token"] = sessionToken();
+	return config;
+});
+
+// Backend Node
+const BackendPythonLIMSAxios = axios.create({
+	baseURL: `http://localhost:5000/`,
+});
+
+BackendPythonLIMSAxios.interceptors.request.use((config) => {
+	config.params = config.params || {};
 	return config;
 });
 
@@ -32,4 +41,5 @@ BackendLIMSAxios.interceptors.request.use((config) => {
 
 export {
 	BackendLIMSAxios,
+	BackendPythonLIMSAxios,
 };

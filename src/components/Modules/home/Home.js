@@ -53,6 +53,10 @@ function Home(props, req) {
         props.history.push("/db/lotes")
     };
 
+    const handleRedirectGrafico= () => {
+        props.history.push("/db/grafico")
+    };
+
     return (
         <>
             <ButtonGroup>
@@ -72,6 +76,15 @@ function Home(props, req) {
                     info
                 >
                     Lotes
+                </Button>
+
+                <Button
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectGrafico}
+                    info
+                >
+                    Graficos
                 </Button>
             </ButtonGroup>
         </>
