@@ -111,7 +111,7 @@ const Navbar = ({toggle}) => {
    return ( 
    <>
     <Nav>
-        <NavLink to = {`/home?session=${sessionStorage.getItem('token')}`}>
+        <NavLink to = {`/home`}>
             <h1>Inserir Logo</h1>
             {/* <img src="" alt=""/> */}
         </NavLink>

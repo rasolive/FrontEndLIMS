@@ -14,15 +14,14 @@ import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 
 function Home(props, req) {
     const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
     useEffect(() => {
-		console.log("36", props.history.location.search.session)
-        const session = props.history.location.search.replace("?session=","")
+        
 		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, {
-                headers: {
-                  'authorization': `${session}` 
-                }});
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
+
 
 
 			console.log("10",response)
