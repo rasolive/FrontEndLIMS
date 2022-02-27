@@ -88,6 +88,7 @@ function ReagentsListPage(props) {
 			<Header
 				title={item}
 				showNewRegisterButton
+				showReturnButton
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>
 

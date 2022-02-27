@@ -9,6 +9,8 @@ export const Nav = styled.nav`
     background: #8d8d8d;
     height: 50px;
     width: 100%;
+    position: fixed;
+    top: 0;
     left: 0;
     display: flex;
     justify-content: space-between;
@@ -54,7 +56,7 @@ export const Bars = styled(FaBars)`
         position: absolute;
         top: 0;
         right: 0;
-        transform: translate(-30%, 60%);
+        transform: translate(-100%, 60%);
         font-size: 1.8rem;
         cursor: pointer;
     }    

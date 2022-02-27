@@ -28,6 +28,7 @@ const RightPanel = styled.div`
 `;
 
 const HeaderButton = styled(Button)`
+	margin-top: 70px;
 	margin-left: 15px;
 	text-align: center;
 	line-height: 50%;
@@ -56,6 +57,7 @@ const HeaderButtonG = styled(Button)`
 `;
 
 const Title = styled.div`
+	margin-top: 70px;
 	font-family: Poppins;
 	font-style: normal;
 	font-weight: bold;
@@ -65,6 +67,7 @@ const Title = styled.div`
 `;
 
 const Return = styled(ArrowLeft)`
+	margin-top: 70px;
 	color: #888888;
 	margin-right: 10px;
 

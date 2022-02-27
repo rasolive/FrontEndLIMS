@@ -12,8 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 import { toast, ToastContainer } from "react-toastify";
-import Navbar from "./components/Layout/Navbar";
-import Sidebar from "./components/Layout/Sidebar";
 import Layout from "./components/Layout/Layout/Layout";
 
 const history = createBrowserHistory();

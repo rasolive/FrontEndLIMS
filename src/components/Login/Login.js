@@ -28,13 +28,20 @@ const Container = styled.div`
 `;
 
 const StyledCard = styled(Card)`
+    
 	max-width: 350px;
     margin: auto;
 	overflow: hidden;
 	width: 70%;
 	justify-content: center;
 	align-items: center;
-	margin-top: 10%;
+	margin-top: 80px;
+`;
+
+const LabelHeader = styled(Label)`
+        font-size: 16px;
+        color: #010606;
+
 `;
 
 const StyledHr = styled(Hr)`
@@ -147,7 +154,7 @@ function Login(props) {
     return (
         <>
             <StyledCard>
-                <Header title="Faça login na sua conta" />
+                <LabelHeader>Entre com seu E-mail e senha para acessar</LabelHeader>
                 <FormGroup>
 								<Label htmlFor="email">Endereço de e-mail:</Label>
 								<FieldSet style={{

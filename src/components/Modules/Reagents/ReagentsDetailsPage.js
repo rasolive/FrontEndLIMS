@@ -27,7 +27,7 @@ const StyledCard = styled(Card)`
 	z-index: 0;
 	overflow: hidden;
 	//position: relative;
-	width: 90%;
+	width: 80%;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 1%;

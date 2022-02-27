@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import styled from "styled-components";
 import Button from "../../Layout/Button/Button";
 import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
@@ -10,7 +11,9 @@ import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 //       'authorization': `${token}` 
 //     }}
 
-
+const Button2 = styled(Button)`
+	margin-top: 70px;
+`;
 
 function Home(props, req) {
     const [loading, setLoading] = useState(false);
@@ -18,7 +21,7 @@ function Home(props, req) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
     useEffect(() => {
-        
+
 		async function isAuthenticated() {
 			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
 
@@ -59,32 +62,32 @@ function Home(props, req) {
     return (
         <>
             <ButtonGroup>
-                <Button
+                <Button2
                     type="button"
                     style={{ width: "auto" }}
                     onClick={handleRedirectReagents}
                     info
                 >
                     Reagentes
-                </Button>
+                </Button2>
                 
-                <Button
+                <Button2
                     type="button"
                     style={{ width: "auto" }}
                     onClick={handleRedirectLotes}
                     info
                 >
                     Lotes
-                </Button>
+                </Button2>
 
-                <Button
+                <Button2
                     type="button"
                     style={{ width: "auto" }}
                     onClick={handleRedirectGrafico}
                     info
                 >
                     Graficos
-                </Button>
+                </Button2>
             </ButtonGroup>
         </>
     );

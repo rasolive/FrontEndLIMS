@@ -86,6 +86,7 @@ function LotesListPage(props) {
 			<Header
 				title={item}
 				showNewRegisterButton
+				showReturnButton
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>
 
