@@ -8,9 +8,11 @@ import { FaBars } from 'react-icons/fa'
 export const Nav = styled.nav`
     background: #8d8d8d;
     height: 50px;
+    width: 100%;
+    left: 0;
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem calc((100vw - 1000px)/2);
+    padding: 0.5rem;
     z-index: 10;
 `
 
@@ -46,7 +48,7 @@ export const Bars = styled(FaBars)`
 export const NavMenu = styled.div`
     display: flex;
     align-items: center;
-    margin-right: -24px;
+    margin-right: 10px;
 
     @media screen and (max-width:768px){
         display: none;
@@ -107,9 +109,9 @@ const Navbar = ({toggle}) => {
             <NavLink to="/sair" activeStyle>
                 Sair
             </NavLink>
-            <NavBtn>
+            {/* <NavBtn>
                 <NavBtnLink to="/login">Entrar</NavBtnLink>
-            </NavBtn>
+            </NavBtn> */}
         </NavMenu>
 
     </Nav>
