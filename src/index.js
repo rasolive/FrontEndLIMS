@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from "react-dom";
 
 import { Router } from "react-router-dom";
@@ -12,6 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 import { toast, ToastContainer } from "react-toastify";
+import Navbar from "./components/Layout/Navbar";
+import Sidebar from "./components/Layout/Sidebar";
+import Layout from "./components/Layout/Layout/Layout";
 
 const history = createBrowserHistory();
 
@@ -79,6 +82,7 @@ const theme = {
 ReactDOM.render(
 	<Router history={history}>
 		<ThemeProvider theme={theme}>
+			<Layout />
 			<App />
 		</ThemeProvider>
 		<ToastContainer autoClose={3000} />

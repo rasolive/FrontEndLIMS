@@ -157,7 +157,7 @@ function GraficoPage(props) {
 		const response = await BackendPythonLIMSAxios.post("Grafico",body);
 
 		setLoading(false);
-		console.log("15",response)
+		console.log("24",response)
 		console.log("25",response.data.data[0])
 	    setGraph(response.data.data[0])
         	
