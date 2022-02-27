@@ -100,7 +100,32 @@ export const SidebarRoute= styled(LinkR)`
 
 `
 
+export const NavDiv = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+text-decoration: none;
+list-style: none;
+transition: 0.2s ease-in-out;
+text-decoration: none;
+color: #fff;
+cursor: pointer;
+
+&:hover{
+    color: #01bf71;
+    transition: 0.2s ease-in-out;
+ }
+
+
+`
+
 const Sidebar = ({isOpen, toggle}) => {
+
+    const sair = () => {
+        sessionStorage.removeItem('token')
+        window.location.reload()    
+    }
     return (
         <>
             <SidebarContainer  isOpen = {isOpen}
@@ -119,9 +144,9 @@ const Sidebar = ({isOpen, toggle}) => {
                         <SidebarLink to="/contato" onClick= {toggle}>
                             Contato
                         </SidebarLink>
-                        <SidebarLink to="/sair" onClick= {toggle}>
-                            Sair
-                        </SidebarLink>
+                        <NavDiv style={{cursor: 'pointer'}}onClick={sair} >
+                Sair
+            </NavDiv>
                     </SidebarMenu>
                     <SideBtnWrap>
                         <SidebarRoute to="/login" onClick= {toggle}>

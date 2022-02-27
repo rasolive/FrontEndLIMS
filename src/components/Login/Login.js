@@ -192,10 +192,10 @@ function Login(props) {
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
-                        <button class="loginBtn loginBtn--google" onClick={renderProps.onClick}  >  Faça login com Google   </button>
+                        <button class="loginBtn loginBtn--google" onClick={renderProps.onClick}  >  Faça login com Google </button>
                       )} />
                 <Hr2 />
-                <FacebookLogin
+                {/* <FacebookLogin
                     appId="1784312231764830"
                     autoLoad={true}
                     fields="name,email,picture"
@@ -203,7 +203,7 @@ function Login(props) {
                     render={renderProps => (
                         <button class="loginBtn loginBtn--facebook" onClick={renderProps.onClick}  >Faça login com Facebook</button>
                       )}
-                                         />
+                                         /> */}
 
 
             </StyledCard>

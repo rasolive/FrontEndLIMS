@@ -30,6 +30,21 @@ export const NavLink = styled(Link)`
     }
 
 `
+
+export const NavDiv = styled.div`
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    cursor: pointer;
+
+    &.active {
+        color: #15cdfc;
+    }
+
+`
 export const Bars = styled(FaBars)`
     color: #fff;
     display: none;
@@ -88,8 +103,13 @@ export const NavBtnLink = styled(Link)`
 
 const Navbar = ({toggle}) => {
 
+    const sair = () => {
+        sessionStorage.removeItem('token')
+        window.location.reload()    
+    }
 
-   return ( <>
+   return ( 
+   <>
     <Nav>
         <NavLink to = {`/home?session=${sessionStorage.getItem('token')}`}>
             <h1>Inserir Logo</h1>
@@ -106,9 +126,9 @@ const Navbar = ({toggle}) => {
             <NavLink to="/contato" activeStyle>
                 Contato
             </NavLink>
-            <NavLink to="/sair" activeStyle>
+            <NavDiv style={{cursor: 'pointer'}}onClick={sair} >
                 Sair
-            </NavLink>
+            </NavDiv>
             {/* <NavBtn>
                 <NavBtnLink to="/login">Entrar</NavBtnLink>
             </NavBtn> */}
