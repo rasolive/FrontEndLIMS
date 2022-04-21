@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import Header from "../../Layout/Header/Header";
+import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
+import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 
 function LotesListPage(props) {
 
@@ -61,22 +63,27 @@ function LotesListPage(props) {
 		{
 			Header: "Id",
 			accessor: "_id",
+			Filter: ColumnFilter,
 		},
 		{
 			Header: "Código do Reagente",
 			accessor: "cod",
+			Filter: ColumnFilter,
 		},
 		{
 			Header: "Nome do Reagente",
 			accessor: "name",
+			Filter: ColumnFilter,
 		},
 		{
 			Header: "Criado por",
 			accessor: "createdBy",
+			Filter: ColumnFilter,
 		},
 		{
 			Header: "Atualizado por",
 			accessor: "updatedBy",
+			Filter: ColumnFilter,
 		},
 	
 	];
@@ -90,7 +97,7 @@ function LotesListPage(props) {
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>
 
-			<Table
+			<GlobalFilterTable
 				data={data}
 				columns={columns}
 				loading={loading}
