@@ -19,6 +19,7 @@ import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
 //import { header } from "../../../utils/functions";
+import AddListasTable from "./AddListasTable";
 
 
 const StyledCard = styled(Card)`
@@ -81,9 +82,9 @@ const Container = styled.div`
 
 
 function FornecedoresDetailsPage(props) {
-	const page = `fornecedores`;
+	const page = `listas`;
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Fornecedor`
+	const item = `Listas`
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
@@ -95,6 +96,9 @@ function FornecedoresDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [table, setTable] = useState([]);
+	const [list, setList] = useState([]);
+
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -130,6 +134,8 @@ function FornecedoresDetailsPage(props) {
 				`${page}/${itemId}`,header);
 
 			setFields(response.data || {});
+			const table = response?.data?.lista || [];
+			setList([...list, ...table]);
 			setLoading(false);
 		}
 
@@ -143,6 +149,12 @@ function FornecedoresDetailsPage(props) {
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
+
+		table.map((dt) => {
+			return delete dt.id;
+		});
+
+		body.lista = list;
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
@@ -162,6 +174,12 @@ function FornecedoresDetailsPage(props) {
 
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
+
+		table.map((dt) => {
+			return delete dt.id;
+		});
+
+		body.lista = list;
 
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
@@ -309,6 +327,27 @@ function FornecedoresDetailsPage(props) {
 		}
 	};
 
+	function handleAddLineButtonClick() {
+		setList([
+			...list,
+			{
+				id: Math.random().toString(36).substr(2, 9),
+				valor: "",
+				},
+		]);
+	}
+
+	function handleRemoveLineButtonClick(id) {
+		const result = list.filter((dt) => dt.id !== id);
+		setList(result);
+	}
+
+	function handleTableInputChange(e, key, id) {
+		const result = list.find((dt) => dt.id === key);
+
+		result[`${id}`] = e.target.value;
+	}
+
 	
 	return (
 		<>
@@ -321,7 +360,7 @@ function FornecedoresDetailsPage(props) {
 			/>
 			<Container showModal={showModal}>
 				<Header
-					title="Cadastro de Fornecedores"
+					title="Cadastro de Listas"
 					showReturnButton
 				/>
 				<StyledCard>
@@ -333,7 +372,7 @@ function FornecedoresDetailsPage(props) {
 							alignItems: "center",
 						}}>
 							<FormGroup>
-								<Label htmlFor="_id">ID do Fornecedor</Label>
+								<Label htmlFor="_id">ID da Lista</Label>
 								<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
@@ -348,7 +387,7 @@ function FornecedoresDetailsPage(props) {
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
-								<Label htmlFor="nome_mp">Nome do Fornecedor</Label>
+								<Label htmlFor="nome_mp">Nome do Lista</Label>
 								<InputText
 									type="text"
 									id="name"
@@ -358,126 +397,19 @@ function FornecedoresDetailsPage(props) {
 							</FormGroup>
 						</FieldSet>
 						
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="rua">Rua:</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="text"
-										id="rua"
-										defaultValue={fields.rua}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="numero">Numero:</Label>
-								<InputNumber
-									type="number"
-									id="numero"
-									defaultValue={fields.numero}
-									onChange={handleInputChange}
-								/>
-							</FormGroup>
-						</FieldSet>	
-
 						
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="bairro">Bairro:</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="text"
-										id="bairro"
-										defaultValue={fields.bairro}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="cidade">Cidade:</Label>
-								<InputText
-									type="text"
-									id="cidade"
-									defaultValue={fields.cidade}
-									onChange={handleInputChange}
-								/>
-							</FormGroup>
-						</FieldSet>		
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="estado">Estado:</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="text"
-										id="estado"
-										defaultValue={fields.estado}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="cep">CEP:</Label>
-								<InputText
-									type="text"
-									id="cep"
-									defaultValue={fields.cep}
-									onChange={handleInputChange}
-								/>
-							</FormGroup>
-						</FieldSet>	
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="telefone">Telefone:</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="text"
-										id="telefone"
-										defaultValue={fields.telefone}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="email">E-mail:</Label>
-								<InputText
-									type="text"
-									id="email"
-									defaultValue={fields.email}
-									onChange={handleInputChange}
-								/>
-							</FormGroup>
-						</FieldSet>	
+						<AddListasTable
+											data={list}
+											handleAddLineButtonClick={
+												handleAddLineButtonClick
+											}
+											handleRemoveLineButtonClick={
+												handleRemoveLineButtonClick
+											}
+											handleTableInputChange={
+												handleTableInputChange
+											}
+										/>
 
 						<FieldSet style={{
 											flexWrap: "wrap",
@@ -510,46 +442,7 @@ function FornecedoresDetailsPage(props) {
 						</FieldSet>
 						
 						
-							<FieldSet>
-							
-							<FormGroup>
-								<Group>
-									<LeftPanel>Anexos</LeftPanel>
-									<RightPanel>
-										<SmallButton
-											type="button"
-											small
-											onClick={handleShowDocuments}
-										>
-											{showDocuments ? (
-												<DownIcon />
-											) : (
-												<UpIcon />
-											)}
-										</SmallButton>
-									</RightPanel>
-								</Group>
-								<Hr />
-							</FormGroup>
-						</FieldSet>
-						<Collapse className={`${showDocuments && "collapsed"}`}>
-						<FieldSet>
-
-							<AnexosPage
-								fileName = {fileName}
-								newItem = {newItem}
-								docExtras = {docExtras}
-								itemtId = {itemId}
-								handleFileInput = {handleFileInput}
-								files = {files}
-								removeFile = {removeFile}
-								gcpPatch = {gcpPatch}
-															
-							/>
-						
-						</FieldSet>
-						</Collapse>
-														
+																	
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>

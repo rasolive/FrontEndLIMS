@@ -14,6 +14,9 @@ import ReagentsListPage from "./components/Modules/Reagents/ReagentsListPage";
 import ReagentsDetailsPage from "./components/Modules/Reagents/ReagentsDetailsPage";
 import FornecedoresListPage from "./components/Modules/Fornecedores/FornecedoresListPage";
 import FornecedoresDetailsPage from "./components/Modules/Fornecedores/FornecedoresDetailsPage";
+import ListasDetailsPage from "./components/Modules/Listas/ListasDetailsPage";
+import ListasListPage from "./components/Modules/Listas/ListasListPage";
+
 
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
 // import { AuthProvider } from "./context/AuthContext";
@@ -33,6 +36,8 @@ function App() {
                 <Route exact path="/db/reagents/:id" name="ReagentsDetailsPage" component={ReagentsDetailsPage}/>
 				<Route exact path="/db/Fornecedores" name="FornecedoresListPage" component={FornecedoresListPage}/>
 				<Route exact path="/db/Fornecedores/:id" name="FornecedoresDetailsPage" component={FornecedoresDetailsPage}/>
+				<Route exact path="/db/Listas" name="ListasListPage" component={ListasListPage}/>
+				<Route exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
 
 				<Route exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
                 <Route exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>

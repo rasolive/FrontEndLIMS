@@ -7,8 +7,8 @@ import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 
 function FornecedoresListPage(props) {
-	const page = `fornecedores` // nome da rota no backend
-	const item = `Fornecedor` // nome do Tipo de item
+	const page = `listas` // nome da rota no backend
+	const item = `Listas` // nome do Tipo de item
 
 
 	const [loading, setLoading] = useState(false);
