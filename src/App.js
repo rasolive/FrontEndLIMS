@@ -9,9 +9,9 @@ import Login from "./components/Login/Login";
 // import Layout from "./components/Layout/Layout";
 // import LoginPage from "./components/Login/LoginPage";
 import NotFoundPage from "./components/Modules/NotFound/NotFoundPage";
-import ReagentsListPage from "./components/Modules/Reagents/ReagentsListPage";
+import MateriaisListPage from "./components/Modules/Materiais/MateriaisListPage";
 // import { AuthProvider } from "./context/AuthContext";
-import ReagentsDetailsPage from "./components/Modules/Reagents/ReagentsDetailsPage";
+import MateriaisDetailsPage from "./components/Modules/Materiais/MateriaisDetailsPage";
 import FornecedoresListPage from "./components/Modules/Fornecedores/FornecedoresListPage";
 import FornecedoresDetailsPage from "./components/Modules/Fornecedores/FornecedoresDetailsPage";
 import ListasDetailsPage from "./components/Modules/Listas/ListasDetailsPage";
@@ -32,8 +32,8 @@ function App() {
 				<Route path="/" exact name="HomePage" component={HomePage} />
 				<Route path="/login" exact name="Login" component={Login} />
                 <Route path="/home" exact name="Home" component={Home} />
-                <Route exact path="/db/reagents" name="ReagentsListPage" component={ReagentsListPage}/>
-                <Route exact path="/db/reagents/:id" name="ReagentsDetailsPage" component={ReagentsDetailsPage}/>
+                <Route exact path="/db/materiais" name="MateriaisListPage" component={MateriaisListPage}/>
+                <Route exact path="/db/materiais/:id" name="MateriaisDetailsPage" component={MateriaisDetailsPage}/>
 				<Route exact path="/db/Fornecedores" name="FornecedoresListPage" component={FornecedoresListPage}/>
 				<Route exact path="/db/Fornecedores/:id" name="FornecedoresDetailsPage" component={FornecedoresDetailsPage}/>
 				<Route exact path="/db/Listas" name="ListasListPage" component={ListasListPage}/>

@@ -81,9 +81,9 @@ const Container = styled.div`
 
 
 function ReagentsDetailsPage(props) {
-	const page = `reagents`
+	const page = `materiais`
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Reagente`
+	const item = `Material`
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
@@ -95,6 +95,8 @@ function ReagentsDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [armazenamento, setArmazenamento]= useState([]);
+	const [statusMaterial, setStatusMaterial]= useState([]);
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -133,10 +135,34 @@ function ReagentsDetailsPage(props) {
 			setLoading(false);
 		}
 
+		async function getStatusMaterial() {
+			const body = {name:'Status Material'}
+			
+			const response = await BackendLIMSAxios.post("listas/lista",body, header);
+			const data = response.data[0]?.lista || [];
+
+			setStatusMaterial(data);
+		
+			setLoading(false);
+		}
+
+		async function getArmazenamento() {
+			const body = {name:'Armazenamento'}
+			
+			const response = await BackendLIMSAxios.post("listas/lista",body, header);
+			const data = response.data[0]?.lista || [];
+
+			setArmazenamento(data);
+
+			setLoading(false);
+		}
+
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
 		}
+		getArmazenamento()
+		getStatusMaterial()
 	}, [itemId, newItem, setFields, setFiles]);
 
 	
@@ -321,7 +347,7 @@ function ReagentsDetailsPage(props) {
 			/>
 			<Container showModal={showModal}>
 				<Header
-					title="Cadastro de Reagentes"
+					title="Cadastro de Materiais"
 					showReturnButton
 				/>
 				<StyledCard>
@@ -333,7 +359,7 @@ function ReagentsDetailsPage(props) {
 							alignItems: "center",
 						}}>
 							<FormGroup>
-								<Label htmlFor="cod">Código do Reagente</Label>
+								<Label htmlFor="cod">Código do Material</Label>
 								<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
@@ -347,7 +373,7 @@ function ReagentsDetailsPage(props) {
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
-								<Label htmlFor="nome_mp">Nome do Reagente</Label>
+								<Label htmlFor="nome_mp">Nome do Material</Label>
 								<InputText
 									type="text"
 									id="name"
@@ -356,6 +382,63 @@ function ReagentsDetailsPage(props) {
 								/>
 							</FormGroup>
 						</FieldSet>
+
+						<FieldSet>
+						<FormGroup>
+								<Label htmlFor="armazenamento">
+									Armazenamento
+								</Label>
+								<Select
+									id="armazenamento"
+									onChange={handleInputChange}
+									value={
+										fields.armazenamento &&
+										fields.armazenamento
+									}
+								>
+									<option value="">Selecione</option>
+									{armazenamento.map((value) => {
+										return (
+											<option
+												key={value.id}
+												value={value.id}
+											>
+												{value.valor}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+							</FieldSet>
+
+							<FieldSet>
+						<FormGroup>
+								<Label htmlFor="statusMaterial">
+									Status Material
+								</Label>
+								<Select
+									id="statusMaterial"
+									onChange={handleInputChange}
+									value={
+										fields.statusMaterial &&
+										fields.statusMaterial
+									}
+								>
+									<option value="">Selecione</option>
+									{statusMaterial.map((value) => {
+										return (
+											<option
+												key={value.id}
+												value={value.id}
+											>
+												{value.valor}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+							</FieldSet>
+
 						<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
@@ -386,23 +469,7 @@ function ReagentsDetailsPage(props) {
 							</FormGroup>
 						</FieldSet>
 						
-						<FieldSet>
-							<FormGroup>
-								<Label htmlFor="aparence">
-									Aparência
-								</Label>
-								<Select
-									id="aparence"
-									onChange={handleInputChange}
-									value={fields.aparence}
-								>
-									<option value="">Selecione</option>
-									<option value="Sólido">Sólido</option>
-									<option value="Liquido">Liquido</option>
-									
-								</Select>
-							</FormGroup>
-							</FieldSet>
+						
 							<FieldSet>
 							
 							<FormGroup>

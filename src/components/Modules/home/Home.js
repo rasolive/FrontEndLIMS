@@ -47,8 +47,8 @@ function Home(props, req) {
 	}, []);
 
 
-    const handleRedirectReagents= () => {
-        props.history.push("/db/reagents")
+    const handleRedirectMateriais= () => {
+        props.history.push("/db/materiais")
     };
 
     const handleRedirectFornecedores= () => {
@@ -73,10 +73,10 @@ function Home(props, req) {
                 <Button2
                     type="button"
                     style={{ width: "auto" }}
-                    onClick={handleRedirectReagents}
+                    onClick={handleRedirectMateriais}
                     info
                 >
-                    Reagentes
+                    Materiais
                 </Button2>
                 <Button2
                     type="button"

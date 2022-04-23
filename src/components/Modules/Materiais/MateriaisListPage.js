@@ -7,8 +7,8 @@ import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 
 function ReagentsListPage(props) {
-	const page = `reagents` // nome da rota no backend
-	const item = `Reagentes` // nome do Tipo de item
+	const page = `materiais` // nome da rota no backend
+	const item = `Materiais` // nome do Tipo de item
 
 
 	const [loading, setLoading] = useState(false);
@@ -68,12 +68,12 @@ function ReagentsListPage(props) {
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Código do Reagente",
+			Header: "Código do Material",
 			accessor: "cod",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Nome do Reagente",
+			Header: "Nome do Material",
 			accessor: "name",
 			Filter: ColumnFilter,
 		},
