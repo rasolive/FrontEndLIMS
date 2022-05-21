@@ -104,16 +104,16 @@ function ReagentsDetailsPage(props) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	const [armazenamento, setArmazenamento]= useState([]);
 	const [statusMaterial, setStatusMaterial]= useState([]);
-	const [colapseSpecies, setColapseSpecies] = useState(true);
-	const [species, setSpecies] = useState([]);
-	const [selectedSpecies, setSelectedSpecies] = useState([]);
-	const [showSpecies, setShowSpecies] = useState([]);
+	const [colapseFornecedores, setColapseFornecedores] = useState(true);
+	const [fornecedores, setFornecedores] = useState([]);
+	const [selectedFornecedores, setSelectedFornecedores] = useState([]);
+	const [showFornecedores, setShowFornecedores] = useState([]);
 
 	const [settingsFlow,  setSettingsFlow] = useState({
 		itemId: null,
 		projectName: null,
-		specieId: null,
-		specieName: null,
+		fornecedorId: null,
+		fornecedorName: null,
 		partPlant: null
 	});
 
@@ -176,10 +176,20 @@ function ReagentsDetailsPage(props) {
 			setLoading(false);
 		}
 
+		async function getFornecedores() {
+			const response = await BackendLIMSAxios.get('fornecedores', header);
+
+			console.log("1",response)
+			
+			setFornecedores(response.data || []);
+			setLoading(false);
+			
+		}
 		
 		setLoading(true);
 		getArmazenamento()
 		getStatusMaterial()
+		getFornecedores()
 	
 
 		if (!newItem) {
@@ -191,46 +201,36 @@ function ReagentsDetailsPage(props) {
 
 	useEffect(() => {		
 		/** @Describe: Controla a visualização das espécies no Select e Tabela. */
-		const speciesFiltered = species.filter((specie) => {			
+		const fornecedoresFiltered = fornecedores.filter((fornecedor) => {			
 
-			return !selectedSpecies.find(
-				(selectedSpecie) => selectedSpecie._id === Number(specie._id)
+			return !selectedFornecedores.find(
+				(selectedFornecedor) => selectedFornecedor._id === Number(fornecedor._id)
 				);
 			});
 
-			setShowSpecies(speciesFiltered);
+			setShowFornecedores(fornecedoresFiltered);
 			
-	} ,[species, selectedSpecies, setSelectedSpecies])
+	} ,[selectedFornecedores, setSelectedFornecedores])
+
+	
+
+
 
 	useEffect(() => {
-		
+		async function populateSelectedFornecedoresTable() {
+			const fornecedoresIds = fields.fornecedor;
 
-		 async function populateSelectedSpeciesTable() {			
-			const speciesIds = fields.specie;
-			
-			const getSpecies = species.filter(item => speciesIds.includes(item._id));
-			
-			setSelectedSpecies([...selectedSpecies, ...getSpecies ]);			
+			try {
+				const getFornecedores = fornecedores.filter(item => fornecedoresIds.includes(item._id));
+				console.log("getFornecedores", getFornecedores)
+				setSelectedFornecedores([...selectedFornecedores, ...getFornecedores]);
+			} catch (error) { }
 		}
+		populateSelectedFornecedoresTable()
 
-		async function getSpecies() {
-			const response = await BackendLIMSAxios.get('fornecedores', header);
+	}, [fornecedores, fields.fornecedor])
 
-			console.log("1",response)
-			
-			setSpecies(response.data || []);
-			setLoading(false);
-			
-		}
 
-		getSpecies()
-		populateSelectedSpeciesTable()
-
-		console.log("specie", fields.specie)
-		console.log("speciesIds", species.filter(item => fields.specie.includes(item._id)))
-		console.log("species", species)
-		
-	}, [fields.specie])
 
 	
 
@@ -256,7 +256,7 @@ function ReagentsDetailsPage(props) {
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
 
-		body.specie = selectedSpecies.map(item => item._id);
+		body.fornecedor = selectedFornecedores.map(item => item._id);
 
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
@@ -404,33 +404,33 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
-	const handleShowSpecies = () => {
-		setColapseSpecies(!colapseSpecies);
+	const handleShowFornecedores = () => {
+		setColapseFornecedores(!colapseFornecedores);
 	};
 
 
-	const handleAddSpecie = () => {
-		if (!fields.specie2) {
+	const handleAddFornecedor = () => {
+		if (!fields.fornecedor2) {
 			toast.error("Nenhuma espécie selecionada");
 			return;
 		}
 
-		const result = species.find(
-			(specie) => specie._id === Number(fields.specie2)
+		const result = fornecedores.find(
+			(fornecedor) => fornecedor._id === Number(fields.fornecedor2)
 		);
 
-		const JoinSelectedSpecies = [...selectedSpecies, result]
-		setSelectedSpecies(JoinSelectedSpecies);
+		const JoinSelectedFornecedores = [...selectedFornecedores, result]
+		setSelectedFornecedores(JoinSelectedFornecedores);
 
-		setFields({ ...fields, specie: "" });
+		setFields({ ...fields, fornecedor: "" });
 	
 	};
 
-	const handleRemoveSpecie = (id) => {
-		const result = selectedSpecies.filter((sele) => sele._id !== id);
-		setSelectedSpecies(result);
+	const handleRemoveFornecedor = (id) => {
+		const result = selectedFornecedores.filter((sele) => sele._id !== id);
+		setSelectedFornecedores(result);
 	};
-	const speciesColumns = [
+	const fornecedoresColumns = [
 		{
 			Header: "ID",
 			accessor: "_id",
@@ -449,7 +449,7 @@ function ReagentsDetailsPage(props) {
 							small
 							danger
 							title="Remover espécie"
-							onClick={() => handleRemoveSpecie(original._id)}
+							onClick={() => handleRemoveFornecedor(original._id)}
 						>
 							<Trash2 />
 						</Button>
@@ -458,11 +458,11 @@ function ReagentsDetailsPage(props) {
 							title="Ir para espécies"
 							onClick={() =>
 								props.history.push({
-									pathname: `/db/bioagriculture/deliveryspecies`,
+									pathname: `/db/bioagriculture/deliveryfornecedores`,
 									state: { 
 										...settingsFlow,
-										specieName: original.popularName,
-										specieId: original._id,
+										fornecedorName: original.popularName,
+										fornecedorId: original._id,
 									}
 								})
 							}
@@ -588,9 +588,9 @@ function ReagentsDetailsPage(props) {
 										<SmallButton
 											type="button"
 											small
-											onClick={handleShowSpecies}
+											onClick={handleShowFornecedores}
 										>
-											{colapseSpecies ? (
+											{colapseFornecedores ? (
 												<DownIcon />
 											) : (
 												<UpIcon />
@@ -601,22 +601,22 @@ function ReagentsDetailsPage(props) {
 								<Hr />
 							</FormGroup>
 						</FieldSet>
-						<Collapse className={`${colapseSpecies && "collapsed"}`}>
+						<Collapse className={`${colapseFornecedores && "collapsed"}`}>
 							<FieldSet alignItems="flex-end">
 								<FormGroup>
-									<Label htmlFor="specie2">Fornecedor</Label>
+									<Label htmlFor="fornecedor2">Fornecedor</Label>
 									<Select
-										id="specie2"
+										id="fornecedor2"
 										onChange={handleInputChange}
 									>
 										<option value="">Selecione</option>
-										{showSpecies.map((specie) => {											
+										{showFornecedores.map((fornecedor) => {											
 											return (
 												<option
-													key={specie._id}
-													value={specie._id}
+													key={fornecedor._id}
+													value={fornecedor._id}
 												>
-													{specie.name}
+													{fornecedor.name}
 												</option>
 											);
 										})}
@@ -625,7 +625,7 @@ function ReagentsDetailsPage(props) {
 								<FormGroup>
 									<AddButton
 										type="button"
-										onClick={handleAddSpecie}
+										onClick={handleAddFornecedor}
 									>
 										Adicionar
 									</AddButton>
@@ -633,8 +633,8 @@ function ReagentsDetailsPage(props) {
 							</FieldSet>
 							<FieldSet>
 								<CellTable
-									columns={speciesColumns}
-									data={selectedSpecies}
+									columns={fornecedoresColumns}
+									data={selectedFornecedores}
 								/>
 							</FieldSet>
 						</Collapse>
