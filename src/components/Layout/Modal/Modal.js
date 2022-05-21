@@ -6,11 +6,13 @@ import ButtonGroup from "../ButtonGroup/ButtonGroup";
 
 export default function Modal(props) {
 	const Dialog = styled.dialog`
-		margin-top: 100px;
-		position: absolute;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 		flex-direction: column;
 		align-items: center;
-		justify-content: flex-start;
+		justify-content: center;
 		max-width: 50%;
 		display: ${props.showModal ? "flex" : "none"};
 		background: #ffffff;

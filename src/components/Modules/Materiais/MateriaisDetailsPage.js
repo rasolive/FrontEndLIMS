@@ -19,12 +19,12 @@ import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
 import CellTable from "../../Layout/CellTable/CellTable";
-import { Trash2, Feather } from "react-feather";
+import { Trash2, Feather, Truck } from "react-feather";
 //import { header } from "../../../utils/functions";
 
 
 const StyledCard = styled(Card)`
-	max-width: 500px;
+	max-width: 600px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
@@ -448,26 +448,22 @@ function ReagentsDetailsPage(props) {
 						<Button
 							small
 							danger
-							title="Remover espécie"
+							title="Remover Fornecedor"
 							onClick={() => handleRemoveFornecedor(original._id)}
 						>
 							<Trash2 />
 						</Button>
 						<Button
 							small
-							title="Ir para espécies"
+							title="Ir para Fornecedor"
 							onClick={() =>
 								props.history.push({
-									pathname: `/db/bioagriculture/deliveryfornecedores`,
-									state: { 
-										...settingsFlow,
-										fornecedorName: original.popularName,
-										fornecedorId: original._id,
-									}
+									pathname: `../../db/fornecedores/${original._id}`,
+									
 								})
 							}
 						>
-							<Feather />
+							<Truck/>
 						</Button>
 					</FieldSet>
 				);
