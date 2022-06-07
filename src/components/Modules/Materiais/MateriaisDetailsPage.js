@@ -19,7 +19,7 @@ import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
 import CellTable from "../../Layout/CellTable/CellTable";
-import { Trash2, Feather, Truck } from "react-feather";
+import { Trash2, Truck } from "react-feather";
 //import { header } from "../../../utils/functions";
 
 
