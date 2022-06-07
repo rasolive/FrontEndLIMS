@@ -369,6 +369,7 @@ function FornecedoresDetailsPage(props) {
 									id="cnpj"
 									defaultValue={fields.cnpj}
 									onChange={handleInputChange}
+									disabled ={!newItem}
 								/>
 							</FormGroup>
 						</FieldSet>

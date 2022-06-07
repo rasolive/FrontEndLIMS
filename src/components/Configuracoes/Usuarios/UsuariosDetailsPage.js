@@ -168,6 +168,10 @@ function UsuariosDetailsPage(props) {
 		});
 
 		body.role = list;
+
+		if (body.password) {body.resetPass = true}
+		
+
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
@@ -193,6 +197,9 @@ function UsuariosDetailsPage(props) {
 		});
 
 		body.role = list;
+
+		if (body.password) {body.resetPass = true}
+
 
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
@@ -266,11 +273,23 @@ function UsuariosDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		//setLoading(true);
+
+		
 
 		if (newItem) {
+			const validate = [fields.name, fields.email, fields.password];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Preencha os campos obrigatórios \"Nome\", \"E-mail\" e \"Senha\"", {
+					closeOnClick: true,
+					autoClose: false,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} else {
+			
 			updateItem();
 		}
 	};
@@ -423,7 +442,7 @@ function UsuariosDetailsPage(props) {
 									id="email"
 									defaultValue={fields.email}
 									onChange={handleInputChange}
-								/>
+									disabled = {!newItem}/>
 							</FormGroup>
 
 							<FormGroup>
