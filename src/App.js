@@ -4,6 +4,7 @@ import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 
 import HomePage from "./components/Home/HomePage";
 import Home from "./components/Modules/home/Home";
+import Configuracoes from "./components/Configuracoes/Configuracoes";
 import Login from "./components/Login/Login";
 // import HomeToLogin from "./components/Redirects/HomeToLogin.js";
 // import Layout from "./components/Layout/Layout";
@@ -14,8 +15,10 @@ import MateriaisListPage from "./components/Modules/Materiais/MateriaisListPage"
 import MateriaisDetailsPage from "./components/Modules/Materiais/MateriaisDetailsPage";
 import FornecedoresListPage from "./components/Modules/Fornecedores/FornecedoresListPage";
 import FornecedoresDetailsPage from "./components/Modules/Fornecedores/FornecedoresDetailsPage";
-import ListasDetailsPage from "./components/Modules/Listas/ListasDetailsPage";
-import ListasListPage from "./components/Modules/Listas/ListasListPage";
+import ListasDetailsPage from "./components/Configuracoes/Listas/ListasDetailsPage";
+import ListasListPage from "./components/Configuracoes/Listas/ListasListPage";
+import UsuariosListPage from "./components/Configuracoes/Usuarios/UsuariosListPage";
+import UsuariosDetailsPage from "./components/Configuracoes/Usuarios/UsuariosDetailsPage";
 
 
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
@@ -38,10 +41,12 @@ function App() {
 				<Route exact path="/db/Fornecedores/:id" name="FornecedoresDetailsPage" component={FornecedoresDetailsPage}/>
 				<Route exact path="/db/Listas" name="ListasListPage" component={ListasListPage}/>
 				<Route exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
-
 				<Route exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
                 <Route exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
 				<Route exact path="/db/grafico" name="GraficoPage" component={GraficoPage}/>
+				<Route exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
+				<Route exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
+				<Route exact path="/db/users/:id" name="UsuariosDetailsPage" component={UsuariosDetailsPage}/>
 				
 			    <Route component={NotFoundPage} />
 				//<Redirect push from="/" exact to="/login"/>

@@ -119,6 +119,9 @@ const Navbar = ({toggle}) => {
         </NavLink>
         <Bars onClick={toggle} />
           <NavMenu>
+          <NavLink to="/configuracoes" activeStyle>
+                Configurações
+            </NavLink>
             <NavLink to="/about" activeStyle>
                 About
             </NavLink>
