@@ -17,7 +17,6 @@ import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
-import AnexosPage from "../Anexos/AnexosPage";
 //import { header } from "../../../utils/functions";
 import AddListasTable from "./AddListasTable";
 
@@ -81,7 +80,7 @@ const Container = styled.div`
 `;
 
 
-function FornecedoresDetailsPage(props) {
+function ListasDetailsPage(props) {
 	const page = `listas`;
 	const gcpPatch = `prd/anexos/${page}`
 	const item = `Listas`
@@ -478,4 +477,4 @@ function FornecedoresDetailsPage(props) {
 	);
 }
 
-export default FornecedoresDetailsPage;
+export default ListasDetailsPage;

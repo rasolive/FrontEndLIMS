@@ -6,7 +6,7 @@ import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 
-function FornecedoresListPage(props) {
+function ListasListPage(props) {
 	const page = `listas` // nome da rota no backend
 	const item = `Listas` // nome do Tipo de item
 
@@ -108,4 +108,4 @@ function FornecedoresListPage(props) {
 	);
 }
 
-export default FornecedoresListPage;
+export default ListasListPage;
