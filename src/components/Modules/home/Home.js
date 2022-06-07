@@ -55,10 +55,7 @@ function Home(props, req) {
         props.history.push("/db/fornecedores")
     };
 
-    const handleRedirectListas= () => {
-        props.history.push("/db/listas")
-    };
-     
+    
     const handleRedirectLotes= () => {
         props.history.push("/db/lotes")
     };
@@ -86,16 +83,7 @@ function Home(props, req) {
                 >
                     Fornecedores
                 </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectListas}
-                    info
-                >
-                    Listas
-                </Button2>
-                
+                               
                 
                 <Button2
                     type="button"
