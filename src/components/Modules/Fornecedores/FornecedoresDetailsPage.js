@@ -327,6 +327,21 @@ function FornecedoresDetailsPage(props) {
 				<StyledCard>
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
+					<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup>
+								<Label htmlFor="nome_mp">Nome do Fornecedor</Label>
+								<InputText
+									type="text"
+									id="name"
+									defaultValue={fields.name}
+									onChange={handleInputChange}
+								/>
+							</FormGroup>
+						</FieldSet>
 						<FieldSet
 						style={{
 							flexWrap: "wrap",
@@ -348,11 +363,11 @@ function FornecedoresDetailsPage(props) {
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
-								<Label htmlFor="nome_mp">Nome do Fornecedor</Label>
+								<Label htmlFor="nome_mp">CNPJ:</Label>
 								<InputText
 									type="text"
-									id="name"
-									defaultValue={fields.name}
+									id="cnpj"
+									defaultValue={fields.cnpj}
 									onChange={handleInputChange}
 								/>
 							</FormGroup>
