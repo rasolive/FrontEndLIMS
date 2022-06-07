@@ -100,25 +100,24 @@ export default function AnexosSPage(props) {
 		}
 	}, [fields, props.newReagent, props.itemtId]);
 
-	
 	const handleDownloadButtonClick = async (path, file) => {
-		const body = Object.assign({}, fields)
-		body.path = path
-	
-			await BackendLIMSAxios.post(`/anexos/download`,
-				body// important
-			)
+						
+			await BackendLIMSAxios({
+				url: `/anexos/download?path=${path}&file=${file}`,
+				method: "GET",
+				responseType: "blob", // important
+			})
 				.then((response) => {
 					const url = window.URL.createObjectURL(
 						new Blob([response.data])
 					);
 					const link = document.createElement("a");
-	
+
 					link.href = url;
-					link.setAttribute("download", `${file}`);
+					link.setAttribute("download", file);
 					document.body.appendChild(link);
 					link.click();
-	
+
 					setLoading(false);
 					toast.success(`Arquivo ${file} baixado`, {
 						closeOnClick: true,
@@ -135,6 +134,7 @@ export default function AnexosSPage(props) {
 				});
 		
 	};
+	
 
 	const handleToggleFileModal = (file, fileName) => {
 		setFileName(fileName)
