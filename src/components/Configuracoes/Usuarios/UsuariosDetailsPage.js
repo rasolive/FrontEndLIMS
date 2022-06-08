@@ -83,7 +83,7 @@ const Container = styled.div`
 function UsuariosDetailsPage(props) {
 	const page = `users`;
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Usuarrios`
+	const item = `Usuarios`
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
@@ -109,7 +109,7 @@ function UsuariosDetailsPage(props) {
 			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
 
 
-			console.log("10",response)
+			
 
 			if (response.data.isAuthenticated === "true"){
 
@@ -159,11 +159,21 @@ function UsuariosDetailsPage(props) {
 	}, [itemId, newItem, setFields, setFiles]);
 
 	
-
 	const createItem = async () => {
+
 		const body = Object.assign({}, fields)
 
-		table.map((dt) => {
+		const newUser = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+
+		//setLoading(false);
+
+		if (newUser.data.email === body.email){ 
+			setLoading(false);
+			toast.error("Usuário já cadastrado, altere o E-mail",
+			{ closeOnClick: true, autoClose: 6000 });
+
+		}
+		else{ table.map((dt) => {
 			return delete dt.id;
 		});
 
@@ -178,16 +188,18 @@ function UsuariosDetailsPage(props) {
 
 		const status = response.status || {};
 		const id = response.data.message._id;
-		console.log(response)
-		console.log(response.data)
-		console.log(response.data.message._id)
+	
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Criado com sucesso`);
 			props.history.push(`/db/${page}`);
 
-		}
+		}}
+		
+
+		
 	};
+
 
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
@@ -273,23 +285,12 @@ function UsuariosDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		//setLoading(true);
-
-		
+		setLoading(true);
 
 		if (newItem) {
-			const validate = [fields.name, fields.email, fields.password];
-
-			if ( !validate.every(item => Boolean(item) === true) )  {
-				toast.error("Preencha os campos obrigatórios \"Nome\", \"E-mail\" e \"Senha\"", {
-					closeOnClick: true,
-					autoClose: false,});
-				return;
-			}
-			else{
 			createItem();
-		}} else {
-			
+		}
+		else {
 			updateItem();
 		}
 	};
