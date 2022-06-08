@@ -114,7 +114,7 @@ function FornecedoresDetailsPage(props) {
                 setLoading(true);
 			};
 
-			setLoading(true);
+			setLoading(false);
 		}
 		
 			isAuthenticated()		

@@ -177,9 +177,10 @@ function ReagentsDetailsPage(props) {
 		async function getFornecedores() {
 			const response = await BackendLIMSAxios.get('fornecedores', header);
 
-			console.log("1",response)
+			console.log("1",response)			
 			
 			setFornecedores(response.data || []);
+			
 			setLoading(false);
 			
 		}
@@ -208,7 +209,7 @@ function ReagentsDetailsPage(props) {
 
 			setShowFornecedores(fornecedoresFiltered);
 			
-	} ,[selectedFornecedores, setSelectedFornecedores])
+	} ,[selectedFornecedores, setSelectedFornecedores, fornecedores])
 
 	
 
@@ -234,6 +235,9 @@ function ReagentsDetailsPage(props) {
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
+
+		body.fornecedor = selectedFornecedores.map(item => item._id);
+		
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
