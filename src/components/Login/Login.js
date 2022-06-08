@@ -119,7 +119,15 @@ function Login(props) {
                     const response = await BackendLIMSAxios.post("auth/authenticate", body);
 
                     sessionStorage.setItem('token', response.data.token)
+                    
+                    console.log('99',response.data.user.resetPass)
+
+                    if(response.data.user.resetPass){
+                        props.history.push(`/resetPass`)
+                    }else{
                     props.history.push(`/home`)
+                    }
+
                 }
                 catch (err) {
                     toast.error(`Senha inválida`, {
