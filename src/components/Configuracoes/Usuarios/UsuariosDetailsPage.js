@@ -104,27 +104,27 @@ function UsuariosDetailsPage(props) {
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-	useEffect(() => {
-		
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);			
+    useEffect(() => {
 
-			if (response.data.isAuthenticated === "true"){
+		async function isAuthenticated() {
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
+
+			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
 
 			  	console.log(response.data.isAuthenticated);
 
 			}else {
+                sessionStorage.removeItem('token')
 				props.history.push(`/`);
+                setLoading(true);
 			};
 
-			setLoading(false);
+			setLoading(true);
 		}
 		
-			isAuthenticated()
-		
+			isAuthenticated()		
 
 	}, []);
-
 
 	useEffect(() => {
 		async function getItem(itemId) {
@@ -177,7 +177,7 @@ function UsuariosDetailsPage(props) {
 
 		body.role = list;
 
-		if (body.password) {body.resetPass = true}
+		if (body.password) {body.validPass = false}
 		
 
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
@@ -208,7 +208,7 @@ function UsuariosDetailsPage(props) {
 
 		body.role = list;
 
-		if (body.password) {body.resetPass = true}
+		if (body.password) {body.validPass = false}
 
 
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);

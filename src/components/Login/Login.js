@@ -108,7 +108,6 @@ function Login(props) {
 
         try {
             const response = await BackendLIMSAxios.post("auth/finduser", body);
-            console.log("1", body)
             if (!body.password)
                 toast.error(`preencha a senha`, {
                     closeOnClick: true,
@@ -120,9 +119,7 @@ function Login(props) {
 
                     sessionStorage.setItem('token', response.data.token)
                     
-                    console.log('99',response.data.user.resetPass)
-
-                    if(response.data.user.resetPass){
+                    if(!response.data.user.validPass){
                         props.history.push(`/resetPass`)
                     }else{
                     props.history.push(`/home`)
