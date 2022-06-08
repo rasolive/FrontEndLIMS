@@ -199,7 +199,7 @@ function ReagentsDetailsPage(props) {
 	}, []);
 
 	useEffect(() => {		
-		/** @Describe: Controla a visualização das espécies no Select e Tabela. */
+		/** @Describe: Controla a visualização dos fornecedores no Select e Tabela. */
 		const fornecedoresFiltered = fornecedores.filter((fornecedor) => {			
 
 			return !selectedFornecedores.find(
@@ -237,7 +237,7 @@ function ReagentsDetailsPage(props) {
 		const body = Object.assign({}, fields)
 
 		body.fornecedor = selectedFornecedores.map(item => item._id);
-		
+
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
@@ -413,7 +413,7 @@ function ReagentsDetailsPage(props) {
 
 	const handleAddFornecedor = () => {
 		if (!fields.fornecedor2) {
-			toast.error("Nenhuma espécie selecionada");
+			toast.error("Nenhum Fornecedor selecionado");
 			return;
 		}
 
