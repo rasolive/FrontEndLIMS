@@ -100,26 +100,24 @@ function FornecedoresDetailsPage(props) {
 	const newItem = itemId === "new";
 
 	useEffect(() => {
-		
+
 		async function isAuthenticated() {
 			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
 
-
-			console.log("10",response)
-
-			if (response.data.isAuthenticated === "true"){
+			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
 
 			  	console.log(response.data.isAuthenticated);
 
 			}else {
+                sessionStorage.removeItem('token')
 				props.history.push(`/`);
+                setLoading(true);
 			};
 
-			setLoading(false);
+			setLoading(true);
 		}
 		
-			isAuthenticated()
-		
+			isAuthenticated()		
 
 	}, []);
 
