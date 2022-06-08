@@ -19,6 +19,7 @@ import ListasDetailsPage from "./components/Configuracoes/Listas/ListasDetailsPa
 import ListasListPage from "./components/Configuracoes/Listas/ListasListPage";
 import UsuariosListPage from "./components/Configuracoes/Usuarios/UsuariosListPage";
 import UsuariosDetailsPage from "./components/Configuracoes/Usuarios/UsuariosDetailsPage";
+import ResetPassPage from "./components/Login/resetPass";
 
 
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
@@ -34,6 +35,7 @@ function App() {
 			<Switch>
 				<Route path="/" exact name="HomePage" component={HomePage} />
 				<Route path="/login" exact name="Login" component={Login} />
+				<Route path="/resetPass" exact name="resetPass" component={ResetPassPage} />
                 <Route path="/home" exact name="Home" component={Home} />
                 <Route exact path="/db/materiais" name="MateriaisListPage" component={MateriaisListPage}/>
                 <Route exact path="/db/materiais/:id" name="MateriaisDetailsPage" component={MateriaisDetailsPage}/>
