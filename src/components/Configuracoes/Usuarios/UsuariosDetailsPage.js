@@ -21,6 +21,7 @@ import Hr from "../../Layout/Hr/Hr";
 import AddListasTable from "./AddListasTable";
 
 
+
 const StyledCard = styled(Card)`
 	max-width: 500px;
 	margin: auto;
@@ -106,10 +107,7 @@ function UsuariosDetailsPage(props) {
 	useEffect(() => {
 		
 		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-
-			
+			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);			
 
 			if (response.data.isAuthenticated === "true"){
 
@@ -285,11 +283,21 @@ function UsuariosDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.name, fields.email, fields.password];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Preencha os campos obrigatórios \"Nome\", \"E-mail\" e \"Senha\"", {
+					closeOnClick: true,
+					autoClose: 7000,});
+				return;
+			}
+			else{
 			createItem();
-		}
+		}} 
 		else {
 			updateItem();
 		}
