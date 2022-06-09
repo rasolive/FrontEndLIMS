@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink as Link } from 'react-router-dom'
 import { toast } from "react-toastify";
 import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login"
@@ -58,7 +59,21 @@ background: #ffffff;
 	height: 1px;
 `;
 
+export const NavLink = styled(Link)`
+    color: black;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    cursor: pointer;
 
+    &.active {
+        color: #15cdfc;
+    }
+
+`
 
 
 
@@ -193,6 +208,11 @@ function Login(props) {
                     </Button>
 
                 </ButtonGroup>
+                <Hr2 />
+                <NavLink to={`/register`}>
+                    Não tem uma conta? cadastre-se
+                </NavLink>
+
                 <Hr2 />
                 <StyledHr />
                 ou
