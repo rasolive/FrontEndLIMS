@@ -84,7 +84,7 @@ const Container = styled.div`
 function UsuariosDetailsPage(props) {
 	const page = `users`;
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Usuarios`
+	const item = `Usuario`
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
@@ -394,7 +394,7 @@ function UsuariosDetailsPage(props) {
 		<>
 			<Modal
 				showModal={showModal}
-				modalTitle="Tem certeza que deseja excluir este item?"
+				modalTitle={`Tem certeza que deseja excluir este ${item}?`}
 				modalBody="Caso continue, essas informações serão perdidas!"
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
