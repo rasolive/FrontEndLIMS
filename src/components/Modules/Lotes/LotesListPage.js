@@ -64,23 +64,23 @@ function LotesListPage(props) {
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Código do Reagente",
-			accessor: "cod",
+			Header: "Material",
+			accessor: "material.name",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Nome do Reagente",
-			accessor: "name",
+			Header: "Lote",
+			accessor: "lote",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Criado por",
-			accessor: "createdBy",
+			Header: "Fornecedor",
+			accessor: "fornecedor",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Atualizado por",
-			accessor: "updatedBy",
+			Header: "Validade",
+			accessor: "validade",
 			Filter: ColumnFilter,
 		},
 	
