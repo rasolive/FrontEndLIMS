@@ -331,7 +331,7 @@ function FornecedoresDetailsPage(props) {
 							alignItems: "center",
 						}}>
 							<FormGroup>
-								<Label htmlFor="nome_mp">Nome do Fornecedor</Label>
+								<Label htmlFor="name">Nome do Fornecedor</Label>
 								<InputText
 									type="text"
 									id="name"
@@ -361,7 +361,7 @@ function FornecedoresDetailsPage(props) {
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
-								<Label htmlFor="nome_mp">CNPJ:</Label>
+								<Label htmlFor="cnpj">CNPJ:</Label>
 								<InputText
 									type="text"
 									id="cnpj"
