@@ -75,7 +75,7 @@ function LotesListPage(props) {
 		},
 		{
 			Header: "Fornecedor",
-			accessor: "fornecedor",
+			accessor: "fornecedor.name",
 			Filter: ColumnFilter,
 		},
 		{

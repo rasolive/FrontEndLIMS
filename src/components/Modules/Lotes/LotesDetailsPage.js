@@ -97,6 +97,8 @@ function ReagentsDetailsPage(props) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	const [statusLote, setStatusLote]= useState([]);
 	const [materiais, setMateriais] = useState([]);
+	const [fornecedores, setFornecedores] = useState([]);
+	const [materialSupplier, setMaterialSupplier] = useState([]);
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -166,6 +168,38 @@ function ReagentsDetailsPage(props) {
 		}
 		
 	}, []);
+
+	useEffect(() => {
+		async function getMaterial(material) {
+			const response = await BackendLIMSAxios.get(
+				`materiais/${material}`,header);
+				
+			setFornecedores(response.data.fornecedor || []);
+			setLoading(false);
+		}
+
+		
+		getMaterial(fields.material);
+	
+	}, [fields.material]);
+
+	useEffect(() => {
+		
+		async function setFornecedores() {
+			const response = await BackendLIMSAxios.get(`fornecedores`, header);
+
+			const materialSupplier = response.data.filter(fornecedor => fornecedores.includes(fornecedor._id));
+
+			setMaterialSupplier(materialSupplier);
+
+
+			setLoading(false);
+		}
+	
+		setLoading(true);
+		setFornecedores();
+
+	}, [fornecedores]);
 
 
 	
@@ -385,7 +419,7 @@ function ReagentsDetailsPage(props) {
 									value={
 										fields.material
 									}
-									disabled = {!newItem}
+									//disabled = {!newItem}
 								>
 									<option value="">Selecione</option>
 									{materiais.map((value) => {
@@ -418,18 +452,29 @@ function ReagentsDetailsPage(props) {
 							alignItems: "center",
 						}}>
 							<FormGroup>
-								<Label htmlFor="fornecedor">Fornecedor</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputNumber
-										type="number"
-										id="fornecedor"
-										defaultValue={fields.fornecedor}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
+								<Label htmlFor="fornecedor">
+									Fornecedor
+								</Label>
+								<Select
+									id="fornecedor"
+									onChange={handleInputChange}
+									value={
+										fields.fornecedor
+									}
+									//disabled = {!newItem}
+								>
+									<option value="">Selecione</option>
+									{materialSupplier.map((value) => {
+										return (
+											<option
+												key={value._id}
+												value={value._id}
+											>
+												{value.name}
+											</option>
+										);
+									})}
+								</Select>
 							</FormGroup>
 							<FormGroup>
 								<Label htmlFor="loteFornecedor">Lote do Fornecedor</Label>
