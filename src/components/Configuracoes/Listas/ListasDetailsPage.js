@@ -117,7 +117,7 @@ function ListasDetailsPage(props) {
                 setLoading(true);
 			};
 
-			setLoading(true);
+			setLoading(false);
 		}
 		
 			isAuthenticated()		
