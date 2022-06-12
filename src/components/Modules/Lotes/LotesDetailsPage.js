@@ -95,6 +95,8 @@ function ReagentsDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [statusLote, setStatusLote]= useState([]);
+	const [materiais, setMateriais] = useState([]);
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -114,7 +116,7 @@ function ReagentsDetailsPage(props) {
                 setLoading(true);
 			};
 
-			setLoading(true);
+			setLoading(false);
 		}
 		
 			isAuthenticated()		
@@ -123,7 +125,6 @@ function ReagentsDetailsPage(props) {
 
 
 	useEffect(() => {
-
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
 				`${page}/${itemId}`,header);
@@ -132,18 +133,45 @@ function ReagentsDetailsPage(props) {
 			setLoading(false);
 		}
 
+		async function getStatusLote() {
+			const body = {name:'Status Lote'}
+			
+			const response = await BackendLIMSAxios.post("listas/lista",body, header);
+			const data = response.data[0]?.lista || [];
+
+			setStatusLote(data);
+		
+			setLoading(false);
+		}
+
+		async function getMateriais() {
+			const response = await BackendLIMSAxios.get('materiais', header);
+
+			console.log("1",response)			
+			
+			setMateriais(response.data || []);
+			
+			setLoading(false);
+			
+		}
+		
+		setLoading(true);
+		getStatusLote()
+		getMateriais()
+	
+
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
 		}
-	}, [itemId, newItem, setFields, setFiles]);
+		
+	}, []);
+
 
 	
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
-
-		body.user = "Usuário de Criação" //session && session.email;
 
 		const response = await BackendLIMSAxios.post(`${page}`,body, header);
 
@@ -319,6 +347,11 @@ function ReagentsDetailsPage(props) {
 		}
 	};
 
+	const formatDate = (datetime) => {
+		if (datetime) {
+			return new Date(datetime).toLocaleString(["pt-BR"]);
+		} else return "";
+	};
 	
 	return (
 		<>
@@ -343,29 +376,104 @@ function ReagentsDetailsPage(props) {
 							alignItems: "center",
 						}}>
 							<FormGroup>
-								<Label htmlFor="cod">Código do Reagente</Label>
+								<Label htmlFor="material">
+									Material
+								</Label>
+								<Select
+									id="material"
+									onChange={handleInputChange}
+									value={
+										fields.material
+									}
+									disabled = {!newItem}
+								>
+									<option value="">Selecione</option>
+									{materiais.map((value) => {
+										return (
+											<option
+												key={value._id}
+												value={value._id}
+											>
+												{value.name}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+							
+							<FormGroup>
+								<Label htmlFor="lote">Lote</Label>
+								<InputText
+									type="text"
+									id="lote"
+									defaultValue={fields.lote}
+									onChange={handleInputChange}
+								/>
+							</FormGroup>
+						</FieldSet>
+
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup>
+								<Label htmlFor="fornecedor">Fornecedor</Label>
 								<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
 									<InputNumber
 										type="number"
-										id="cod"
-										defaultValue={fields.cod}
+										id="fornecedor"
+										defaultValue={fields.fornecedor}
 										onChange={handleInputChange}
 									/>
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
-								<Label htmlFor="nome_mp">Nome do Reagente</Label>
+								<Label htmlFor="loteFornecedor">Lote do Fornecedor</Label>
 								<InputText
 									type="text"
-									id="name"
-									defaultValue={fields.name}
+									id="loteFornecedor"
+									defaultValue={fields.loteFornecedor}
 									onChange={handleInputChange}
 								/>
 							</FormGroup>
 						</FieldSet>
+
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup>
+								<Label htmlFor="validade">Validade</Label>
+								<FieldSet style={{
+											flexWrap: "wrap",
+											alignItems: "center",
+										}}>
+									<InputText
+										type="date"
+										id="validade"
+										defaultValue={fields.validade}
+										onChange={handleInputChange}
+									/>
+								</FieldSet>
+							</FormGroup>
+							<FormGroup>
+								<Label htmlFor="statusLote">Status do Lote</Label>
+								<InputText
+									type="text"
+									id="statusLote"
+									defaultValue={fields.statusLote}
+									onChange={handleInputChange}
+								/>
+							</FormGroup>
+						</FieldSet>
+
+
+
 						<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
@@ -396,23 +504,7 @@ function ReagentsDetailsPage(props) {
 							</FormGroup>
 						</FieldSet>
 						
-						<FieldSet>
-							<FormGroup>
-								<Label htmlFor="aparence">
-									Aparência
-								</Label>
-								<Select
-									id="aparence"
-									onChange={handleInputChange}
-									value={fields.aparence}
-								>
-									<option value="">Selecione</option>
-									<option value="Sólido">Sólido</option>
-									<option value="Liquido">Liquido</option>
-									
-								</Select>
-							</FormGroup>
-							</FieldSet>
+						
 							<FieldSet>
 							
 							<FormGroup>
