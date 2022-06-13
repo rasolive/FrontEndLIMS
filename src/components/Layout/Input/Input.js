@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import InputMask from "react-input-mask";
 
 const defaultProps = `
 	height: 40px;
@@ -28,10 +29,23 @@ const defaultProps = `
 	}
 `;
 
+const StyledInputMask = styled(InputMask)`
+	${defaultProps};
+	font-size: 12px;
+`;
+
 const InputText = styled.input`
 	${defaultProps};
 	font-size: 12px;
 `;
+
+const Checkbox = styled.input`
+	align-items: center;	
+	border: 1px solid transparent;
+	background: #ffffff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	box-sizing: border-box;
+`
 
 const InputNumber = styled.input.attrs({
 	type: "number",
@@ -63,4 +77,4 @@ const InputFile = styled.input`
 	display: none;
 `;
 
-export { InputText, Select, TextArea, InputFile, InputNumber };
+export { InputText, Select, TextArea, InputFile, InputNumber, StyledInputMask, Checkbox };

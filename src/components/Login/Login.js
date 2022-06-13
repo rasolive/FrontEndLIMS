@@ -176,25 +176,25 @@ function Login(props) {
             <StyledCard>
                 <LabelHeader>Entre com seu E-mail e senha para acessar</LabelHeader>
                 <FormGroup>
-								<Label htmlFor="email">Endereço de e-mail:</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="text"
-										id="email"
-										defaultValue={fields.email}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="password">Senha:</Label>
-								<InputText
-									type="text"
-									id="password"
-                        defaultValue={fields.password}
+                    <Label htmlFor="email">Endereço de e-mail:</Label>
+                    <FieldSet style={{
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                    }}>
+                        <InputText
+                            type="email"
+                            id="email"
+                            placeholder="Digite seu e-mail"
+                            onChange={handleInputChange}
+                        />
+                    </FieldSet>
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor="password">Senha:</Label>
+                    <InputText
+                        type="password"
+                        id="password"
+                        placeholder="Digite sua senha"
                         onChange={handleInputChange}
                     />
                 </FormGroup>
@@ -225,7 +225,7 @@ function Login(props) {
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
                         <button class="loginBtn loginBtn--google" onClick={renderProps.onClick}  >  Faça login com Google </button>
-                      )} />
+                    )} />
                 <Hr2 />
                 {/* <FacebookLogin
                     appId="1784312231764830"

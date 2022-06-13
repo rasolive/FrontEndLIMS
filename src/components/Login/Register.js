@@ -9,7 +9,7 @@ import Form from "../Layout/Form/Form";
 import Card from "../Layout/Card/Card";
 import FormGroup from "../Layout/FormGroup/FormGroup";
 import Label from "../Layout/Label/Label";
-import { InputText, Select, InputNumber} from "../Layout/Input/Input";
+import { InputText, Checkbox} from "../Layout/Input/Input";
 import FieldSet from "../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../Layout/Button/Button";
@@ -92,6 +92,7 @@ function RegisterPage(props) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	const [table, setTable] = useState([]);
 	const [list, setList] = useState([]);
+	const [checked, setChecked] = useState(false);
 
 
 	const itemId = props.match.params.id;
@@ -243,9 +244,9 @@ function RegisterPage(props) {
 							<FormGroup>
 								<Label htmlFor="password">Senha:</Label>
 								<InputText
-									type="text"
+									type="password"
 									id="password"
-									defaultValue={"**************"}
+									placeholder="**************"
 									onChange={handleInputChange}
 								/>
 							</FormGroup>
@@ -258,11 +259,37 @@ function RegisterPage(props) {
 							<FormGroup>
 								<Label htmlFor="repeatPassword">Confirme a Senha:</Label>
 								<InputText
-									type="text"
+									type="password"
 									id="repeatPassword"
-									defaultValue={"**************"}
+									placeholder="**************"
 									onChange={handleInputChange}
 								/>
+							</FormGroup>
+						</FieldSet>
+
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							
+							<FormGroup>
+								<Label htmlFor="showPass">Mostrar senha:
+								<Checkbox
+									type= 'checkbox'
+									id="showPass"
+									onClick={()=>{setChecked(!checked);
+										if(checked === true){document.getElementById('password').setAttribute('type', 'password')}
+									else{document.getElementById('password').setAttribute('type', 'text')}
+								
+									if(checked === true){document.getElementById('repeatPassword').setAttribute('type', 'password')}
+									else{document.getElementById('repeatPassword').setAttribute('type', 'text')}
+								
+								}}
+									checked= {checked}
+								/></Label>
+								
+								
 							</FormGroup>
 						</FieldSet>
 						<FieldSet
