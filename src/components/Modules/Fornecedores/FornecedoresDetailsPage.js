@@ -9,7 +9,7 @@ import Form from "../../Layout/Form/Form";
 import Card from "../../Layout/Card/Card";
 import FormGroup from "../../Layout/FormGroup/FormGroup";
 import Label from "../../Layout/Label/Label";
-import { InputText, Select, InputNumber} from "../../Layout/Input/Input";
+import { InputText, Select, InputNumber, StyledInputMask} from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../../Layout/Button/Button";
@@ -362,10 +362,12 @@ function FornecedoresDetailsPage(props) {
 							</FormGroup>
 							<FormGroup>
 								<Label htmlFor="cnpj">CNPJ:</Label>
-								<InputText
+								<StyledInputMask
+									mask = {!fields.cnpj ? "" : "99.999.999/9999-99"}
 									type="text"
 									id="cnpj"
 									defaultValue={fields.cnpj}
+									placeholder = "00.000.000/0000-00"
 									onChange={handleInputChange}
 									disabled ={!newItem}
 								/>
@@ -454,10 +456,12 @@ function FornecedoresDetailsPage(props) {
 							</FormGroup>
 							<FormGroup>
 								<Label htmlFor="cep">CEP:</Label>
-								<InputText
+								<StyledInputMask
+									mask = {!fields.cep ? "" : "99999-999"}
 									type="text"
 									id="cep"
 									defaultValue={fields.cep}
+									placeholder = "00000-000"
 									onChange={handleInputChange}
 								/>
 							</FormGroup>
@@ -474,10 +478,12 @@ function FornecedoresDetailsPage(props) {
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
-									<InputText
+									<StyledInputMask
+										mask = {!fields.telefone ? '' : '(99) 9 9999-9999'}
 										type="text"
 										id="telefone"
 										defaultValue={fields.telefone}
+										placeholder = "(99) 9 9999-9999"
 										onChange={handleInputChange}
 									/>
 								</FieldSet>
