@@ -108,6 +108,7 @@ function ReagentsDetailsPage(props) {
 	const [fornecedores, setFornecedores] = useState([]);
 	const [selectedFornecedores, setSelectedFornecedores] = useState([]);
 	const [showFornecedores, setShowFornecedores] = useState([]);
+	const [unidadeMedidaBasica, setUnidadeMedidaBasica] = useState([]);
 
 	const [settingsFlow,  setSettingsFlow] = useState({
 		itemId: null,
@@ -184,11 +185,23 @@ function ReagentsDetailsPage(props) {
 			setLoading(false);
 			
 		}
+
+		async function getUnidadeMedidaBasica() {
+			const body = {name:'Unidade Medida'}
+			
+			const response = await BackendLIMSAxios.post("listas/lista",body, header);
+			const data = response.data[0]?.lista || [];
+
+			setUnidadeMedidaBasica(data);
+		
+			setLoading(false);
+		}
 		
 		setLoading(true);
 		getArmazenamento()
 		getStatusMaterial()
 		getFornecedores()
+		getUnidadeMedidaBasica()
 	
 
 		if (!newItem) {
@@ -520,7 +533,11 @@ function ReagentsDetailsPage(props) {
 							</FormGroup>
 						</FieldSet>
 
-						<FieldSet>
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
 						<FormGroup>
 								<Label htmlFor="armazenamento">
 									Armazenamento
@@ -539,6 +556,30 @@ function ReagentsDetailsPage(props) {
 											<option
 												key={value.id}
 												value={value.id}
+											>
+												{value.valor}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+
+							<FormGroup>
+								<Label htmlFor="umb">
+									Unidade de Medida Básica
+								</Label>
+								<Select
+									id="umb"
+									onChange={handleInputChange}
+									value={fields.umb}	
+									disabled={!newItem}
+								>
+									<option value="">Selecione</option>
+									{unidadeMedidaBasica.map((value) => {
+										return (
+											<option
+												key={value.chave}
+												value={value.chave}
 											>
 												{value.valor}
 											</option>
