@@ -99,6 +99,8 @@ function ReagentsDetailsPage(props) {
 	const [materiais, setMateriais] = useState([]);
 	const [fornecedores, setFornecedores] = useState([]);
 	const [materialSupplier, setMaterialSupplier] = useState([]);
+	const [unidadesMedida, setUnidadesMedida] = useState([]);
+	const [umb, setUmb] = useState([]);
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -146,6 +148,17 @@ function ReagentsDetailsPage(props) {
 			setLoading(false);
 		}
 
+		async function getUnidadesMedida() {
+			const body = {name:'Unidade Medida'}
+			
+			const response = await BackendLIMSAxios.post("listas/lista",body, header);
+			const data = response.data[0]?.lista || [];
+
+			setUnidadesMedida(data);
+		
+			setLoading(false);
+		}
+
 		async function getMateriais() {
 			const response = await BackendLIMSAxios.get('materiais', header);
 
@@ -160,6 +173,7 @@ function ReagentsDetailsPage(props) {
 		setLoading(true);
 		getStatusLote()
 		getMateriais()
+		getUnidadesMedida()
 	
 
 		if (!newItem) {
@@ -175,6 +189,11 @@ function ReagentsDetailsPage(props) {
 				`materiais/${material}`,header);
 				
 			setFornecedores(response.data.fornecedor || []);
+			console.log('umb',response.data.umb)
+			var umb = response.data.umb
+			setUmb(unidadesMedida.filter( element => element.chave === umb)[0] || []);
+			console.log('umb2', umb?.valor)
+
 			setLoading(false);
 		}
 
@@ -206,6 +225,8 @@ function ReagentsDetailsPage(props) {
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
+
+		body.statusLote = 'Q'
 
 		const response = await BackendLIMSAxios.post(`${page}`,body, header);
 
@@ -419,7 +440,7 @@ function ReagentsDetailsPage(props) {
 									value={
 										fields.material
 									}
-									//disabled = {!newItem}
+									disabled = {!newItem}
 								>
 									<option value="">Selecione</option>
 									{materiais.map((value) => {
@@ -442,6 +463,7 @@ function ReagentsDetailsPage(props) {
 									id="lote"
 									defaultValue={fields.lote}
 									onChange={handleInputChange}
+									disabled
 								/>
 							</FormGroup>
 						</FieldSet>
@@ -461,7 +483,7 @@ function ReagentsDetailsPage(props) {
 									value={
 										fields.fornecedor
 									}
-									//disabled = {!newItem}
+									disabled = {!newItem}
 								>
 									<option value="">Selecione</option>
 									{materialSupplier.map((value) => {
@@ -483,6 +505,34 @@ function ReagentsDetailsPage(props) {
 									id="loteFornecedor"
 									defaultValue={fields.loteFornecedor}
 									onChange={handleInputChange}
+									disabled = {!newItem}
+								/>
+							</FormGroup>
+						</FieldSet>
+
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup>
+								<Label htmlFor="qtdInicial">Quantidade</Label>
+								<InputText
+									type="number"
+									id="qtdInicial"
+									defaultValue={fields.qtdInicial}
+									onChange={handleInputChange}
+									disabled = {!newItem}
+								/>
+							</FormGroup>
+							<FormGroup>
+								<Label htmlFor="umb">Unidade</Label>
+								<InputText
+									type="text"
+									id="umb"
+									defaultValue={umb?.valor}
+									onChange={handleInputChange}
+									disabled
 								/>
 							</FormGroup>
 						</FieldSet>
@@ -503,17 +553,30 @@ function ReagentsDetailsPage(props) {
 										id="validade"
 										defaultValue={fields.validade}
 										onChange={handleInputChange}
+										disabled = {!newItem}
 									/>
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
 								<Label htmlFor="statusLote">Status do Lote</Label>
-								<InputText
-									type="text"
+								<Select
 									id="statusLote"
-									defaultValue={fields.statusLote}
 									onChange={handleInputChange}
-								/>
+									value={fields.statusLote}
+									disabled
+								>
+									<option value="">Qualidade</option>
+									{statusLote.map((value) => {
+										return (
+											<option
+												key={value.chave}
+												value={value.chave}
+											>
+												{value.valor}
+											</option>
+										);
+									})}
+								</Select>
 							</FormGroup>
 						</FieldSet>
 
