@@ -50,6 +50,30 @@ export default function AddListasTable(props) {
 	}
 
 	const columns = [
+
+		{
+			Header: "Chave",
+			accessor: "chave",
+			Cell: ({ cell }) => {
+				const { original } = cell.row;
+				return (
+					
+					<InputText
+						type="text"
+						id={"chave_" + original.id}
+						defaultValue={original.chave}
+						onBlur={(e) =>
+							handleTableInputChange(
+								e,
+								original.id,
+								"chave"
+							)
+						}
+					></InputText>
+				
+				);
+			},
+		},
 		
 		{
 			Header: "Valor",
@@ -74,6 +98,8 @@ export default function AddListasTable(props) {
 				);
 			},
 		},
+
+		
 		
 		{
 			Header: (
@@ -110,7 +136,12 @@ export default function AddListasTable(props) {
 	];
 
 	return (
-		<Styles>
+		<Styles
+		style={{
+			maxWidth: "500px",
+			flexWrap: "wrap",
+			alignItems: "center",
+		}}>
 			<Table data={props.data} columns={columns} />
 		</Styles>
 	);
