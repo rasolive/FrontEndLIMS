@@ -329,6 +329,7 @@ function ListasDetailsPage(props) {
 			...list,
 			{
 				id: Math.random().toString(36).substr(2, 9),
+				chave: "",
 				valor: "",
 				},
 		]);
