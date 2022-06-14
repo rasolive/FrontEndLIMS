@@ -182,6 +182,9 @@ function Login(props) {
                         alignItems: "center",
                     }}>
                         <InputText
+                            style={{
+                                minWidth:'200px'
+                            }}
                             type="email"
                             id="email"
                             placeholder="Digite seu e-mail"
@@ -192,6 +195,9 @@ function Login(props) {
                 <FormGroup>
                     <Label htmlFor="password">Senha:</Label>
                     <InputText
+                            style={{
+                                minWidth:'200px'
+                            }}
                         type="password"
                         id="password"
                         placeholder="Digite sua senha"

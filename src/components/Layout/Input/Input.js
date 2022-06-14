@@ -3,7 +3,7 @@ import InputMask from "react-input-mask";
 
 const defaultProps = `
 	height: 40px;
-	min-width: 200px;
+	min-width: 150px;
 	width: 100%;
 	border: 1px solid transparent;
 	background: #ffffff;
