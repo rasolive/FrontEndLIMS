@@ -266,14 +266,8 @@ function ReagentsDetailsPage(props) {
 	};
 
 	const deleteItem = async () => {
-		const body = {
-			// token: session && session.token,
-			cod_grupo: parseInt(fields.cod_grupo),
-		};
-
-        body.user = "Usuário de Alteração" //session && session.email;
-
-		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`, body, header);
+	
+		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`, header);
 		const data = response.data || {};
 
 		setLoading(false);
