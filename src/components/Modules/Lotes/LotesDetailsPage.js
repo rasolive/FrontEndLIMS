@@ -164,7 +164,7 @@ function ReagentsDetailsPage(props) {
 
 			console.log("1",response)			
 			
-			setMateriais(response.data || []);
+			setMateriais(response.data.filter( element => element.statusMaterial === 'L') || []);
 			
 			setLoading(false);
 			
