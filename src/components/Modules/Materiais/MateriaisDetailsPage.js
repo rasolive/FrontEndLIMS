@@ -554,8 +554,8 @@ function ReagentsDetailsPage(props) {
 									{armazenamento.map((value) => {
 										return (
 											<option
-												key={value.id}
-												value={value.id}
+												key={value.chave}
+												value={value.chave}
 											>
 												{value.valor}
 											</option>
@@ -606,8 +606,8 @@ function ReagentsDetailsPage(props) {
 									{statusMaterial.map((value) => {
 										return (
 											<option
-												key={value.id}
-												value={value.id}
+												key={value.chave}
+												value={value.chave}
 											>
 												{value.valor}
 											</option>
