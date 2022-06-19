@@ -2,7 +2,6 @@ import React, { useState, useEffect} from "react";
 import { toast } from "react-toastify";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import useDynamicForm from "../../../hooks/useDynamicForm";
-// import { AuthContext } from "../../../../../context/AuthContext";
 import Header from "../../Layout/Header/Header";
 import Modal from "../../Layout/Modal/Modal";
 import Form from "../../Layout/Form/Form";
@@ -18,9 +17,7 @@ import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../../Modules/Anexos/AnexosPage";
-import CellTable from "../../Layout/CellTable/CellTable";
-import { Trash2, Truck } from "react-feather";
-//import { header } from "../../../utils/functions";
+
 
 
 const StyledCard = styled(Card)`
@@ -102,16 +99,7 @@ function AnalysisMethodDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
-	const [unidade, setUnidade] = useState([]);
-
-	const [settingsFlow,  setSettingsFlow] = useState({
-		itemId: null,
-		projectName: null,
-		fornecedorId: null,
-		fornecedorName: null,
-		partPlant: null
-	});
-
+	
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
@@ -130,7 +118,7 @@ function AnalysisMethodDetailsPage(props) {
                 setLoading(true);
 			};
 
-			setLoading(true);
+			setLoading(false);
 		}
 		
 			isAuthenticated()		
@@ -146,23 +134,7 @@ function AnalysisMethodDetailsPage(props) {
 			setFields(response.data || {});
 			setLoading(false);
 		}
-
-		async function getUnidade() {
-			const body = {name:'Unidades'}
-			
-			const response = await BackendLIMSAxios.post("listas/lista",body, header);
-			const data = response.data[0]?.lista || [];
-
-			setUnidade(data);
-		
-			setLoading(false);
-		}
-		
-		setLoading(true);
-		getUnidade()
-
-		
-		
+	
 		setLoading(true);
 	
 
