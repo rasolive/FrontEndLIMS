@@ -23,8 +23,8 @@ import ResetPassPage from "./components/Login/resetPass";
 import RegisterPage from "./components/Login/Register";
 import AnalysisListPage from "./components/Configuracoes/Analysis/AnalysisListPage";
 import AnalysisDetailsPage from	"./components/Configuracoes/Analysis/AnalysisDetailsPage";
-import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod/AnalysisDetailsPage";
-import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisListPage";
+import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodDetailsPage";
+import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodListPage";
 
 
 
