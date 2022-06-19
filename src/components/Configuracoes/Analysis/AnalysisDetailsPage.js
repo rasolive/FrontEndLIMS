@@ -102,21 +102,8 @@ function AnalysisDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
-	const [armazenamento, setArmazenamento]= useState([]);
-	const [statusMaterial, setStatusMaterial]= useState([]);
-	const [colapseFornecedores, setColapseFornecedores] = useState(true);
-	const [fornecedores, setFornecedores] = useState([]);
-	const [selectedFornecedores, setSelectedFornecedores] = useState([]);
-	const [showFornecedores, setShowFornecedores] = useState([]);
 	const [unidade, setUnidade] = useState([]);
-
-	const [settingsFlow,  setSettingsFlow] = useState({
-		itemId: null,
-		projectName: null,
-		fornecedorId: null,
-		fornecedorName: null,
-		partPlant: null
-	});
+	const [analysisMethods, setAnalysisMethods] = useState([]);
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -163,9 +150,20 @@ function AnalysisDetailsPage(props) {
 		
 			setLoading(false);
 		}
+
+		async function getAnalysisMethods() {
+					
+			const response = await BackendLIMSAxios.get('analysisMethod',header);
+			const data = response.data || [];
+
+			setAnalysisMethods(data);
+		
+			setLoading(false);
+		}
 		
 		setLoading(true);
 		getUnidade()
+		getAnalysisMethods()
 
 		
 		
@@ -414,11 +412,46 @@ function AnalysisDetailsPage(props) {
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
+									<Select
+									id="AnalysisMethod"
+									onChange={handleInputChange}
+									value={fields.AnalysisMethod}	
+									//disabled={!newItem}
+								>
+									<option value="">Selecione</option>
+									{analysisMethods.map((value) => {
+										return (
+											<option
+												key={value.name}
+												value={value.name}
+											>
+												{value.description}
+											</option>
+										);
+									})}
+								</Select>
+								</FieldSet>
+							</FormGroup>
+
+							</FieldSet>
+
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup>
+								<Label htmlFor="ma">MA</Label>
+								<FieldSet style={{
+											flexWrap: "wrap",
+											alignItems: "center",
+										}}>
 									<InputText
 										type="text"
-										id="AnalysisMethod"
+										id="ma"
 										defaultValue={fields.AnalysisMethod}
 										onChange={handleInputChange}
+										disabled
 									/>
 								</FieldSet>
 							</FormGroup>
@@ -448,6 +481,8 @@ function AnalysisDetailsPage(props) {
 							</FormGroup>
 							</FieldSet>
 
+							
+
 												
 							
 						<FieldSet style={{
@@ -476,6 +511,37 @@ function AnalysisDetailsPage(props) {
 									defaultValue={fields.updatedBy}
 									onChange={handleInputChange}
 									disabled
+								/>
+							</FormGroup>
+						</FieldSet>
+
+						<FieldSet style={{
+											flexWrap: "wrap",
+											alignItems: "center",
+										}}>
+							<FormGroup>
+								<Label htmlFor="createdAt">
+									Criado em
+								</Label>
+								<InputText
+									type="text"
+									id="createdAt"
+									defaultValue={fields.createdAt}
+									onChange={handleInputChange}
+									disabled
+								/>
+							</FormGroup>
+                            <FormGroup>
+								<Label htmlFor="updatedAt">
+									Atualizado em
+								</Label>
+								<InputText
+									type="text"
+									id="updatedAt"
+									defaultValue={fields.updatedAt}
+									onChange={handleInputChange}
+									disabled
+																	
 								/>
 							</FormGroup>
 						</FieldSet>
