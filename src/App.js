@@ -21,6 +21,8 @@ import UsuariosListPage from "./components/Configuracoes/Usuarios/UsuariosListPa
 import UsuariosDetailsPage from "./components/Configuracoes/Usuarios/UsuariosDetailsPage";
 import ResetPassPage from "./components/Login/resetPass";
 import RegisterPage from "./components/Login/Register";
+import AnalysisListPage from "./components/Configuracoes/Analysis/AnalysisListPage";
+import AnalysisDetailsPage from	"./components/Configuracoes/Analysis/AnalysisDetailsPage";
 
 
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
@@ -51,7 +53,9 @@ function App() {
 				<Route exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
 				<Route exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
 				<Route exact path="/db/users/:id" name="UsuariosDetailsPage" component={UsuariosDetailsPage}/>
-				
+				<Route exact path="/db/analysis" name="AnalysisListPage" component={AnalysisListPage}/>
+				<Route exact path="/db/analysis/:id" name="AnalysisDetailsPage" component={AnalysisDetailsPage}/>
+
 			    <Route component={NotFoundPage} />
 				//<Redirect push from="/" exact to="/login"/>
 				{/* <Route path="/login" name="LoginPage" component={LoginPage} />
