@@ -54,6 +54,10 @@ function Configuracoes(props, req) {
     const handleRedirectAnalysis= () => {
         props.history.push("/db/analysis")
     };
+
+    const handleRedirectAnalysisMethod= () => {
+        props.history.push("/db/analysisMethod")
+    };
      
     return (
         <>
@@ -83,6 +87,15 @@ function Configuracoes(props, req) {
                     info
                 >
                     Analises
+                </Button2>
+
+                <Button2
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectAnalysisMethod}
+                    info
+                >
+                    MA's
                 </Button2>
                 
                
