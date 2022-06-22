@@ -47,6 +47,10 @@ function Home(props, req) {
         props.history.push("/db/materiais")
     };
 
+    const handleRedirectSpecification= () => {
+        props.history.push("/db/specification")
+    };
+
     const handleRedirectFornecedores= () => {
         props.history.push("/db/fornecedores")
     };
@@ -71,6 +75,16 @@ function Home(props, req) {
                 >
                     Materiais
                 </Button2>
+
+                <Button2
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectSpecification}
+                    info
+                >
+                    Especificações
+                </Button2>
+
                 <Button2
                     type="button"
                     style={{ width: "auto" }}

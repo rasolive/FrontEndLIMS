@@ -79,8 +79,8 @@ const Container = styled.div`
 `;
 
 
-function LotesDetailsPage(props) {
-	const page = `lotes`
+function SpecificationDetailsPage(props) {
+	const page = `specification`
 	const gcpPatch = `prd/anexos/${page}`
 	const item = `Lote`
 
@@ -396,11 +396,6 @@ function LotesDetailsPage(props) {
 		}
 	};
 
-	const formatDate = (datetime) => {
-		if (datetime) {
-			return new Date(datetime).toLocaleString(["pt-BR"]);
-		} else return "";
-	};
 	
 	return (
 		<>
@@ -450,131 +445,8 @@ function LotesDetailsPage(props) {
 								</Select>
 							</FormGroup>
 							
-							<FormGroup>
-								<Label htmlFor="lote">Lote</Label>
-								<InputText
-									type="text"
-									id="lote"
-									defaultValue={fields.lote}
-									onChange={handleInputChange}
-									disabled
-								/>
-							</FormGroup>
+							
 						</FieldSet>
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="fornecedor">
-									Fornecedor
-								</Label>
-								<Select
-									id="fornecedor"
-									onChange={handleInputChange}
-									value={
-										fields.fornecedor
-									}
-									disabled = {!newItem}
-								>
-									<option value="">Selecione</option>
-									{materialSupplier.map((value) => {
-										return (
-											<option
-												key={value._id}
-												value={value._id}
-											>
-												{value.name}
-											</option>
-										);
-									})}
-								</Select>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="loteFornecedor">Lote do Fornecedor</Label>
-								<InputText
-									type="text"
-									id="loteFornecedor"
-									defaultValue={fields.loteFornecedor}
-									onChange={handleInputChange}
-									disabled = {!newItem}
-								/>
-							</FormGroup>
-						</FieldSet>
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="qtdInicial">Quantidade</Label>
-								<InputText
-									type="number"
-									id="qtdInicial"
-									defaultValue={fields.qtdInicial}
-									onChange={handleInputChange}
-									disabled = {!newItem}
-								/>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="umb">Unidade</Label>
-								<InputText
-									type="text"
-									id="umb"
-									defaultValue={umb?.valor}
-									onChange={handleInputChange}
-									disabled
-								/>
-							</FormGroup>
-						</FieldSet>
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="validade">Validade</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="date"
-										id="validade"
-										defaultValue={fields.validade}
-										onChange={handleInputChange}
-										disabled = {!newItem}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="statusLote">Status do Lote</Label>
-								<Select
-									id="statusLote"
-									onChange={handleInputChange}
-									value={fields.statusLote}
-									disabled
-								>
-									<option value="">Qualidade</option>
-									{statusLote.map((value) => {
-										return (
-											<option
-												key={value.chave}
-												value={value.chave}
-											>
-												{value.valor}
-											</option>
-										);
-									})}
-								</Select>
-							</FormGroup>
-						</FieldSet>
-
-
 
 						<FieldSet style={{
 											flexWrap: "wrap",
@@ -682,4 +554,4 @@ function LotesDetailsPage(props) {
 	);
 }
 
-export default LotesDetailsPage;
+export default SpecificationDetailsPage;

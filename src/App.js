@@ -25,6 +25,8 @@ import AnalysisListPage from "./components/Configuracoes/Analysis/AnalysisListPa
 import AnalysisDetailsPage from	"./components/Configuracoes/Analysis/AnalysisDetailsPage";
 import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodDetailsPage";
 import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodListPage";
+import SpecificationListPage from "./components/Modules/Specification/SpecificationListPage";
+import SpecificationDetailsPage from "./components/Modules/Specification/SpecificationDetailsPage";
 
 
 
@@ -60,6 +62,9 @@ function App() {
 				<Route exact path="/db/analysis/:id" name="AnalysisDetailsPage" component={AnalysisDetailsPage}/>
 				<Route exact path="/db/analysisMethod" name="AnalysisMethodListPage" component={AnalysisMethodListPage}/>
 				<Route exact path="/db/analysisMethod/:id" name="AnalysisMethodDetailsPage" component={AnalysisMethodDetailsPage}/>
+				<Route exact path="/db/specification" name="SpecificationListPage" component={SpecificationListPage}/>
+				<Route exact path="/db/specification/:id" name="SpecificationDetailsPage" component={SpecificationDetailsPage}/>
+
 
 			    <Route component={NotFoundPage} />
 				//<Redirect push from="/" exact to="/login"/>
