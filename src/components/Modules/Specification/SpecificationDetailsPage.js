@@ -18,6 +18,8 @@ import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
+import CellTable from "../../Layout/CellTable/CellTable";
+import { Trash2, Truck } from "react-feather";
 
 
 const StyledCard = styled(Card)`
@@ -78,11 +80,15 @@ const Container = styled.div`
 		`};
 `;
 
+const AddButton = styled(Button)`
+	margin: 0px;
+	/* align-self: flex-end; */
+`;
 
 function SpecificationDetailsPage(props) {
 	const page = `specification`
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Lote`
+	const item = `Especificação`
 
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
@@ -95,12 +101,10 @@ function SpecificationDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
-	const [statusLote, setStatusLote]= useState([]);
 	const [materiais, setMateriais] = useState([]);
-	const [fornecedores, setFornecedores] = useState([]);
-	const [materialSupplier, setMaterialSupplier] = useState([]);
-	const [unidadesMedida, setUnidadesMedida] = useState([]);
-	const [umb, setUmb] = useState([]);
+	const [analysis, setAnalysis] = useState([]);
+	const [selectedAnalysis, setSelectedAnalysis] = useState([]);
+	const [showAnalysis, setShowAnalysis] = useState([]);
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -137,27 +141,6 @@ function SpecificationDetailsPage(props) {
 			setLoading(false);
 		}
 
-		async function getStatusLote() {
-			const body = {name:'Status Lote'}
-			
-			const response = await BackendLIMSAxios.post("listas/lista",body, header);
-			const data = response.data[0]?.lista || [];
-
-			setStatusLote(data);
-		
-			setLoading(false);
-		}
-
-		async function getUnidadesMedida() {
-			const body = {name:'Unidade Medida'}
-			
-			const response = await BackendLIMSAxios.post("listas/lista",body, header);
-			const data = response.data[0]?.lista || [];
-
-			setUnidadesMedida(data);
-		
-			setLoading(false);
-		}
 
 		async function getMateriais() {
 			const response = await BackendLIMSAxios.get('materiais', header);
@@ -169,11 +152,21 @@ function SpecificationDetailsPage(props) {
 			setLoading(false);
 			
 		}
+
+		async function getAnalysis() {
+			const response = await BackendLIMSAxios.get('analysis', header);
+
+			console.log("analysis",response.data)			
+			
+			setAnalysis(response.data || []);
+			
+			setLoading(false);
+			
+		}
 		
 		setLoading(true);
-		getStatusLote()
 		getMateriais()
-		getUnidadesMedida()
+		getAnalysis()
 	
 
 		if (!newItem) {
@@ -183,50 +176,47 @@ function SpecificationDetailsPage(props) {
 		
 	}, []);
 
+	useEffect(() => {		
+		/** @Describe: Controla a visualização dos analysis no Select e Tabela. */
+		const analysisFiltered = analysis.filter((analysis) => {			
+
+			return !selectedAnalysis.find(
+				(selectedAnalysis) => selectedAnalysis._id === Number(analysis._id)
+				);
+			});
+
+			console.log("analysisFiltered",analysisFiltered)
+			console.log("analysis",analysis)
+
+			setShowAnalysis(analysisFiltered);
+			
+	} ,[selectedAnalysis, setSelectedAnalysis, analysis])
+
+	
+
+
+
 	useEffect(() => {
-		async function getMaterial(material) {
-			const response = await BackendLIMSAxios.get(
-				`materiais/${material}`,header);
-				
-			setFornecedores(response.data.fornecedor || []);
-			console.log('umb',response.data.umb)
-			var umb = response.data.umb
-			setUmb(unidadesMedida.filter( element => element.chave === umb)[0] || []);
-			console.log('umb2', umb?.valor)
+		async function populateSelectedAnalysisTable() {
+			const analysisIds = fields.specification;
 
-			setLoading(false);
+			try {
+				const getAnalysis = analysis.filter(item => analysisIds.includes(item._id));
+				console.log("getAnalysis", getAnalysis)
+				setSelectedAnalysis([...selectedAnalysis, ...getAnalysis]);
+			} catch (error) { }
 		}
+		populateSelectedAnalysisTable()
 
-		
-		getMaterial(fields.material);
-	
-	}, [fields.material]);
+	}, [analysis, fields.specification]);
 
-	useEffect(() => {
-		
-		async function setFornecedores() {
-			const response = await BackendLIMSAxios.get(`fornecedores`, header);
-
-			const materialSupplier = response.data.filter(fornecedor => fornecedores.includes(fornecedor._id));
-
-			setMaterialSupplier(materialSupplier);
-
-
-			setLoading(false);
-		}
-	
-		setLoading(true);
-		setFornecedores();
-
-	}, [fornecedores]);
-
-
-	
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
 
 		body.statusLote = 'Q'
+
+		body.specification= selectedAnalysis.map(item => item._id);
 
 		const response = await BackendLIMSAxios.post(`${page}`,body, header);
 
@@ -247,6 +237,8 @@ function SpecificationDetailsPage(props) {
 
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
+
+		body.specification = selectedAnalysis.map(item => item._id);
 
 		body.user = "Usuário de Alteração" //session && session.email;
 		
@@ -396,6 +388,66 @@ function SpecificationDetailsPage(props) {
 		}
 	};
 
+	const handleAddAnalysis = () => {
+		if (!fields.analysis2) {
+			toast.error("Nenhum Analysis selecionado");
+			return;
+		}
+
+		const result = analysis.find(
+			(analysis) => analysis._id === Number(fields.analysis2)
+		);
+
+		const JoinSelectedAnalysis = [...selectedAnalysis, result]
+		setSelectedAnalysis(JoinSelectedAnalysis);
+
+		setFields({ ...fields, analysis: "" });
+	
+	};
+
+	const handleRemoveAnalysis = (id) => {
+		const result = selectedAnalysis.filter((sele) => sele._id !== id);
+		setSelectedAnalysis(result);
+	};
+
+	const analysisColumns = [
+		{ Header: "Nome", accessor: "name" },
+		{ Header: "AnalysisType", accessor: "AnalysisType" },
+		{ Header: "Unidade", accessor: "unit" },
+		{ Header: "Método", accessor: "AnalysisMethod" },
+		{
+			Header: "",
+			accessor: "button",
+			Cell: ({ cell }) => {
+				const { original } = cell.row;
+				return (
+					<FieldSet>
+						<Button
+							small
+							danger
+							title="Remover Analysis"
+							onClick={() => handleRemoveAnalysis(original._id)}
+						>
+							<Trash2 />
+						</Button>
+						<Button
+							small
+							title="Ir para Analysis"
+							onClick={() =>
+								props.history.push({
+									pathname: `../../db/analysis/${original._id}`,
+									
+								})
+							}
+						>
+							<Truck/>
+						</Button>
+					</FieldSet>
+				);
+			},
+		},
+	];
+
 	
 	return (
 		<>
@@ -447,6 +499,42 @@ function SpecificationDetailsPage(props) {
 							
 							
 						</FieldSet>
+
+						<FieldSet alignItems="flex-end">
+								<FormGroup>
+									<Label htmlFor="analysis2">Analysis</Label>
+									<Select
+										id="analysis2"
+										onChange={handleInputChange}
+									>
+										<option value="">Selecione</option>
+										{showAnalysis.map((analysis) => {											
+											return (
+												<option
+													key={analysis._id}
+													value={analysis._id}
+												>
+													{analysis.name}
+												</option>
+											);
+										})}
+									</Select>
+								</FormGroup>
+								<FormGroup>
+									<AddButton
+										type="button"
+										onClick={handleAddAnalysis}
+									>
+										Adicionar
+									</AddButton>
+								</FormGroup>
+							</FieldSet>
+							<FieldSet>
+								<CellTable
+									columns={analysisColumns}
+									data={selectedAnalysis}
+								/>
+							</FieldSet>
 
 						<FieldSet style={{
 											flexWrap: "wrap",

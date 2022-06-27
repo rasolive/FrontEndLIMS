@@ -59,28 +59,29 @@ function SpecificationListPage(props) {
 
 	const columns = [
 		{
-			Header: "Id",
-			accessor: "_id",
-			Filter: ColumnFilter,
-		},
-		{
 			Header: "Material",
 			accessor: "material.name",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Lote",
-			accessor: "lote",
+			Header: "Criado por",
+			accessor: "createdBy",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Fornecedor",
-			accessor: "fornecedor.name",
+			Header: "Atualizado por",
+			accessor: "updatedBy",
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Validade",
-			accessor: "validade",
+			Header: "Criado em",
+			accessor: "createdAt",
+			Filter: ColumnFilter,
+		},
+
+		{
+			Header: "Atualizado em",
+			accessor: "updatedAt",
 			Filter: ColumnFilter,
 		},
 	
