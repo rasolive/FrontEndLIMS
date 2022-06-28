@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { TrashIcon, PlusIcon,  } from "../../Layout/Icon/Icon";
-import { Trash2, Truck } from "react-feather";
+import { Trash2, Thermometer } from "react-feather";
 import Table from "../../Layout/Table/SpecificationTable";
 import Button from "../../Layout/Button/Button";
 import { InputText, Select, InputNumber } from "../../Layout/Input/Input";
@@ -66,6 +66,7 @@ export default function AddListasTable(props) {
 		{
 			Header: "Mínimo",
 			accessor: "min",
+			
 			Cell: ({ cell }) => {
 				const { original } = cell.row;
 				return (
@@ -85,6 +86,7 @@ export default function AddListasTable(props) {
 								"min"
 							)
 						}
+						disabled={original.AnalysisType === "Qualitativa"}
 					></InputText>
 				
 				);
@@ -113,6 +115,7 @@ export default function AddListasTable(props) {
 								"max"
 							)
 						}
+						disabled={original.AnalysisType === "Qualitativa"}
 					></InputText>
 				
 				);
@@ -154,7 +157,7 @@ export default function AddListasTable(props) {
 								})
 							}
 						>
-							<Truck/>
+							<Thermometer/>
 						</Button>
 					</FieldSet>
 				);
