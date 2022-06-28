@@ -20,10 +20,11 @@ import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
 import CellTable from "../../Layout/CellTable/CellTable";
 import { Trash2, Truck } from "react-feather";
+import AddSpecificationTable from "./AddSpecificationTable"
 
 
 const StyledCard = styled(Card)`
-	max-width: 500px;
+	max-width: 700px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
@@ -105,6 +106,8 @@ function SpecificationDetailsPage(props) {
 	const [analysis, setAnalysis] = useState([]);
 	const [selectedAnalysis, setSelectedAnalysis] = useState([]);
 	const [showAnalysis, setShowAnalysis] = useState([]);
+	const [specification, setSpecification] = useState([]);
+
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -138,6 +141,8 @@ function SpecificationDetailsPage(props) {
 				`${page}/${itemId}`,header);
 
 			setFields(response.data || {});
+			const table = response?.data?.specification || [];
+			setSpecification([...specification, ...table]);
 			setLoading(false);
 		}
 
@@ -198,17 +203,18 @@ function SpecificationDetailsPage(props) {
 
 	useEffect(() => {
 		async function populateSelectedAnalysisTable() {
-			const analysisIds = fields.specification;
-
 			try {
+				const analysisIds = fields.specification.map(analysis => analysis._id);
 				const getAnalysis = analysis.filter(item => analysisIds.includes(item._id));
 				console.log("getAnalysis", getAnalysis)
-				setSelectedAnalysis([...selectedAnalysis, ...getAnalysis]);
+				console.log("specification", fields.specification)
+				console.log('selectedAnalysis', selectedAnalysis)
+				setSelectedAnalysis(fields.specification);
 			} catch (error) { }
 		}
 		populateSelectedAnalysisTable()
 
-	}, [analysis, fields.specification]);
+	}, [fields.specification]);
 
 
 	const createItem = async () => {
@@ -216,7 +222,8 @@ function SpecificationDetailsPage(props) {
 
 		body.statusLote = 'Q'
 
-		body.specification= selectedAnalysis.map(item => item._id);
+		//body.specification= selectedAnalysis.map(item => item._id);
+		body.specification = specification;
 
 		const response = await BackendLIMSAxios.post(`${page}`,body, header);
 
@@ -238,9 +245,12 @@ function SpecificationDetailsPage(props) {
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
 
-		body.specification = selectedAnalysis.map(item => item._id);
+	//	body.specification = selectedAnalysis.map(item => item._id);
 
 		body.user = "Usuário de Alteração" //session && session.email;
+
+		body.specification = specification;
+
 		
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
@@ -400,53 +410,117 @@ function SpecificationDetailsPage(props) {
 
 		const JoinSelectedAnalysis = [...selectedAnalysis, result]
 		setSelectedAnalysis(JoinSelectedAnalysis);
+		console.log('selectedAnalysis',selectedAnalysis)
+
+		console.log('JoinSelectedAnalysis',JoinSelectedAnalysis)
 
 		setFields({ ...fields, analysis: "" });
+
+		setSpecification([
+			...JoinSelectedAnalysis
+		]);
 	
 	};
 
 	const handleRemoveAnalysis = (id) => {
-		const result = selectedAnalysis.filter((sele) => sele._id !== id);
+		const result = specification.filter((dt) => dt._id !== id);
+		console.log(222,result)
 		setSelectedAnalysis(result);
+		setSpecification(result);
+		
 	};
 
-	const analysisColumns = [
-		{ Header: "Nome", accessor: "name" },
-		{ Header: "AnalysisType", accessor: "AnalysisType" },
-		{ Header: "Unidade", accessor: "unit" },
-		{ Header: "Método", accessor: "AnalysisMethod" },
-		{
-			Header: "",
-			accessor: "button",
-			Cell: ({ cell }) => {
-				const { original } = cell.row;
-				return (
-					<FieldSet>
-						<Button
-							small
-							danger
-							title="Remover Analysis"
-							onClick={() => handleRemoveAnalysis(original._id)}
-						>
-							<Trash2 />
-						</Button>
-						<Button
-							small
-							title="Ir para Analysis"
-							onClick={() =>
-								props.history.push({
-									pathname: `../../db/analysis/${original._id}`,
+	// const analysisColumns = [
+	// 	{ Header: "Nome", accessor: "name" },
+	// 	{ Header: "AnalysisType", accessor: "AnalysisType",
+	// 	Cell: ({ cell }) => {
+	// 		const { original } = cell.row;
+	// 		return (
+				
+	// 			<InputText
+	// 			style={{
+	// 				width: "80px",
+	// 				minWidth: "20px",
+	// 			}}
+	// 				type="text"
+	// 				id={"AnalysisType_" + original.id}
+	// 				value={original.AnalysisType}
+	// 				onBlur={(e) =>
+	// 					handleTableInputChange(
+	// 						e,
+	// 						original.id,
+	// 						"AnalysisType"
+	// 					)
+	// 				}
+	// 			></InputText>
+			
+	// 		);
+	// 	}, },
+	// 	{ Header: "Unidade", accessor: "unit" },
+	// 	{ Header: "Método", accessor: "AnalysisMethod" },
+	// 	{
+	// 		Header: "",
+	// 		accessor: "button",
+	// 		Cell: ({ cell }) => {
+	// 			const { original } = cell.row;
+	// 			return (
+	// 				<FieldSet>
+	// 					<Button
+	// 						small
+	// 						danger
+	// 						title="Remover Analysis"
+	// 						onClick={() => handleRemoveAnalysis(original._id)}
+	// 					>
+	// 						<Trash2 />
+	// 					</Button>
+	// 					<Button
+	// 						small
+	// 						title="Ir para Analysis"
+	// 						onClick={() =>
+	// 							props.history.push({
+	// 								pathname: `../../db/analysis/${original._id}`,
 									
-								})
-							}
-						>
-							<Truck/>
-						</Button>
-					</FieldSet>
-				);
-			},
-		},
-	];
+	// 							})
+	// 						}
+	// 					>
+	// 						<Truck/>
+	// 					</Button>
+	// 				</FieldSet>
+	// 			);
+	// 		},
+	// 	},
+	// ];
+
+	// function handleAddLineButtonClick() {
+	// 	if (!fields.analysis2) {
+	// 		toast.error("Nenhum Analysis selecionado");
+	// 		return;
+	// 	}
+
+	// 	const result = analysis.find(
+	// 		(analysis) => analysis._id === Number(fields.analysis2)
+	// 	);
+
+	// 	const JoinSelectedAnalysis = [...selectedAnalysis, result]
+	// 	setSelectedAnalysis(JoinSelectedAnalysis);
+
+	// 	setFields({ ...fields, analysis: "" });
+
+	// 	setSpecification([
+	// 		...JoinSelectedAnalysis
+	// 	]);
+	// }
+
+	function handleRemoveLineButtonClick(id) {
+		const result = specification.filter((dt) => dt._id !== id);
+		setSpecification(result);
+	}
+
+	function handleTableInputChange(e, key, id) {
+		const result = specification.find((dt) => dt.id === key);
+
+		result[`${id}`] = e.target.value;
+	}
 
 	
 	return (
@@ -530,10 +604,28 @@ function SpecificationDetailsPage(props) {
 								</FormGroup>
 							</FieldSet>
 							<FieldSet>
-								<CellTable
+								{/* <CellTable
 									columns={analysisColumns}
 									data={selectedAnalysis}
-								/>
+								/> */}
+								
+							</FieldSet>
+							<FieldSet>
+								
+								<AddSpecificationTable
+											data={specification}
+											analysis={analysis}
+											// handleAddLineButtonClick={
+											// 	handleAddLineButtonClick
+											// }
+											handleRemoveLineButtonClick={
+												handleRemoveAnalysis
+											}
+											handleTableInputChange={
+												handleTableInputChange
+											}
+											history={props.history}
+										/>
 							</FieldSet>
 
 						<FieldSet style={{
