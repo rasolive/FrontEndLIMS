@@ -2,14 +2,13 @@ import React, { useState, useEffect} from "react";
 import { toast } from "react-toastify";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import useDynamicForm from "../../../hooks/useDynamicForm";
-// import { AuthContext } from "../../../../../context/AuthContext";
 import Header from "../../Layout/Header/Header";
 import Modal from "../../Layout/Modal/Modal";
 import Form from "../../Layout/Form/Form";
 import Card from "../../Layout/Card/Card";
 import FormGroup from "../../Layout/FormGroup/FormGroup";
 import Label from "../../Layout/Label/Label";
-import { InputText, Select, InputNumber} from "../../Layout/Input/Input";
+import { InputText, Select} from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../../Layout/Button/Button";
@@ -18,8 +17,6 @@ import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
-import CellTable from "../../Layout/CellTable/CellTable";
-import { Trash2, Truck } from "react-feather";
 import AddSpecificationTable from "./AddSpecificationTable"
 
 
@@ -190,9 +187,6 @@ function SpecificationDetailsPage(props) {
 				);
 			});
 
-			console.log("analysisFiltered",analysisFiltered)
-			console.log("analysis",analysis)
-
 			setShowAnalysis(analysisFiltered);
 			
 	} ,[selectedAnalysis, setSelectedAnalysis, analysis])
@@ -220,9 +214,6 @@ function SpecificationDetailsPage(props) {
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
 
-		body.statusLote = 'Q'
-
-		//body.specification= selectedAnalysis.map(item => item._id);
 		body.specification = specification;
 
 		const response = await BackendLIMSAxios.post(`${page}`,body, header);
@@ -231,9 +222,6 @@ function SpecificationDetailsPage(props) {
 
 		const status = response.status || {};
 		const id = response.data.message._id;
-		console.log(response)
-		console.log(response.data)
-		console.log(response.data.message._id)
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Criado com sucesso`);
@@ -245,10 +233,6 @@ function SpecificationDetailsPage(props) {
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
 
-	//	body.specification = selectedAnalysis.map(item => item._id);
-
-		body.user = "Usuário de Alteração" //session && session.email;
-
 		body.specification = specification;
 
 		
@@ -258,7 +242,7 @@ function SpecificationDetailsPage(props) {
 		const id = response.data._id;
 
 		const status = response.status || {};
-		console.log("10",files)
+	
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Atualizado com sucesso`);
@@ -430,91 +414,6 @@ function SpecificationDetailsPage(props) {
 		
 	};
 
-	// const analysisColumns = [
-	// 	{ Header: "Nome", accessor: "name" },
-	// 	{ Header: "AnalysisType", accessor: "AnalysisType",
-	// 	Cell: ({ cell }) => {
-	// 		const { original } = cell.row;
-	// 		return (
-				
-	// 			<InputText
-	// 			style={{
-	// 				width: "80px",
-	// 				minWidth: "20px",
-	// 			}}
-	// 				type="text"
-	// 				id={"AnalysisType_" + original.id}
-	// 				value={original.AnalysisType}
-	// 				onBlur={(e) =>
-	// 					handleTableInputChange(
-	// 						e,
-	// 						original.id,
-	// 						"AnalysisType"
-	// 					)
-	// 				}
-	// 			></InputText>
-			
-	// 		);
-	// 	}, },
-	// 	{ Header: "Unidade", accessor: "unit" },
-	// 	{ Header: "Método", accessor: "AnalysisMethod" },
-	// 	{
-	// 		Header: "",
-	// 		accessor: "button",
-	// 		Cell: ({ cell }) => {
-	// 			const { original } = cell.row;
-	// 			return (
-	// 				<FieldSet>
-	// 					<Button
-	// 						small
-	// 						danger
-	// 						title="Remover Analysis"
-	// 						onClick={() => handleRemoveAnalysis(original._id)}
-	// 					>
-	// 						<Trash2 />
-	// 					</Button>
-	// 					<Button
-	// 						small
-	// 						title="Ir para Analysis"
-	// 						onClick={() =>
-	// 							props.history.push({
-	// 								pathname: `../../db/analysis/${original._id}`,
-									
-	// 							})
-	// 						}
-	// 					>
-	// 						<Truck/>
-	// 					</Button>
-	// 				</FieldSet>
-	// 			);
-	// 		},
-	// 	},
-	// ];
-
-	// function handleAddLineButtonClick() {
-	// 	if (!fields.analysis2) {
-	// 		toast.error("Nenhum Analysis selecionado");
-	// 		return;
-	// 	}
-
-	// 	const result = analysis.find(
-	// 		(analysis) => analysis._id === Number(fields.analysis2)
-	// 	);
-
-	// 	const JoinSelectedAnalysis = [...selectedAnalysis, result]
-	// 	setSelectedAnalysis(JoinSelectedAnalysis);
-
-	// 	setFields({ ...fields, analysis: "" });
-
-	// 	setSpecification([
-	// 		...JoinSelectedAnalysis
-	// 	]);
-	// }
-
-	function handleRemoveLineButtonClick(id) {
-		const result = specification.filter((dt) => dt._id !== id);
-		setSpecification(result);
-	}
 
 	function handleTableInputChange(e, key, id) {
 		const result = specification.find((dt) => dt.id === key);
@@ -604,10 +503,6 @@ function SpecificationDetailsPage(props) {
 								</FormGroup>
 							</FieldSet>
 							<FieldSet>
-								{/* <CellTable
-									columns={analysisColumns}
-									data={selectedAnalysis}
-								/> */}
 								
 							</FieldSet>
 							<FieldSet>
@@ -615,9 +510,7 @@ function SpecificationDetailsPage(props) {
 								<AddSpecificationTable
 											data={specification}
 											analysis={analysis}
-											// handleAddLineButtonClick={
-											// 	handleAddLineButtonClick
-											// }
+
 											handleRemoveLineButtonClick={
 												handleRemoveAnalysis
 											}
@@ -718,13 +611,7 @@ function SpecificationDetailsPage(props) {
 								>
 									Salvar
 								</Button>
-								{/* <Button
-									type="button"
-									success
-									onClick={handleDownload}
-								>
-									Download
-								</Button> */}
+							
 							</ButtonGroup>
 						</FieldSet>
 					</Form>
