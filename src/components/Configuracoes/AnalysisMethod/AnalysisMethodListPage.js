@@ -66,7 +66,7 @@ function AnalysisMethodListPage(props) {
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Análise",
+			Header: "Método de Análise",
 			accessor: "name",
 			Filter: ColumnFilter,
 		},
