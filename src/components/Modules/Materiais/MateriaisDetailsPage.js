@@ -514,11 +514,12 @@ function ReagentsDetailsPage(props) {
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
-									<InputNumber
-										type="number"
+									<InputText
+										type="text"
 										id="cod"
 										defaultValue={fields.cod}
 										onChange={handleInputChange}
+										disabled
 									/>
 								</FieldSet>
 							</FormGroup>
