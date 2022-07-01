@@ -362,6 +362,7 @@ function AnalysisMethodDetailsPage(props) {
 										id="name"
 										defaultValue={fields.name}
 										onChange={handleInputChange}
+										disabled
 									/>
 								</FieldSet>
 							</FormGroup>
