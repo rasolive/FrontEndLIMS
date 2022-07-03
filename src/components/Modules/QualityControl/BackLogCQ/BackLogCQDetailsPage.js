@@ -210,8 +210,9 @@ function BackLogDetailsPage(props) {
 				setLoading(false);
 
 			}else {
+			console.log('material',material)
 			const response = await BackendLIMSAxios.get(
-				`specification/${material}`,header);
+				`specification/material/${material}`,header);
 
 			//setFields(response.data || {});
 			const table = response?.data?.specification || [];
