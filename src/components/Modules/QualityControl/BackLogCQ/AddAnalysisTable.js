@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 
 import styled from "styled-components";
 
-import { Trash2, Thermometer } from "react-feather";
+import { Thermometer, Check, X } from "react-feather";
 import Table from "../../../Layout/Table/SpecificationTable";
 import Button from "../../../Layout/Button/Button";
 import { InputText, Select, InputNumber } from "../../../Layout/Input/Input";
@@ -140,26 +140,28 @@ export default function AddListasTable(props) {
 						type="number"
 						id={"result_" + original.id}
 						defaultValue={original.result}
-						onChange={(e) =>{
+						onBlur={(e) =>{
 							handleTableInputChange(
 								e,
 								original.id,
 								"result"
 							);
 							if (parseFloat(original.result) >= parseFloat(original.min) && parseFloat(original.result) <= parseFloat(original.max)) {
-								document.getElementById("status_" + original.id).value = "Aprovado";
+								document.getElementById("status_" + original.id).value = true;
 								handleTableInputChange2(
-								"Aprovado",
+								true,
 								original.id,
 								"status"
 							);
+							setLoading(!loading);
 							}else{
-								document.getElementById("status_" + original.id).value = "Reprovado";
+								document.getElementById("status_" + original.id).value = false;
 							handleTableInputChange2(
-								"Reprovado",
+								false,
 								original.id,
 								"status"
 							);
+							setLoading(!loading);
 							}
 						}
 						}
@@ -185,19 +187,21 @@ export default function AddListasTable(props) {
 							"result"
 						);
 						if (original.result === "A") {
-							document.getElementById("status_" + original.id).value = "Aprovado";
+							document.getElementById("status_" + original.id).value = true;
 							handleTableInputChange2(
-								"Aprovado",
+								true,
 								original.id,
 								"status"
 							);
+							setLoading(!loading);
 						}else{
-							document.getElementById("status_" + original.id).value = "Reprovado";
+							document.getElementById("status_" + original.id).value = false;
 							handleTableInputChange2(
-								"Reprovado",
+								false,
 								original.id,
 								"status"
 							);
+							setLoading(!loading);
 						}
 					}}
 					
@@ -211,29 +215,55 @@ export default function AddListasTable(props) {
 			
 			);},
 		},
-		
+
 		{
 			Header: "Status",
 			accessor: "status",
 			Cell: ({ cell }) => {
 				const { original } = cell.row;
-				return (
-					
-					<InputText
-					style={{
-						width: "100px",
-						minWidth: "20px",
-					}}
-						type="text"
+
+				if (original.status === true) {
+					return (
+						<Check 
+						style={{color: "green"}}
 						id={"status_" + original.id}
 						value={original.status}
+						defaultValue={false}
 						disabled
-					></InputText>
-				
-				);
+						visible={false}/>
+					);
+				}else{
+
+				return (
+					<X style={{color: "red"}}
+					id={"status_" + original.id}
+					value={original.status}
+					defaultValue={false}
+					disabled
+					visible={false}/>
+				);}
 			},
 
 		},
+		
+		// {
+		// 	Header: "Status",
+		// 	accessor: "status",
+		// 	Cell: ({ cell }) => {
+		// 		const { original } = cell.row;
+		// 		return (
+		// 			<InputText
+		// 				id={"status_" + original.id}
+		// 				value={original.status}
+		// 				disabled
+		// 				visible={false}
+		// 			></InputText>
+					
+				
+		// 		);
+		// 	},
+
+		// },
 
 		{
 			Header: "Método",
@@ -251,7 +281,7 @@ export default function AddListasTable(props) {
 						<Button
 							small
 							title="Ir para Analysis"
-							onClick={() =>
+							onDoubleClick={() =>
 								props.history.push({
 									pathname: `../../analysis/${original._id}`,
 									

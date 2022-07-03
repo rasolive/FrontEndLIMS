@@ -249,11 +249,16 @@ function BackLogDetailsPage(props) {
 
 		body.analysisResult = analysisResult;
 		body.startedAnalysis = true
-		
-		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
+
+		const validateStatus = analysisResult.map(element => element.status);
+		console.log('validateStatus', validateStatus)
+		if (validateStatus.includes(undefined)) { console.log('status', 'undefined')}
+		else if (validateStatus.includes(false)) { body.statusLote = "R"; console.log('status', 'Reprovado')}
+		else{body.statusLote = "L";console.log('status', 'Aprovado')}
 		
 
-		
+
+		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
 		setLoading(false);
 		const id = response.data._id;
