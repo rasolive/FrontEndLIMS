@@ -22,7 +22,7 @@ import AddAnalysisTable from "./AddAnalysisTable";
 
 
 const StyledCard = styled(Card)`
-	max-width: 750px;
+	max-width: 850px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
@@ -396,9 +396,23 @@ function BackLogDetailsPage(props) {
 	};
 
 	function handleTableInputChange(e, key, id) {
+		
 		const result = analysisResult.find((dt) => dt.id === key);
-
+		
 		result[`${id}`] = e.target.value;
+
+		console.log("e.target.value",id)
+		
+	}
+
+	function handleTableInputChange2(e, key, id) {
+		
+		const result = analysisResult.find((dt) => dt.id === key);
+		
+		result[`${id}`] = e;
+
+		console.log("e.target.value",e)
+		
 	}
 	
 	return (
@@ -584,6 +598,7 @@ function BackLogDetailsPage(props) {
 												handleTableInputChange
 											}
 											history={props.history}
+											handleTableInputChange2={handleTableInputChange2}
 										/>
 							</FieldSet>
 						

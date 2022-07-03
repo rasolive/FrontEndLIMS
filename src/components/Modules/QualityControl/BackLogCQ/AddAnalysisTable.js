@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 
 import styled from "styled-components";
 
 import { Trash2, Thermometer } from "react-feather";
 import Table from "../../../Layout/Table/SpecificationTable";
 import Button from "../../../Layout/Button/Button";
-import { InputText, Select } from "../../../Layout/Input/Input";
+import { InputText, Select, InputNumber } from "../../../Layout/Input/Input";
 import FieldSet from "../../../Layout/FieldSet/FieldSet";
 import Label from "../../../Layout/Label/Label";
 import Tooltip from "../../../Layout/Tooltip/Tooltip";
@@ -40,6 +40,11 @@ export default function AddListasTable(props) {
 		props.handleTableInputChange(e, key, id);
 	}
 
+	function handleTableInputChange2(e, key, id) {
+		props.handleTableInputChange2(e, key, id);
+	}
+
+	const [loading, setLoading] = useState(false);
 	const analysis = props.analysis;
 
 	const columns = [
@@ -62,7 +67,7 @@ export default function AddListasTable(props) {
 				const { original } = cell.row;
 				return (
 					
-					<InputText
+					<InputNumber
 					style={{
 						width: "100px",
 						minWidth: "20px",
@@ -78,7 +83,7 @@ export default function AddListasTable(props) {
 							)
 						}
 						disabled
-					></InputText>
+					></InputNumber>
 				
 				);
 			},
@@ -91,7 +96,7 @@ export default function AddListasTable(props) {
 				const { original } = cell.row;
 				return (
 					
-					<InputText
+					<InputNumber
 					style={{
 						width: "100px",
 						minWidth: "20px",
@@ -107,10 +112,15 @@ export default function AddListasTable(props) {
 							)
 						}
 						disabled
-					></InputText>
+					></InputNumber>
 				
 				);
 			},
+		},
+
+		{
+			Header: "Un",
+			accessor: "unit",
 		},
 
 		{
@@ -122,7 +132,7 @@ export default function AddListasTable(props) {
 
 				return (
 					
-					<InputText
+					<InputNumber
 					style={{
 						width: "100px",
 						minWidth: "20px",
@@ -130,15 +140,31 @@ export default function AddListasTable(props) {
 						type="number"
 						id={"result_" + original.id}
 						defaultValue={original.result}
-						onBlur={(e) =>
+						onChange={(e) =>{
 							handleTableInputChange(
 								e,
 								original.id,
 								"result"
-							)
+							);
+							if (parseFloat(original.result) >= parseFloat(original.min) && parseFloat(original.result) <= parseFloat(original.max)) {
+								document.getElementById("status_" + original.id).value = "Aprovado";
+								handleTableInputChange2(
+								"Aprovado",
+								original.id,
+								"status"
+							);
+							}else{
+								document.getElementById("status_" + original.id).value = "Reprovado";
+							handleTableInputChange2(
+								"Reprovado",
+								original.id,
+								"status"
+							);
+							}
+						}
 						}
 						
-					></InputText>
+					></InputNumber>
 				
 				);
 			}
@@ -152,13 +178,28 @@ export default function AddListasTable(props) {
 					type="text"
 					id={"result_" + original.id}
 					defaultValue={original.result}
-					onBlur={(e) =>
+					onChange={(e) =>{
 						handleTableInputChange(
 							e,
 							original.id,
 							"result"
-						)
+						);
+						if (original.result === "A") {
+							document.getElementById("status_" + original.id).value = "Aprovado";
+							handleTableInputChange2(
+								"Aprovado",
+								original.id,
+								"status"
+							);
+						}else{
+							document.getElementById("status_" + original.id).value = "Reprovado";
+							handleTableInputChange2(
+								"Reprovado",
+								original.id,
+								"status"
+							);
 						}
+					}}
 					
 				>
 					<option value="">Selecione</option>
@@ -170,10 +211,28 @@ export default function AddListasTable(props) {
 			
 			);},
 		},
-
+		
 		{
-			Header: "Un",
-			accessor: "unit",
+			Header: "Status",
+			accessor: "status",
+			Cell: ({ cell }) => {
+				const { original } = cell.row;
+				return (
+					
+					<InputText
+					style={{
+						width: "100px",
+						minWidth: "20px",
+					}}
+						type="text"
+						id={"status_" + original.id}
+						value={original.status}
+						disabled
+					></InputText>
+				
+				);
+			},
+
 		},
 
 		{
@@ -243,7 +302,7 @@ export default function AddListasTable(props) {
 	return (
 		<Styles
 		style={{
-			maxWidth: "800px",
+			maxWidth: "850px",
 			flexWrap: "wrap",
 			alignItems: "center",
 		}}>

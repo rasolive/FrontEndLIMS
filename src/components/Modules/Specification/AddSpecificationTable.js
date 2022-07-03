@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Trash2, Thermometer } from "react-feather";
 import Table from "../../Layout/Table/SpecificationTable";
 import Button from "../../Layout/Button/Button";
-import { InputText } from "../../Layout/Input/Input";
+import { InputText, InputNumber } from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
 
 
@@ -45,7 +45,7 @@ export default function AddListasTable(props) {
 				const { original } = cell.row;
 				return (
 					
-					<InputText
+					<InputNumber
 					style={{
 						width: "100px",
 						minWidth: "20px",
@@ -61,7 +61,7 @@ export default function AddListasTable(props) {
 							)
 						}
 						disabled={original.AnalysisType === "Qualitativa"}
-					></InputText>
+					></InputNumber>
 				
 				);
 			},
@@ -74,7 +74,7 @@ export default function AddListasTable(props) {
 				const { original } = cell.row;
 				return (
 					
-					<InputText
+					<InputNumber
 					style={{
 						width: "100px",
 						minWidth: "20px",
@@ -90,7 +90,7 @@ export default function AddListasTable(props) {
 							)
 						}
 						disabled={original.AnalysisType === "Qualitativa"}
-					></InputText>
+					></InputNumber>
 				
 				);
 			},
