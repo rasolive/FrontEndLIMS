@@ -564,7 +564,7 @@ function LotesDetailsPage(props) {
 										return (
 											<option
 												key={value.chave}
-												value={value.valor}
+												value={value.chave}
 											>
 												{value.valor}
 											</option>
