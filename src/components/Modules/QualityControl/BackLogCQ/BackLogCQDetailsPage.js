@@ -268,7 +268,7 @@ function BackLogDetailsPage(props) {
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Atualizado com sucesso`);
-			props.history.push(`/db/qualityControl/backlog`);
+			props.history.push(`/db/qualityControl`);
 		}
 		setLoading(false);		
 	};

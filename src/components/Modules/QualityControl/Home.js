@@ -47,6 +47,16 @@ function QualityControlPage(props, req) {
         props.history.push("/db/QualityControl/BackLog")
     };
 
+    const handleRedirectAprovados= () => {
+        props.history.push("/db/QualityControl/aprovados")
+    };
+
+    const handleRedirectReprovados= () => {
+        props.history.push("/db/QualityControl/reprovados")
+    };
+
+
+
     
 
     return (
@@ -59,6 +69,22 @@ function QualityControlPage(props, req) {
                     info
                 >
                     BackLog
+                </Button2>
+                <Button2
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectAprovados}
+                    info
+                >
+                    Aprovados
+                </Button2>
+                <Button2
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectReprovados}
+                    info
+                >
+                    Reprovados
                 </Button2>
 
                 

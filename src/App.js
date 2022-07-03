@@ -27,9 +27,12 @@ import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod
 import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodListPage";
 import SpecificationListPage from "./components/Modules/Specification/SpecificationListPage";
 import SpecificationDetailsPage from "./components/Modules/Specification/SpecificationDetailsPage";
+import QualityControlPage from "./components/Modules/QualityControl/Home";
 import BackLogListPage from "./components/Modules/QualityControl/BackLogCQ/BackLogCQListPage";
 import BackLogDetailsPage from "./components/Modules/QualityControl/BackLogCQ/BackLogCQDetailsPage";
-import QualityControlPage from "./components/Modules/QualityControl/Home";
+import AprovadosListPage from "./components/Modules/QualityControl/BackLogCQ/AprovadosCQListPage";
+import ReprovadosListPage from "./components/Modules/QualityControl/BackLogCQ/ReprovadosCQListPage";
+
 
 
 
@@ -72,6 +75,8 @@ function App() {
 				<Route exact path= "/db/qualityControl" name="QualityControlPage" component={QualityControlPage}/>
 				<Route exact path="/db/qualityControl/backlog" name="BackLogListPage" component={BackLogListPage}/>
 				<Route exact path="/db/qualityControl/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
+				<Route exact path="/db/qualityControl/aprovados" name="AprovadosListPage" component={AprovadosListPage}/>
+				<Route exact path="/db/qualityControl/reprovados" name="ReprovadosListPage" component={ReprovadosListPage}/>
 
 
 			    <Route component={NotFoundPage} />
