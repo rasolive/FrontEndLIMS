@@ -27,6 +27,9 @@ import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod
 import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodListPage";
 import SpecificationListPage from "./components/Modules/Specification/SpecificationListPage";
 import SpecificationDetailsPage from "./components/Modules/Specification/SpecificationDetailsPage";
+import BackLogListPage from "./components/Modules/QualityControl/BackLogCQ/BackLogCQListPage";
+import BackLogDetailsPage from "./components/Modules/QualityControl/BackLogCQ/BackLogCQDetailsPage";
+import QualityControlPage from "./components/Modules/QualityControl/Home";
 
 
 
@@ -54,6 +57,8 @@ function App() {
 				<Route exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
 				<Route exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
                 <Route exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
+				<Route exact path="/db/backlog" name="BackLogListPage" component={BackLogListPage}/>
+				<Route exact path="/db/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
 				<Route exact path="/db/grafico" name="GraficoPage" component={GraficoPage}/>
 				<Route exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
 				<Route exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
@@ -64,6 +69,9 @@ function App() {
 				<Route exact path="/db/analysisMethod/:id" name="AnalysisMethodDetailsPage" component={AnalysisMethodDetailsPage}/>
 				<Route exact path="/db/specification" name="SpecificationListPage" component={SpecificationListPage}/>
 				<Route exact path="/db/specification/:id" name="SpecificationDetailsPage" component={SpecificationDetailsPage}/>
+				<Route exact path= "/db/qualityControl" name="QualityControlPage" component={QualityControlPage}/>
+				<Route exact path="/db/qualityControl/backlog" name="BackLogListPage" component={BackLogListPage}/>
+				<Route exact path="/db/qualityControl/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
 
 
 			    <Route component={NotFoundPage} />

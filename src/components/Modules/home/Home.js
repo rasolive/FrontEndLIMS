@@ -59,6 +59,11 @@ function Home(props, req) {
     const handleRedirectLotes= () => {
         props.history.push("/db/lotes")
     };
+    
+    const handleRedirectQualityControl = () => {
+        props.history.push("/db/qualitycontrol")
+    };
+
 
     const handleRedirectGrafico= () => {
         props.history.push("/db/grafico")
@@ -101,7 +106,16 @@ function Home(props, req) {
                     onClick={handleRedirectLotes}
                     info
                 >
-                    Lotes
+                    Cadastro de Lotes
+                </Button2>
+
+                <Button2
+                    type="button"
+                    style={{ width: "auto" }}
+                    onClick={handleRedirectQualityControl}
+                    info
+                >
+                    Controle de Qualidade
                 </Button2>
 
                 <Button2
