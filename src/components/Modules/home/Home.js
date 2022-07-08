@@ -1,8 +1,17 @@
 import React, { useState, useEffect} from "react";
 import styled from "styled-components";
 import Button from "../../Layout/Button/Button";
-import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
+import {
+	Layers,
+    Truck,
+    Package,
+    Sliders,
+    Search,
+    BarChart2
+    
+} from "react-feather";
+import Card from "../../Layout/Card/Card";
 
 // const token = sessionStorage.getItem("token")
 
@@ -14,6 +23,106 @@ import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 const Button2 = styled(Button)`
 	margin-top: 70px;
 `;
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+`;
+
+const Cards = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	max-width: 70%;
+	flex-wrap: wrap;
+`;
+
+const StyledCard = styled(Card)`
+	flex-flow: column;
+	padding: 1rem;
+	justify-content: center;
+	align-items: center;
+	width: 150px;
+	min-width: 150px;
+	height: 180px;
+	border-radius: 10px;
+	box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.25);
+	margin: 15px 15px;
+	transition: 0.2s;
+
+	:hover {
+		transition: 0.2s;
+		transform: translate(-3px, -3px);
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+	}
+`;
+
+const Title = styled.span`
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+	color: #282828;
+	margin-bottom: 20px;
+`;
+
+const Subtitle = styled.span`
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	text-align: center;
+	color: #000000;
+`;
+
+const ModuleImg = styled.div`
+	background: ${(props) => props.background};
+	color: ${(props) => props.theme.secondary};
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	text-align: center;
+	vertical-align: center;
+	line-height: 60px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+	margin: 20px;
+`;
+
+
+const Return = styled.a`
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	text-align: center;
+	color: #888888;
+	margin-top: 20px;
+
+	vertical-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+
+	:hover {
+		cursor: pointer;
+		color: #626262;
+	}
+`;
+
 
 function Home(props, req) {
     const [loading, setLoading] = useState(false);
@@ -43,91 +152,72 @@ function Home(props, req) {
 	}, []);
 
 
-    const handleRedirectMateriais= () => {
-        props.history.push("/db/materiais")
-    };
+    function handleModuleClick(module) {
+		
+		props.history.push(`/${module}`);
+    }
 
-    const handleRedirectSpecification= () => {
-        props.history.push("/db/specification")
-    };
-
-    const handleRedirectFornecedores= () => {
-        props.history.push("/db/fornecedores")
-    };
-
-    
-    const handleRedirectLotes= () => {
-        props.history.push("/db/lotes")
-    };
-    
-    const handleRedirectQualityControl = () => {
-        props.history.push("/db/qualitycontrol")
-    };
-
-
-    const handleRedirectGrafico= () => {
-        props.history.push("/db/grafico")
-    };
 
     return (
         <>
-            <ButtonGroup>
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectMateriais}
-                    info
-                >
-                    Materiais
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectSpecification}
-                    info
-                >
-                    Especificações
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectFornecedores}
-                    info
-                >
-                    Fornecedores
-                </Button2>
-                               
-                
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectLotes}
-                    info
-                >
-                    Cadastro de Lotes
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectQualityControl}
-                    info
-                >
-                    Controle de Qualidade
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectGrafico}
-                    info
-                >
-                    Graficos
-                </Button2>
-            </ButtonGroup>
-        </>
+        <Container>
+			<Title>Selecione o Módulo</Title>
+			<Cards>
+				
+					<StyledCard
+						onClick={() => handleModuleClick("db/fornecedores")}
+					>
+						<ModuleImg background="#ff9933">
+							<Truck size="32" />
+						</ModuleImg>
+						<Subtitle>Fornecedores</Subtitle>
+					</StyledCard>
+			
+				<StyledCard
+					onClick={() => handleModuleClick("db/materiais")}
+				>
+					<ModuleImg background="#237c57">
+						<Package size="32" />
+					</ModuleImg>
+					<Subtitle>Materiais</Subtitle>
+				</StyledCard>
+			
+					<StyledCard onClick={() => handleModuleClick("db/specification")}>
+						<ModuleImg background="#007bff">
+							<Sliders size="32" />
+						</ModuleImg>
+						<Subtitle>Especificação de Materiais</Subtitle>
+					</StyledCard>
+			
+			
+					<StyledCard
+						onClick={() => handleModuleClick("db/lotes")}
+					>
+						<ModuleImg background="#ff9933">
+							<Layers size="32" />
+						</ModuleImg>
+						<Subtitle>Lotes</Subtitle>
+					</StyledCard>
+				
+					<StyledCard onClick={() => handleModuleClick("db/qualitycontrol")}>
+						<ModuleImg background="#E75656">
+							<Search size="32" />
+						</ModuleImg>
+						<Subtitle>Controle de Qualidade</Subtitle>
+					</StyledCard>
+			
+				<StyledCard onClick={() => handleModuleClick("db/grafico")}>
+					<ModuleImg background="#64D5A5">
+						<BarChart2 size="32" />
+					</ModuleImg>
+					<Subtitle>Estatísticas do Sistema</Subtitle>
+				</StyledCard>
+				
+				
+			</Cards>
+		
+		</Container>
+     </>
     );
 }
 
