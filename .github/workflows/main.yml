@@ -27,7 +27,7 @@ jobs:
       #Rodar testes Unitarios
       
     - name: Build
-      run: yarn build
+      run: yarn run build
       
       
     - id: 'auth'
