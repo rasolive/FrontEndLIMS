@@ -1,8 +1,15 @@
 import React, { useState, useEffect} from "react";
 import styled from "styled-components";
-import Button from "../Layout/Button/Button";
-import ButtonGroup from "../Layout/ButtonGroup/ButtonGroup";
 import { BackendLIMSAxios } from "../../utils/axiosInstances";
+import {
+	Layers,
+    List,
+    Package,
+    Sliders,
+    Users
+    
+} from "react-feather";
+import Card from "../Layout/Card/Card";
 
 // const token = sessionStorage.getItem("token")
 
@@ -11,9 +18,82 @@ import { BackendLIMSAxios } from "../../utils/axiosInstances";
 //       'authorization': `${token}` 
 //     }}
 
-const Button2 = styled(Button)`
-	margin-top: 70px;
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
 `;
+
+const Cards = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	max-width: 70%;
+	flex-wrap: wrap;
+`;
+
+const StyledCard = styled(Card)`
+	flex-flow: column;
+	padding: 1rem;
+	justify-content: center;
+	align-items: center;
+	width: 150px;
+	min-width: 150px;
+	height: 180px;
+	border-radius: 10px;
+	box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.25);
+	margin: 15px 15px;
+	transition: 0.2s;
+
+	:hover {
+		transition: 0.2s;
+		transform: translate(-3px, -3px);
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+	}
+`;
+
+const Title = styled.span`
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+	color: #282828;
+	margin-bottom: 20px;
+`;
+
+const Subtitle = styled.span`
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	text-align: center;
+	color: #000000;
+`;
+
+const ModuleImg = styled.div`
+	background: ${(props) => props.background};
+	color: ${(props) => props.theme.secondary};
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	text-align: center;
+	vertical-align: center;
+	line-height: 60px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+	margin: 20px;
+`;
+
 
 function Configuracoes(props, req) {
     const [loading, setLoading] = useState(false);
@@ -43,64 +123,58 @@ function Configuracoes(props, req) {
 	}, []);
 
 
-    const handleRedirectListas= () => {
-        props.history.push("/db/listas")
-    };
-
-    const handleRedirectUsuarios= () => {
-        props.history.push("/db/users")
-    };
-
-    const handleRedirectAnalysis= () => {
-        props.history.push("/db/analysis")
-    };
-
-    const handleRedirectAnalysisMethod= () => {
-        props.history.push("/db/analysisMethod")
-    };
+    function handleModuleClick(module) {
+		
+		props.history.push(`/${module}`);
+    }
      
     return (
-        <>
-            <ButtonGroup>
-            <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectUsuarios}
-                    info
-                >
-                    Usuários
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectListas}
-                    info
-                >
-                    Listas
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectAnalysis}
-                    info
-                >
-                    Analises
-                </Button2>
-
-                <Button2
-                    type="button"
-                    style={{ width: "auto" }}
-                    onClick={handleRedirectAnalysisMethod}
-                    info
-                >
-                    MA's
-                </Button2>
-                
-               
-            </ButtonGroup>
-        </>
+  
+           <>
+        <Container>
+			<Title>Selecione o Módulo</Title>
+			<Cards>
+				
+					<StyledCard
+						onClick={() => handleModuleClick("db/users")}
+					>
+						<ModuleImg background="#ff9933">
+							<Users size="32" />
+						</ModuleImg>
+						<Subtitle>Usuários</Subtitle>
+					</StyledCard>
+			
+				<StyledCard
+					onClick={() => handleModuleClick("db/listas")}
+				>
+					<ModuleImg background="#237c57">
+						<List size="32" />
+					</ModuleImg>
+					<Subtitle>Listas</Subtitle>
+				</StyledCard>
+			
+					<StyledCard onClick={() => handleModuleClick("db/analysis")}>
+						<ModuleImg background="#007bff">
+							<Sliders size="32" />
+						</ModuleImg>
+						<Subtitle>Análises</Subtitle>
+					</StyledCard>
+			
+			
+					<StyledCard
+						onClick={() => handleModuleClick("db/analysisMethod")}
+					>
+						<ModuleImg background="#ff9933">
+							<Layers size="32" />
+						</ModuleImg>
+						<Subtitle>MA's</Subtitle>
+					</StyledCard>
+				
+			</Cards>
+		
+		</Container>
+     </>
+    
     );
 }
 
