@@ -20,7 +20,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with: 
-        node-version: 16.x
+        node-version: 14.x
         
     - name: Install dependencies
       run: npm install
@@ -29,7 +29,7 @@ jobs:
     #   run: yarn test --watchAll false
     
     - name: Build
-      run: yarn build
+      run: npm run build
       
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
