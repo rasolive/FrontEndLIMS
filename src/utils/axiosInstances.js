@@ -19,7 +19,8 @@ axios.interceptors.request.use((config) => {
 
 // Backend Node
 const BackendLIMSAxios = axios.create({
-	baseURL: `http://localhost:8089/v1/`,
+	//baseURL: `http://localhost:8089/v1/`,
+	baseURL: `http://192.168.1.93:8089/v1/`,
 });
 
 BackendLIMSAxios.interceptors.request.use((config) => {
@@ -29,7 +30,8 @@ BackendLIMSAxios.interceptors.request.use((config) => {
 
 // Backend Node
 const BackendPythonLIMSAxios = axios.create({
-	baseURL: `http://localhost:5000/`,
+	//baseURL: `http://localhost:5000/`,
+	baseURL: `http://192.168.1.93:5000/v1/`,
 });
 
 BackendPythonLIMSAxios.interceptors.request.use((config) => {
