@@ -31,7 +31,6 @@ jobs:
     - name: Build
       run: yarn build
       
-      
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:
@@ -43,10 +42,17 @@ jobs:
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
       
-    - name: Upload Files to Bucket
+    - name: Upload filed to bucket
       run: gsutil -m rsync -R ./build gs://"$BUCKET"
-      
-    - name: Allow puplic access
-      run: gsutil -m acl ch -R AllUsers:R gs://"$BUCKET"
     
+    - name: Allow public access
+      run: gsutil -m acl ch -R -u AllUsers:R gs://"$BUCKET"
+    
+    # Set cache meta for static files
+    - name: Set Cache-Control
+      run: gsutil -m setmeta -h "Cache-Control:public, max-age=15768000" gs://"$BUCKET"/**/*.{png,svg,css,js}
+
+    # Set cache meta for index.html
+    - name: Set Cache-Control
+      run: gsutil setmeta -h "Cache-Control:no-cache, no-store" gs://"$BUCKET"/index.html
     
