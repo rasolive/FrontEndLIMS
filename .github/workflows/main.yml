@@ -21,13 +21,15 @@ jobs:
       uses: actions/setup-node@v1
       with: 
         node-version: 14.x
-    - name: Install Dependences
-      run: npm install
-      
-      #Rodar testes Unitarios
-      
+        
+    - name: Install dependencies
+      run: yarn install
+
+    # - name: Run tests
+    #   run: yarn test --watchAll false
+    
     - name: Build
-      run: npm build
+      run: yarn build
       
       
     - id: 'auth'
