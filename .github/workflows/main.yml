@@ -29,7 +29,7 @@ jobs:
     #   run: yarn test --watchAll false
     
     - name: Build
-      run: yarn build
+      run: npm build
       
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
