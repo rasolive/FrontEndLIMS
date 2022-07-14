@@ -345,11 +345,22 @@ function ReagentsDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.name, fields.armazenamento, fields.statusMaterial, fields.umb];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Preencha os campos obrigatórios \"Nome\", \"Armazenamento\", \"Status Material\" e \"Unidade de Medida Básica\"", {
+					closeOnClick: true,
+					autoClose: 7000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};

@@ -141,6 +141,17 @@ function FornecedoresDetailsPage(props) {
 
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
+
+		const newSupplier = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+
+		if (newSupplier.data.cnpj === body.cnpj){ 
+			setLoading(false);
+			toast.error("Fornecedor já cadastrado, altere o CNPJ",
+			{ closeOnClick: true, autoClose: 6000 });
+
+		}
+		else{
+	
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
@@ -156,6 +167,7 @@ function FornecedoresDetailsPage(props) {
 			props.history.push(`/db/${page}`);
 
 		}
+	}
 	};
 
 	const updateItem = async () => {
@@ -233,11 +245,22 @@ function FornecedoresDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.name, fields.cnpj];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Preencha os campos obrigatórios \"Nome\" e \"CNPJ\"", {
+					closeOnClick: true,
+					autoClose: 7000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};

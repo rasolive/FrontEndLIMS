@@ -147,6 +147,16 @@ function ListasDetailsPage(props) {
 	const createItem = async () => {
 		const body = Object.assign({}, fields)
 
+		const newList = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+
+		if (newList.data.name === body.name){ 
+			setLoading(false);
+			toast.error("Lista já cadastrada, Altere o nome da lista",
+			{ closeOnClick: true, autoClose: 6000 });
+
+		}
+		else{
+
 		table.map((dt) => {
 			return delete dt.id;
 		});
@@ -167,6 +177,7 @@ function ListasDetailsPage(props) {
 			props.history.push(`/db/${page}`);
 
 		}
+	}
 	};
 
 	const updateItem = async () => {
@@ -250,11 +261,22 @@ function ListasDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.name];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Nome da lista é obrigatório", {
+					closeOnClick: true,
+					autoClose: 7000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};
