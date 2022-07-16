@@ -322,11 +322,22 @@ function LotesDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.material, fields.loteFornecedor, fields.qtdInicial, fields.validade, fields.fornecedor];	
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Todos os campos são obrigatórios", {
+					closeOnClick: true,
+					autoClose: 7000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};

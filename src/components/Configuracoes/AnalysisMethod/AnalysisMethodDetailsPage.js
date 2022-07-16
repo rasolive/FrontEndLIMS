@@ -241,11 +241,22 @@ function AnalysisMethodDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.name];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("O Campo \"Descrição\" é Obrigatório", {
+					closeOnClick: true,
+					autoClose: 7000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};
