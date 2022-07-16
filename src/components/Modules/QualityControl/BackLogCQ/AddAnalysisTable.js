@@ -12,6 +12,7 @@ import Tooltip from "../../../Layout/Tooltip/Tooltip";
 
 
 const Styles = styled.div`
+	overflow-x: auto;
 	table {
 		tbody > tr:hover {
 			cursor: default;

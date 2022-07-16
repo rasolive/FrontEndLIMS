@@ -22,7 +22,7 @@ import AddAnalysisTable from "./AddAnalysisTable";
 
 
 const StyledCard = styled(Card)`
-	max-width: 850px;
+	max-width: 820px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;

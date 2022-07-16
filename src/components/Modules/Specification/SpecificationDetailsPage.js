@@ -21,7 +21,7 @@ import AddSpecificationTable from "./AddSpecificationTable"
 
 
 const StyledCard = styled(Card)`
-	max-width: 700px;
+	max-width: 715px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
