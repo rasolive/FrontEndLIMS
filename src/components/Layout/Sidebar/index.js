@@ -135,6 +135,9 @@ const Sidebar = ({isOpen, toggle}) => {
                 </Icon>
                 <SidebarWrapper>
                     <SidebarMenu>
+                        <SidebarLink to="/configuracoes" onClick= {toggle}>
+                            Configurações
+                        </SidebarLink>
                         <SidebarLink to="/about" onClick= {toggle}>
                             About
                         </SidebarLink>
