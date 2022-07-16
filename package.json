@@ -1,6 +1,9 @@
 {
 	"name": "rasolive",
 	"version": "0.1.0",
+	"engines": {
+		"node": "14.x"
+	  },
 	"private": true,
 	"dependencies": {
 		"axios": "^0.19.2",
