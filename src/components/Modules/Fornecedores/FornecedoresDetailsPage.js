@@ -559,17 +559,26 @@ function FornecedoresDetailsPage(props) {
 								<Group>
 									<LeftPanel>Anexos</LeftPanel>
 									<RightPanel>
+										{showDocuments ? (
 										<SmallButton
 											type="button"
 											small
 											onClick={handleShowDocuments}
+											title="Exibir Anexos"
 										>
-											{showDocuments ? (
-												<DownIcon />
-											) : (
-												<UpIcon />
-											)}
+											<DownIcon />
 										</SmallButton>
+										) : 
+										(
+											<SmallButton
+											type="button"
+											small
+											onClick={handleShowDocuments}
+											title="Esconder Anexos"
+										>
+											<UpIcon />
+										</SmallButton>
+										)}
 									</RightPanel>
 								</Group>
 								<Hr />

@@ -636,17 +636,26 @@ function ReagentsDetailsPage(props) {
 										Fornecedores
 									</LeftPanel>
 									<RightPanel>
+									{colapseFornecedores ? (
 										<SmallButton
 											type="button"
 											small
 											onClick={handleShowFornecedores}
+											title="Exibir Fornecedores"
 										>
-											{colapseFornecedores ? (
-												<DownIcon />
-											) : (
-												<UpIcon />
-											)}
+											<DownIcon />
 										</SmallButton>
+										) : 
+										(
+											<SmallButton
+											type="button"
+											small
+											onClick={handleShowFornecedores}
+											title="Esconder Fornecedores"
+										>
+											<UpIcon />
+										</SmallButton>
+										)}
 									</RightPanel>
 								</Group>
 								<Hr />
@@ -727,17 +736,26 @@ function ReagentsDetailsPage(props) {
 								<Group>
 									<LeftPanel>Anexos</LeftPanel>
 									<RightPanel>
+									{showDocuments ? (
 										<SmallButton
 											type="button"
 											small
 											onClick={handleShowDocuments}
+											title="Exibir Anexos"
 										>
-											{showDocuments ? (
-												<DownIcon />
-											) : (
-												<UpIcon />
-											)}
+											<DownIcon />
 										</SmallButton>
+										) : 
+										(
+											<SmallButton
+											type="button"
+											small
+											onClick={handleShowDocuments}
+											title="Esconder Anexos"
+										>
+											<UpIcon />
+										</SmallButton>
+										)}
 									</RightPanel>
 								</Group>
 								<Hr />
