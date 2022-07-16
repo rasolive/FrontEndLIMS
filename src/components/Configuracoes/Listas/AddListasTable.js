@@ -25,6 +25,7 @@ const RowButton = styled(Button)`
 `;
 
 const Styles = styled.div`
+	overflow-x: auto;
 	table {
 		tbody > tr:hover {
 			cursor: default;
@@ -108,8 +109,8 @@ export default function AddListasTable(props) {
 					small
 					onClick={props.handleAddLineButtonClick}
 					secondary
+					title="Adicionar Linha"
 				>
-					<Tooltip top>Adicionar linha</Tooltip>
 					<PlusIcon />
 				</RowButton>
 			),
@@ -126,8 +127,8 @@ export default function AddListasTable(props) {
 							props.handleRemoveLineButtonClick(original.id)
 						}
 						secondary
+						title="Remover linha"
 					>
-						<Tooltip top>Remover linha</Tooltip>
 						<TrashIcon color="#E75656" />
 					</RowButton>
 				);
