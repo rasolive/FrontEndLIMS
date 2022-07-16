@@ -114,7 +114,7 @@ const Navbar = ({toggle}) => {
    <>
     <Nav>
         <NavLink to = {`/home`}>
-            <h1>Inserir Logo</h1>
+            <h1>Home page</h1>
             {/* <img src="" alt=""/> */}
         </NavLink>
         <Bars onClick={toggle} />
@@ -126,7 +126,7 @@ const Navbar = ({toggle}) => {
                 About
             </NavLink>
             <NavLink to="/services" activeStyle>
-                Servicecs
+                Services
             </NavLink>
             <NavLink to="/contato" activeStyle>
                 Contato

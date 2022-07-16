@@ -142,7 +142,7 @@ const Sidebar = ({isOpen, toggle}) => {
                             About
                         </SidebarLink>
                         <SidebarLink to="/services" onClick= {toggle}>
-                            Servicecs
+                            Services
                         </SidebarLink>
                         <SidebarLink to="/contato" onClick= {toggle}>
                             Contato
