@@ -10,6 +10,7 @@ import FieldSet from "../../Layout/FieldSet/FieldSet";
 
 
 const Styles = styled.div`
+	overflow-x: auto;
 	table {
 		tbody > tr:hover {
 			cursor: default;

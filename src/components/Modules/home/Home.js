@@ -24,11 +24,12 @@ const Button2 = styled(Button)`
 	margin-top: 70px;
 `;
 const Container = styled.div`
+	margin-top: clamp(70px, 15%, 200px);;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 100vh;
+	//height: 100vh;
 `;
 
 const Cards = styled.div`

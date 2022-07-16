@@ -135,6 +135,9 @@ const Sidebar = ({isOpen, toggle}) => {
                 </Icon>
                 <SidebarWrapper>
                     <SidebarMenu>
+                        <SidebarLink to="/configuracoes" onClick= {toggle}>
+                            Configurações
+                        </SidebarLink>
                         <SidebarLink to="/about" onClick= {toggle}>
                             About
                         </SidebarLink>
@@ -144,13 +147,11 @@ const Sidebar = ({isOpen, toggle}) => {
                         <SidebarLink to="/contato" onClick= {toggle}>
                             Contato
                         </SidebarLink>
-                        <NavDiv style={{cursor: 'pointer'}}onClick={sair} >
-                Sair
-            </NavDiv>
+                       
                     </SidebarMenu>
                     <SideBtnWrap>
-                        <SidebarRoute to="/login" onClick= {toggle}>
-                            Entrar
+                        <SidebarRoute style={{cursor: 'pointer'}}onClick={sair}>
+                            Sair
                         </SidebarRoute>
                     </SideBtnWrap>
                 </SidebarWrapper>
