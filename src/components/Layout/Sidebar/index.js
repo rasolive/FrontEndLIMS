@@ -147,13 +147,11 @@ const Sidebar = ({isOpen, toggle}) => {
                         <SidebarLink to="/contato" onClick= {toggle}>
                             Contato
                         </SidebarLink>
-                        <NavDiv style={{cursor: 'pointer'}}onClick={sair} >
-                Sair
-            </NavDiv>
+                       
                     </SidebarMenu>
                     <SideBtnWrap>
-                        <SidebarRoute to="/login" onClick= {toggle}>
-                            Entrar
+                        <SidebarRoute style={{cursor: 'pointer'}}onClick={sair}>
+                            Sair
                         </SidebarRoute>
                     </SideBtnWrap>
                 </SidebarWrapper>
