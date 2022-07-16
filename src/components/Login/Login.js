@@ -221,7 +221,7 @@ function Login(props) {
 
                 <Hr2 />
                 <StyledHr />
-                {/* ou
+                ou
                 <StyledHr />
                 <GoogleLogin
                     clientId="740172199715-nbnl62219tbaq0vov9uekvj5ptcvjm62.apps.googleusercontent.com"
@@ -232,7 +232,7 @@ function Login(props) {
                     render={renderProps => (
                         <button class="loginBtn loginBtn--google" onClick={renderProps.onClick}  >  Faça login com Google </button>
                     )} />
-                <Hr2 /> */}
+                <Hr2 />
                 {/* <FacebookLogin
                     appId="1784312231764830"
                     autoLoad={true}

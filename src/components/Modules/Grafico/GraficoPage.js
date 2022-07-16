@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from "react";
-import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
 import { toast } from "react-toastify";
 import { BackendLIMSAxios, BackendPythonLIMSAxios } from "../../../utils/axiosInstances";
