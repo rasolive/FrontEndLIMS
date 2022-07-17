@@ -61,10 +61,28 @@ function AnalysisMethodListPage(props) {
 	};
 
 	const handleExportButton = () => {
-		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
-		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `${page}s.xlsx`);
+	
+			var exports = {
+				Objects: data.map(function(node) {
+				  return {
+					'ID': node._id,
+					'Método': node.name,
+					'Descrição': node.description,
+					'Revisão': node.rev,
+					'Referência': node.ref,
+					'Criado_Por': node.createdBy,
+					'Criado_Em': node.createdAt,
+					'Atualizado_Por': node.updatedBy,
+					'Atualizado_Em': node.updatedAt,
+					'Processo': node.process,
+				  };
+				})
+			  }
+	
+			const wb = XLSX.utils.book_new();
+			const ws = XLSX.utils.json_to_sheet(exports.Objects);
+			XLSX.utils.book_append_sheet(wb, ws, "MA's");
+			XLSX.writeFile(wb, `MA's.xlsx`);
 	};
 
 	const columns = [

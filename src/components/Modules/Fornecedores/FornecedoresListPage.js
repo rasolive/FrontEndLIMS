@@ -60,11 +60,34 @@ function FornecedoresListPage(props) {
 	};
 
 	const handleExportButton = () => {
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Fornecedor': node.name,
+				'CNPJ': node.cnpj,
+				'E-mail': node.email,
+				'Rua': node.rua,
+				'Número': node.numero,
+				'Bairro': node.bairro,
+				'Cidade': node.cidade,
+				'Estado': node.estado,
+				'CEP': node.cep,
+				'Telefone': node.telefone,
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
+			  };
+			})
+		  }
+
 		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
 		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `${page}s.xlsx`);
-	}
+		XLSX.writeFile(wb, `Fornecedores.xlsx`);
+};
 
 
 	const columns = [

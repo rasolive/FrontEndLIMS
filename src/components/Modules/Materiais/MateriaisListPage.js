@@ -61,11 +61,30 @@ function ReagentsListPage(props) {
 	};
 
 	const handleExportButton = () => {
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Código_Material': node.cod,
+				'Material': node.name,
+				'Armazenamento': node.armazenamento,
+				'Unidade_Medida_Básica': node.umb,
+				'Status_Material': node.statusMaterial,
+				'Fornecedores': node.fornecedor.map(function(node) {return node}).join(", "),				
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
+			  };
+			})
+		  }
+
 		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
-		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `${page}.xlsx`);
-	};
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
+		XLSX.utils.book_append_sheet(wb, ws, "Materiais");
+		XLSX.writeFile(wb, `Materiais.xlsx`);
+};
 
 	const columns = [
 		{

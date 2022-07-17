@@ -61,11 +61,27 @@ function UsuariosListPage(props) {
 	};
 
 	const handleExportButton = () => {
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Usuário': node.name,
+				'E-mail': node.email,
+				'Perfil': node.role.map(function(node){ return node.perfil}).join(","),
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
+			  };
+			})
+		  }
+
 		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
-		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `${page}s.xlsx`);
-	};
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
+		XLSX.utils.book_append_sheet(wb, ws, "Usuários");
+		XLSX.writeFile(wb, `Usuários.xlsx`);
+};
 
 	const columns = [
 		{

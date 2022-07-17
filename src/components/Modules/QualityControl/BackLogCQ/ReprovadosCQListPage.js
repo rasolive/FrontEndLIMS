@@ -56,11 +56,31 @@ function ReprovadosListPage(props) {
 	}, []);
 
 	const handleExportButton = () => {
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Material': node.material.name,
+				'Lote': node.lote,
+				'Fornecedor': node.fornecedor.name,
+				'Lote_Fornecedor': node.loteFornecedor,
+				'Quantidade': node.qtdInicial,
+				'Validade': node.validade,
+				'Status_Lote': node.statusLote,				
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
+			  };
+			})
+		  }
+
 		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
-		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `lotes reprovados.xlsx`);
-	};
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
+		XLSX.utils.book_append_sheet(wb, ws, "Lotes Reprovados");
+		XLSX.writeFile(wb, `Lotes Reprovados.xlsx`);
+};
 
 	const columns = [
 		{
