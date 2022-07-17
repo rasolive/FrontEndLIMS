@@ -61,11 +61,27 @@ function ListasListPage(props) {
 	};
 
 	const handleExportButton = () => {
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Lista': node.name,
+				'Chaves': node.lista.map(function(node) {return node.chave}).join(", "),
+				'Valores': node.lista.map(function(node) {return node.valor}).join(", "),
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
+			  };
+			})
+		}
+
 		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
-		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `${page}s.xlsx`);
-	};
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
+		XLSX.utils.book_append_sheet(wb, ws, "Listas");
+		XLSX.writeFile(wb, `Listas.xlsx`);
+};
 
 	const columns = [
 		{

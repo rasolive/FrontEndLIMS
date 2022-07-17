@@ -7,6 +7,7 @@ import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
 
+
 function AnalysisListPage(props) {
 	const page = `analysis` // nome da rota no backend
 	const item = `Análises` // nome do Tipo de item
@@ -61,10 +62,34 @@ function AnalysisListPage(props) {
 	};
 
 	const handleExportButton = () => {
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Análise': node.name,
+				'Método': node.AnalysisMethod,
+				'Tipo': node.AnalysisType,
+				'Unidade': node.unit,
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
+			  };
+			})
+		  }
+
+
+		//console.log('data',data);
+
+		//console.log('exportando',exports.Objects);
+
 		const wb = XLSX.utils.book_new();
-		const ws = XLSX.utils.json_to_sheet(data);
-		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		XLSX.writeFile(wb, `${page}s.xlsx`);
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
+		XLSX.utils.book_append_sheet(wb, ws, "Análises");
+		XLSX.writeFile(wb, `Análises.xlsx`);
+
+
 	};
 
 	const columns = [

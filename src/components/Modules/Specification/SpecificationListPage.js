@@ -59,13 +59,28 @@ function SpecificationListPage(props) {
 	};
 
 	const handleExportButton = () => {
-		// const wb = XLSX.utils.book_new();
-		// const ws = XLSX.utils.json_to_sheet(data);
-		// XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
-		// XLSX.writeFile(wb, `${page}s.xlsx`);
-		console.log("export", data);
-	};
+	
+		var exports = {
+			Objects: data.map(function(node) {
+			  return {
+				'ID': node._id,
+				'Material': node.material.name,
+				'Analises': node.specification.map(function(analise) {return analise.name}).join(", "),
+				'Criado_Por': node.createdBy,
+				'Criado_Em': node.createdAt,
+				'Atualizado_Por': node.updatedBy,
+				'Atualizado_Em': node.updatedAt,
 
+				
+			  };
+			})
+		  }
+
+		const wb = XLSX.utils.book_new();
+		const ws = XLSX.utils.json_to_sheet(exports.Objects);
+		XLSX.utils.book_append_sheet(wb, ws, "Especificações");
+		XLSX.writeFile(wb, `Especificações.xlsx`);
+};
 	const columns = [
 		{
 			Header: "Material",
