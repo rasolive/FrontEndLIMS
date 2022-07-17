@@ -3,11 +3,12 @@
 	"version": "0.1.0",
 	"engines": {
 		"node": "14.x"
-	  },
+	},
 	"private": true,
 	"dependencies": {
 		"axios": "^0.19.2",
 		"express": "^4.17.1",
+		"plotly.js": "^1.58.5",
 		"prop-types": "^15.7.2",
 		"react": "^16.9.0",
 		"react-dom": "^16.9.0",
@@ -17,12 +18,12 @@
 		"react-icons": "^4.3.1",
 		"react-input-mask": "^2.0.4",
 		"react-plotly.js": "^2.5.1",
-		"plotly.js": "^1.58.5",
 		"react-router-dom": "^5.0.1",
 		"react-scripts": "^3.0.1",
 		"react-table": "^7.5.0",
 		"react-toastify": "^5.4.0",
-		"styled-components": "^4.4.0"
+		"styled-components": "^4.4.0",
+		"xlsx": "^0.18.5"
 	},
 	"scripts": {
 		"start": "react-scripts start",
