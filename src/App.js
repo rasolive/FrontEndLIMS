@@ -39,7 +39,7 @@ import ReprovadosListPage from "./components/Modules/QualityControl/BackLogCQ/Re
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
 // import { AuthProvider } from "./context/AuthContext";
 import LotesDetailsPage from "./components/Modules/Lotes/LotesDetailsPage";
-import GraficoPage from "./components/Modules/Grafico/GraficoPage";
+import EstatisticasPage from "./components/Modules/Estatisticas/EstatisticasPage";
 
 
 
@@ -62,7 +62,7 @@ function App() {
                 <Route exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
 				<Route exact path="/db/backlog" name="BackLogListPage" component={BackLogListPage}/>
 				<Route exact path="/db/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
-				<Route exact path="/db/grafico" name="GraficoPage" component={GraficoPage}/>
+				<Route exact path="/db/estatisticas" name="EstatisticasPage" component={EstatisticasPage}/>
 				<Route exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
 				<Route exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
 				<Route exact path="/db/users/:id" name="UsuariosDetailsPage" component={UsuariosDetailsPage}/>
