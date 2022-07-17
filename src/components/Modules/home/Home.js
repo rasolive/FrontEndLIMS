@@ -207,7 +207,7 @@ function Home(props, req) {
 						<Subtitle>Controle de Qualidade</Subtitle>
 					</StyledCard>
 			
-				<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
+				<StyledCard onClick={() => handleModuleClick("db/emConstrucao")}>
 					<ModuleImg background="#64D5A5">
 						<BarChart2 size="32" />
 					</ModuleImg>
