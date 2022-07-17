@@ -81,7 +81,7 @@ const Container = styled.div`
 `;
 
 
-function GraficoPage(props) {
+function EstatisticasPage(props) {
 	const page = `reagents`
 	const gcpPatch = `prd/anexos/${page}`
 	const item = `Reagente`
@@ -115,10 +115,10 @@ function GraficoPage(props) {
 			}else {
                 sessionStorage.removeItem('token')
 				props.history.push(`/`);
-                setLoading(true);
+                setLoading(false);
 			};
 
-			setLoading(true);
+			setLoading(false);
 		}
 		
 			isAuthenticated()		
@@ -274,4 +274,4 @@ function GraficoPage(props) {
     );
 }
 
-export default GraficoPage;
+export default EstatisticasPage;
