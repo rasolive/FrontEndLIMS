@@ -41,6 +41,7 @@ const HeaderButton = styled(Button)`
 `;
 
 const HeaderButtonG = styled(Button)`
+	margin-top: 70px;
 	margin-left: 15px;
 	text-align: center;
 	line-height: 50%;
@@ -104,6 +105,14 @@ function Header(props) {
 						placeholder="Buscar"
 						defaultValue={""}
 					/>
+				)}
+				{props.showNewExportButton && (
+					<HeaderButtonG
+						type="button"
+						onClick={props.handleExportButton}
+					>
+						Exportar
+					</HeaderButtonG>
 				)}
 				{props.showNewImportButton && (
 					<HeaderButtonG

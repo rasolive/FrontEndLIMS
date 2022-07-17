@@ -4,6 +4,7 @@ import Header from "../../../Layout/Header/Header";
 import GlobalFilterTable from "../../../Layout/Table/GlobalFilterTable";
 import Table from "../../../Layout/Table/Table";
 import { ColumnFilter } from "../../../Layout/Filter/ColumnFilter";
+import * as XLSX from "xlsx";
 
 function ReprovadosListPage(props) {
 
@@ -54,6 +55,13 @@ function ReprovadosListPage(props) {
 
 	}, []);
 
+	const handleExportButton = () => {
+		const wb = XLSX.utils.book_new();
+		const ws = XLSX.utils.json_to_sheet(data);
+		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
+		XLSX.writeFile(wb, `lotes reprovados.xlsx`);
+	};
+
 	const columns = [
 		{
 			Header: "Id",
@@ -88,6 +96,8 @@ function ReprovadosListPage(props) {
 			<Header
 				title={item}
 				showReturnButton
+				showNewExportButton
+				handleExportButton={handleExportButton}
 			/>
 
 			<GlobalFilterTable

@@ -5,6 +5,7 @@ import Header from "../../Layout/Header/Header";
 import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
+import * as XLSX from "xlsx";
 
 function UsuariosListPage(props) {
 	const page = `users` // nome da rota no backend
@@ -59,6 +60,13 @@ function UsuariosListPage(props) {
 		props.history.push(`/db/${page}/new`);
 	};
 
+	const handleExportButton = () => {
+		const wb = XLSX.utils.book_new();
+		const ws = XLSX.utils.json_to_sheet(data);
+		XLSX.utils.book_append_sheet(wb, ws, "Fornecedores");
+		XLSX.writeFile(wb, `${page}s.xlsx`);
+	};
+
 	const columns = [
 		{
 			Header: "Id",
@@ -94,6 +102,8 @@ function UsuariosListPage(props) {
 				title={item}
 				showNewRegisterButton
 				showReturnButton
+				showNewExportButton
+				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>
 
