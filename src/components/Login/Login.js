@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useCallback } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { NavLink as Link } from 'react-router-dom'
 import { toast } from "react-toastify";
 import styled, { css } from "styled-components";
@@ -76,15 +77,14 @@ export const NavLink = styled(Link)`
 `
 
 
-
-
-
 function Login(props) {
     const [name, setName] = useState()
-    const [email, setEmail] = useState()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [isLoggedIn, setisLoggedIn] = useState(false)
     const { fields, setFields, handleInputChange } = useDynamicForm();
     const [loading, setLoading] = useState(false);
+    const { handleLogin } = useContext(AuthContext);
 
    async function responseGoogle(response) {
         console.log("google", response);
@@ -117,57 +117,20 @@ function Login(props) {
         props.history.push(`/home?session=${token.data.token}`)
       }
 
-
-    async function LoginDb() {
-        const body = Object.assign({}, fields)
-
-        try {
-            const response = await BackendLIMSAxios.post("auth/finduser", body);
-            if (!body.password)
-                toast.error(`preencha a senha`, {
-                    closeOnClick: true,
-                    autoClose: true,
-                });
-            else
-                try {
-                    const response = await BackendLIMSAxios.post("auth/authenticate", body);
-
-                    sessionStorage.setItem('token', response.data.token)
-                    
-                    if(!response.data.user.validPass){
-                        props.history.push(`/resetPass`)
-                    }else{
-                    props.history.push(`/home`)
-                    }
-
-                }
-                catch (err) {
-                    toast.error(`Senha inválida`, {
-                        closeOnClick: true,
-                        autoClose: true,
-                    });
-                }
-
-        }
-        catch (err) {
-            toast.error(`Usuário não encontrado`, {
-                closeOnClick: true,
-                autoClose: true,
-            });
-        }
-
-
-               
-               
-
-    }
  
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = useCallback( async (e) => {
 		e.preventDefault();
 		setLoading(true);
 
-        LoginDb()
-	};
+        console.log(email, password)
+
+        const response = await handleLogin(email, password)
+        console.log('resp', response)
+
+        props.history.push(response)
+        
+    },[email, password]
+    )
 
     
 
@@ -188,7 +151,7 @@ function Login(props) {
                             type="email"
                             id="email"
                             placeholder="Digite seu e-mail"
-                            onChange={handleInputChange}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </FieldSet>
                 </FormGroup>
@@ -201,7 +164,7 @@ function Login(props) {
                         type="password"
                         id="password"
                         placeholder="Digite sua senha"
-                        onChange={handleInputChange}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </FormGroup>
                 <ButtonGroup>
