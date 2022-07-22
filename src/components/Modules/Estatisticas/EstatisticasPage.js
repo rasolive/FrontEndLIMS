@@ -103,28 +103,7 @@ function EstatisticasPage(props) {
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-	useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(false);
-			};
-
-			setLoading(false);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
+	
     useEffect(() => {
 		
 		const plot_2 = async () => {

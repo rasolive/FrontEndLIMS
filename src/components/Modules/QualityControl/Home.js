@@ -91,28 +91,7 @@ function QualityControlPage(props, req) {
     const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
+   
     function handleModuleClick(module) {
 		
 		props.history.push(`/${module}`);
