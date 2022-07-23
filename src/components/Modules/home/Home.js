@@ -12,6 +12,7 @@ import {
     
 } from "react-feather";
 import Card from "../../Layout/Card/Card";
+import PermissionComponent from "../../PermissionComponent";
 
 // const token = sessionStorage.getItem("token")
 
@@ -185,12 +186,14 @@ function Home(props, req) {
 						<Subtitle>Controle de Qualidade</Subtitle>
 					</StyledCard>
 			
+			<PermissionComponent role={["admin"]}>
 				<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
 					<ModuleImg background="#64D5A5">
 						<BarChart2 size="32" />
 					</ModuleImg>
 					<Subtitle>Estatísticas do Sistema</Subtitle>
 				</StyledCard>
+			</PermissionComponent>
 				
 				
 			</Cards>
