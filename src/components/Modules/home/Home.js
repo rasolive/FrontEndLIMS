@@ -186,7 +186,7 @@ function Home(props, req) {
 						<Subtitle>Controle de Qualidade</Subtitle>
 					</StyledCard>
 			
-			<PermissionComponent role={["admin"]}>
+			<PermissionComponent role={["S"]}>
 				<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
 					<ModuleImg background="#64D5A5">
 						<BarChart2 size="32" />

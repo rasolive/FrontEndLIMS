@@ -120,7 +120,7 @@ const Navbar = ({toggle}) => {
                 </NavLink>
                 <Bars onClick={toggle} />
                 <NavMenu>
-                    <PermissionComponent role={["admin"]}>
+                    <PermissionComponent role={["S"]}>
                         <NavLink to="/configuracoes" activeStyle>
                             Configurações
                         </NavLink>
