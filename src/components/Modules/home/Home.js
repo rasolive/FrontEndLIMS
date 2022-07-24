@@ -1,15 +1,15 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "../../Layout/Button/Button";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import {
 	Layers,
-    Truck,
-    Package,
-    Sliders,
-    Search,
-    BarChart2
-    
+	Truck,
+	Package,
+	Sliders,
+	Search,
+	BarChart2
+
 } from "react-feather";
 import Card from "../../Layout/Card/Card";
 import PermissionComponent from "../../PermissionComponent";
@@ -127,97 +127,110 @@ const Return = styled.a`
 
 
 function Home(props, req) {
-    const [loading, setLoading] = useState(false);
-    const [token, setToken] = useState(sessionStorage.getItem("token"));
-	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [loading, setLoading] = useState(false);
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({ headers: { 'authorization': `${token}` } });
 
-    
-    function handleModuleClick(module) {
-		
+
+	function handleModuleClick(module) {
+
 		props.history.push(`/${module}`);
-    }
+	}
 
 
-    return (
-        <>
-        <Container>
-			<Title>Selecione o Módulo</Title>
-			<Cards>
-				
-					<StyledCard
-						onClick={() => handleModuleClick("db/fornecedores")}
-					>
-						<ModuleImg background="#ff9933">
-							<Truck size="32" />
-						</ModuleImg>
-						<Subtitle>Fornecedores</Subtitle>
-					</StyledCard>
-			
-				<StyledCard
-					onClick={() => handleModuleClick("db/materiais")}
-				>
-					<ModuleImg background="#237c57">
-						<Package size="32" />
-					</ModuleImg>
-					<Subtitle>Materiais</Subtitle>
-				</StyledCard>
-			
-					<StyledCard onClick={() => handleModuleClick("db/specification")}>
-						<ModuleImg background="#007bff">
-							<Sliders size="32" />
-						</ModuleImg>
-						<Subtitle>Especificação de Materiais</Subtitle>
-					</StyledCard>
-			
-			
-					<StyledCard
-						onClick={() => handleModuleClick("db/lotes")}
-					>
-						<ModuleImg background="#ff9933">
-							<Layers size="32" />
-						</ModuleImg>
-						<Subtitle>Lotes</Subtitle>
-					</StyledCard>
-				
-					<StyledCard onClick={() => handleModuleClick("db/qualitycontrol")}>
-						<ModuleImg background="#E75656">
-							<Search size="32" />
-						</ModuleImg>
-						<Subtitle>Controle de Qualidade</Subtitle>
-					</StyledCard>
+	return (
+		<>
+			<Container>
+				<Title>Selecione o Módulo</Title>
+				<Cards>
 
-					<StyledCard onClick={() => handleModuleClick("db/analysis")}>
-						<ModuleImg background="#007bff">
-							<Sliders size="32" />
-						</ModuleImg>
-						<Subtitle>Análises</Subtitle>
-					</StyledCard>
-			
-			
-					<StyledCard
-						onClick={() => handleModuleClick("db/analysisMethod")}
-					>
-						<ModuleImg background="#ff9933">
-							<Layers size="32" />
-						</ModuleImg>
-						<Subtitle>MA's</Subtitle>
-					</StyledCard>
-			
-			<PermissionComponent role={["S"]}>
-				<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
-					<ModuleImg background="#64D5A5">
-						<BarChart2 size="32" />
-					</ModuleImg>
-					<Subtitle>Estatísticas do Sistema</Subtitle>
-				</StyledCard>
-			</PermissionComponent>
-				
-				
-			</Cards>
-		
-		</Container>
-     </>
-    );
+					<PermissionComponent role={['S', 'AC']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/fornecedores")}
+						>
+							<ModuleImg background="#ff9933">
+								<Truck size="32" />
+							</ModuleImg>
+							<Subtitle>Fornecedores</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','AC']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/materiais")}
+						>
+							<ModuleImg background="#237c57">
+								<Package size="32" />
+							</ModuleImg>
+							<Subtitle>Materiais</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S', 'AQ', 'AC']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/lotes")}
+						>
+							<ModuleImg background="#ff9933">
+								<Layers size="32" />
+							</ModuleImg>
+							<Subtitle>Lotes</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S', 'AQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/specification")}>
+							<ModuleImg background="#007bff">
+								<Sliders size="32" />
+							</ModuleImg>
+							<Subtitle>Especificação de Materiais</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S', 'AQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/qualitycontrol")}>
+							<ModuleImg background="#E75656">
+								<Search size="32" />
+							</ModuleImg>
+							<Subtitle>Controle de Qualidade</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S', 'AQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/analysis")}>
+							<ModuleImg background="#007bff">
+								<Sliders size="32" />
+							</ModuleImg>
+							<Subtitle>Análises</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+
+					<PermissionComponent role={['S', 'AQ']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/analysisMethod")}
+						>
+							<ModuleImg background="#ff9933">
+								<Layers size="32" />
+							</ModuleImg>
+							<Subtitle>MA's</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S', 'V', 'AQ', 'AC']}>
+						<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
+							<ModuleImg background="#64D5A5">
+								<BarChart2 size="32" />
+							</ModuleImg>
+							<Subtitle>Estatísticas do Sistema</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+
+				</Cards>
+
+			</Container>
+		</>
+	);
 }
 
 export default Home;
