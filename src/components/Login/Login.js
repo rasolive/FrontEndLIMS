@@ -125,9 +125,14 @@ function Login(props) {
         console.log(email, password)
 
         const response = await handleLogin(email, password)
+       
         console.log('resp', response)
 
         props.history.push(response)
+        
+        //Recarregar a pagina para atualizar as permissões do usuário na Navbar
+        document.location.reload(true);      
+        
         
     },[email, password]
     )
