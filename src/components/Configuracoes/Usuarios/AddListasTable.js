@@ -77,7 +77,7 @@ export default function AddListasTable(props) {
 						return (
 							<option
 								key={value.id}
-								value={value.valor}
+								value={value.chave}
 							>
 								{value.valor}
 							</option>
