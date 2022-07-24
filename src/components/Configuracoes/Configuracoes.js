@@ -116,7 +116,7 @@ function Configuracoes(props, req) {
 					<StyledCard
 						onClick={() => handleModuleClick("db/users")}
 					>
-						<ModuleImg background="#ff9933">
+						<ModuleImg background="#ff7d1a">
 							<Users size="32" />
 						</ModuleImg>
 						<Subtitle>Usuários</Subtitle>
@@ -125,7 +125,7 @@ function Configuracoes(props, req) {
 				<StyledCard
 					onClick={() => handleModuleClick("db/listas")}
 				>
-					<ModuleImg background="#237c57">
+					<ModuleImg background="#458e88">
 						<List size="32" />
 					</ModuleImg>
 					<Subtitle>Listas</Subtitle>

@@ -8,8 +8,9 @@ import {
 	Package,
 	Sliders,
 	Search,
-	BarChart2
-
+	BarChart2,
+	Activity,
+	Book
 } from "react-feather";
 import Card from "../../Layout/Card/Card";
 import PermissionComponent from "../../PermissionComponent";
@@ -148,7 +149,7 @@ function Home(props, req) {
 						<StyledCard
 							onClick={() => handleModuleClick("db/fornecedores")}
 						>
-							<ModuleImg background="#ff9933">
+							<ModuleImg background="#7e86d6">
 								<Truck size="32" />
 							</ModuleImg>
 							<Subtitle>Fornecedores</Subtitle>
@@ -159,7 +160,7 @@ function Home(props, req) {
 						<StyledCard
 							onClick={() => handleModuleClick("db/materiais")}
 						>
-							<ModuleImg background="#237c57">
+							<ModuleImg background="#30635f">
 								<Package size="32" />
 							</ModuleImg>
 							<Subtitle>Materiais</Subtitle>
@@ -170,7 +171,7 @@ function Home(props, req) {
 						<StyledCard
 							onClick={() => handleModuleClick("db/lotes")}
 						>
-							<ModuleImg background="#ff9933">
+							<ModuleImg background="#ff7d1a">
 								<Layers size="32" />
 							</ModuleImg>
 							<Subtitle>Lotes</Subtitle>
@@ -179,7 +180,7 @@ function Home(props, req) {
 
 					<PermissionComponent role={['S', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/specification")}>
-							<ModuleImg background="#007bff">
+							<ModuleImg background="#558888">
 								<Sliders size="32" />
 							</ModuleImg>
 							<Subtitle>Especificação de Materiais</Subtitle>
@@ -197,8 +198,8 @@ function Home(props, req) {
 
 					<PermissionComponent role={['S', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/analysis")}>
-							<ModuleImg background="#007bff">
-								<Sliders size="32" />
+							<ModuleImg background="#8d5d6c">
+								<Activity size="32" />
 							</ModuleImg>
 							<Subtitle>Análises</Subtitle>
 						</StyledCard>
@@ -209,8 +210,8 @@ function Home(props, req) {
 						<StyledCard
 							onClick={() => handleModuleClick("db/analysisMethod")}
 						>
-							<ModuleImg background="#ff9933">
-								<Layers size="32" />
+							<ModuleImg background="#777766">
+								<Book size="32" />
 							</ModuleImg>
 							<Subtitle>MA's</Subtitle>
 						</StyledCard>
