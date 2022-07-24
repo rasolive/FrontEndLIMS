@@ -7,6 +7,8 @@ import { Link as LinkR } from 'react-router-dom'
 
 import { FaTimes } from 'react-icons/fa'
 
+import PermissionComponent from "../../PermissionComponent";
+
 export const SidebarContainer = styled.aside`
     position: fixed;
     z-index: 999;
@@ -135,14 +137,13 @@ const Sidebar = ({isOpen, toggle}) => {
                 </Icon>
                 <SidebarWrapper>
                     <SidebarMenu>
+                    <PermissionComponent role={["S"]}>
                         <SidebarLink to="/configuracoes" onClick= {toggle}>
                             Configurações
                         </SidebarLink>
-                        <SidebarLink to="/about" onClick= {toggle}>
-                            About
-                        </SidebarLink>
-                        <SidebarLink to="/services" onClick= {toggle}>
-                            Services
+                    </PermissionComponent>
+                        <SidebarLink to="/sobre" onClick= {toggle}>
+                            Sobre a Página
                         </SidebarLink>
                         <SidebarLink to="/contato" onClick= {toggle}>
                             Contato
