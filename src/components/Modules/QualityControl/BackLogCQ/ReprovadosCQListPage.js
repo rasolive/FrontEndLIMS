@@ -5,11 +5,12 @@ import GlobalFilterTable from "../../../Layout/Table/GlobalFilterTable";
 import Table from "../../../Layout/Table/Table";
 import { ColumnFilter } from "../../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
+import HasPermission from "../../../Permission";
 
 function ReprovadosListPage(props) {
 
 	const page = `lotes`
-	const item = `Lotes em Qualidade`
+	const item = `Lotes Reprovados`
 
 
 	const [loading, setLoading] = useState(false);
@@ -94,7 +95,7 @@ function ReprovadosListPage(props) {
 			<Header
 				title={item}
 				showReturnButton
-				showNewExportButton
+				showNewExportButton = {HasPermission(["S","AQ","GQ"])}
 				handleExportButton={handleExportButton}
 			/>
 

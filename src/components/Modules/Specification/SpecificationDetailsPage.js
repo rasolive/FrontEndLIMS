@@ -18,6 +18,7 @@ import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
 import AddSpecificationTable from "./AddSpecificationTable"
+import HasPermission from "../../Permission";
 
 
 const StyledCard = styled(Card)`
@@ -563,6 +564,7 @@ function SpecificationDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
+								roles = {HasPermission(["S","AQ","GQ"])}
 															
 							/>
 						
@@ -577,6 +579,7 @@ function SpecificationDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
+										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -585,6 +588,7 @@ function SpecificationDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {!HasPermission(["S","AQ","GQ"])}
 								>
 									Salvar
 								</Button>

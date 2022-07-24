@@ -5,6 +5,7 @@ import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
+import HasPermission from "../../Permission";
 
 function LotesListPage(props) {
 
@@ -97,9 +98,9 @@ function LotesListPage(props) {
 		<>
 			<Header
 				title={item}
-				showNewRegisterButton
+				showNewRegisterButton = {HasPermission(["S","AC"])}
 				showReturnButton
-				showNewExportButton
+				showNewExportButton = {HasPermission(["S","AC",'AQ','GQ'])}
 				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>

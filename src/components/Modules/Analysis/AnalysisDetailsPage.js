@@ -20,7 +20,7 @@ import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../../Modules/Anexos/AnexosPage";
 import CellTable from "../../Layout/CellTable/CellTable";
 import { Trash2, Truck } from "react-feather";
-//import { header } from "../../../utils/functions";
+import HasPermission from "../../Permission";
 
 
 const StyledCard = styled(Card)`
@@ -591,7 +591,7 @@ function AnalysisDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-															
+								roles = {HasPermission(["S","AQ","GQ"])}															
 							/>
 						
 						</FieldSet>
@@ -605,6 +605,7 @@ function AnalysisDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
+										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -613,16 +614,10 @@ function AnalysisDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {!HasPermission(["S","AQ","GQ"])}
 								>
 									Salvar
 								</Button>
-								{/* <Button
-									type="button"
-									success
-									onClick={handleDownload}
-								>
-									Download
-								</Button> */}
 							</ButtonGroup>
 						</FieldSet>
 					</Form>

@@ -5,6 +5,7 @@ import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
+import HasPermission from "../../Permission";
 
 function SpecificationListPage(props) {
 
@@ -93,9 +94,9 @@ function SpecificationListPage(props) {
 		<>
 			<Header
 				title={item}
-				showNewRegisterButton
+				showNewRegisterButton = {HasPermission(["S","AQ","GQ"])}
 				showReturnButton
-				showNewExportButton
+				showNewExportButton = {HasPermission(["S","AQ","GQ"])}
 				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>

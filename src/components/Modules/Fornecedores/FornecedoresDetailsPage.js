@@ -18,7 +18,7 @@ import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../Anexos/AnexosPage";
-//import { header } from "../../../utils/functions";
+import HasPermission from "../../Permission";
 
 
 const StyledCard = styled(Card)`
@@ -573,6 +573,7 @@ function FornecedoresDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
+								roles = {HasPermission(["S","AC"])}
 															
 							/>
 						
@@ -587,6 +588,7 @@ function FornecedoresDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
+										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -595,16 +597,10 @@ function FornecedoresDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {!HasPermission(["S","AC"])}
 								>
 									Salvar
 								</Button>
-								{/* <Button
-									type="button"
-									success
-									onClick={handleDownload}
-								>
-									Download
-								</Button> */}
 							</ButtonGroup>
 						</FieldSet>
 					</Form>
