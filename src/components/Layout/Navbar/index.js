@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components"
 
 import { NavLink as Link } from 'react-router-dom'
+import PermissionComponent from "../../PermissionComponent";
 
 import { FaBars } from 'react-icons/fa'
 
@@ -112,35 +113,35 @@ const Navbar = ({toggle}) => {
 
    return ( 
    <>
-    <Nav>
-        <NavLink to = {`/home`}>
-            <h1>Home page</h1>
-            {/* <img src="" alt=""/> */}
-        </NavLink>
-        <Bars onClick={toggle} />
-          <NavMenu>
-          <NavLink to="/configuracoes" activeStyle>
-                Configurações
-            </NavLink>
-            <NavLink to="/about" activeStyle>
-                About
-            </NavLink>
-            <NavLink to="/services" activeStyle>
-                Services
-            </NavLink>
-            <NavLink to="/contato" activeStyle>
-                Contato
-            </NavLink>
-            <NavDiv style={{cursor: 'pointer'}}onClick={sair} >
-                Sair
-            </NavDiv>
-            {/* <NavBtn>
+            <Nav>
+                <NavLink to={`/home`}>
+                    <h1>Home page</h1>
+                    {/* <img src="" alt=""/> */}
+                </NavLink>
+                <Bars onClick={toggle} />
+                <NavMenu>
+                    <PermissionComponent role={["S"]}>
+                        <NavLink to="/configuracoes" activeStyle>
+                            Configurações
+                        </NavLink>
+                    </PermissionComponent>
+                    <NavLink to="/sobre" activeStyle>
+                        Sobre a Página
+                    </NavLink>
+                    <NavLink to="/contato" activeStyle>
+                        Contato
+                    </NavLink>
+                    <NavDiv style={{ cursor: 'pointer' }} onClick={sair} >
+                        Sair
+                    </NavDiv>
+                    {/* <NavBtn>
                 <NavBtnLink to="/login">Entrar</NavBtnLink>
             </NavBtn> */}
-        </NavMenu>
+                </NavMenu>
 
-    </Nav>
-    </>
-   )}
+            </Nav>
+        </>
+    )
+}
 
 export default Navbar

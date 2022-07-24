@@ -5,6 +5,7 @@ import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
+import HasPermission from "../../Permission";
 
 function LotesListPage(props) {
 
@@ -18,28 +19,7 @@ function LotesListPage(props) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	// const { session } = useContext(AuthContext);
 
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
+    
 	useEffect(() => {
 		async function getItens() {
 			const response = await BackendLIMSAxios.get(`${page}`,header);
@@ -118,9 +98,9 @@ function LotesListPage(props) {
 		<>
 			<Header
 				title={item}
-				showNewRegisterButton
+				showNewRegisterButton = {HasPermission(["S","AC"])}
 				showReturnButton
-				showNewExportButton
+				showNewExportButton = {HasPermission(["S","AC",'AQ','GQ'])}
 				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>

@@ -19,10 +19,10 @@ import UsuariosListPage from "./components/Configuracoes/Usuarios/UsuariosListPa
 import UsuariosDetailsPage from "./components/Configuracoes/Usuarios/UsuariosDetailsPage";
 import ResetPassPage from "./components/Login/resetPass";
 import RegisterPage from "./components/Login/Register";
-import AnalysisListPage from "./components/Configuracoes/Analysis/AnalysisListPage";
-import AnalysisDetailsPage from	"./components/Configuracoes/Analysis/AnalysisDetailsPage";
-import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodDetailsPage";
-import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodListPage";
+import AnalysisListPage from "./components/Modules/Analysis/AnalysisListPage";
+import AnalysisDetailsPage from	"./components/Modules/Analysis/AnalysisDetailsPage";
+import AnalysisMethodDetailsPage from "./components/Modules/AnalysisMethod/AnalysisMethodDetailsPage";
+import AnalysisMethodListPage from "./components/Modules/AnalysisMethod/AnalysisMethodListPage";
 import SpecificationListPage from "./components/Modules/Specification/SpecificationListPage";
 import SpecificationDetailsPage from "./components/Modules/Specification/SpecificationDetailsPage";
 import QualityControlPage from "./components/Modules/QualityControl/Home";
@@ -45,32 +45,32 @@ function App() {
 				<Route exact path="/login" name="Login" component={Login} />
 				<Route exact path="/register" name="Register" component={RegisterPage} />
 				<Route exact path="/resetPass" name="resetPass" component={ResetPassPage} />
-                <PrivateRoutes role={['admin', 'visitante', 'analista']} exact path="/home" component={Home} />
-                <PrivateRoutes role={['admin', 'analista']} exact path="/db/materiais" name="MateriaisListPage" component={MateriaisListPage}/>
-                <PrivateRoutes role={['admin', 'analista']} exact path="/db/materiais/:id" name="MateriaisDetailsPage" component={MateriaisDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/Fornecedores" name="FornecedoresListPage" component={FornecedoresListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/Fornecedores/:id" name="FornecedoresDetailsPage" component={FornecedoresDetailsPage}/>
-				<PrivateRoutes role={['admin']} exact path="/db/Listas" name="ListasListPage" component={ListasListPage}/>
-				<PrivateRoutes role={['admin']} exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
-                <PrivateRoutes role={['admin', 'analista']} exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/backlog" name="BackLogListPage" component={BackLogListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/estatisticas" name="EstatisticasPage" component={EstatisticasPage}/>
-				<PrivateRoutes role={['admin','analista']} exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
-				<PrivateRoutes role={['admin']} exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
-				<PrivateRoutes role={['admin']} exact path="/db/users/:id" name="UsuariosDetailsPage" component={UsuariosDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/analysis" name="AnalysisListPage" component={AnalysisListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/analysis/:id" name="AnalysisDetailsPage" component={AnalysisDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/analysisMethod" name="AnalysisMethodListPage" component={AnalysisMethodListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/analysisMethod/:id" name="AnalysisMethodDetailsPage" component={AnalysisMethodDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/specification" name="SpecificationListPage" component={SpecificationListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/specification/:id" name="SpecificationDetailsPage" component={SpecificationDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path= "/db/qualityControl" name="QualityControlPage" component={QualityControlPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/qualityControl/backlog" name="BackLogListPage" component={BackLogListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/qualityControl/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/qualityControl/aprovados" name="AprovadosListPage" component={AprovadosListPage}/>
-				<PrivateRoutes role={['admin', 'analista']} exact path="/db/qualityControl/reprovados" name="ReprovadosListPage" component={ReprovadosListPage}/>
+                <PrivateRoutes role={['S', 'V', 'AQ', 'GQ', 'AC']} exact path="/home" component={Home} />
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ', 'AC']} exact path="/db/estatisticas" name="EstatisticasPage" component={EstatisticasPage}/>
+				<PrivateRoutes role={['S', 'V', 'AC', 'AQ', 'GQ']} exact path="/db/lotes" name="LotesListPage" component={LotesListPage}/>
+                <PrivateRoutes role={['S', 'V', 'AC', 'AQ', 'GQ']} exact path="/db/lotes/:id" name="LotesDetailsPage" component={LotesDetailsPage}/>
+                <PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/materiais" name="MateriaisListPage" component={MateriaisListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/backlog" name="BackLogListPage" component={BackLogListPage}/>
+                <PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/materiais/:id" name="MateriaisDetailsPage" component={MateriaisDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/Fornecedores" name="FornecedoresListPage" component={FornecedoresListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/Fornecedores/:id" name="FornecedoresDetailsPage" component={FornecedoresDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/analysis" name="AnalysisListPage" component={AnalysisListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/analysis/:id" name="AnalysisDetailsPage" component={AnalysisDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/analysisMethod" name="AnalysisMethodListPage" component={AnalysisMethodListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/analysisMethod/:id" name="AnalysisMethodDetailsPage" component={AnalysisMethodDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/specification" name="SpecificationListPage" component={SpecificationListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/specification/:id" name="SpecificationDetailsPage" component={SpecificationDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path= "/db/qualityControl" name="QualityControlPage" component={QualityControlPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/backlog" name="BackLogListPage" component={BackLogListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/aprovados" name="AprovadosListPage" component={AprovadosListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/reprovados" name="ReprovadosListPage" component={ReprovadosListPage}/>
+				<PrivateRoutes role={['S']} exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
+				<PrivateRoutes role={['S']} exact path="/db/Listas" name="ListasListPage" component={ListasListPage}/>
+				<PrivateRoutes role={['S']} exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
+				<PrivateRoutes role={['S']} exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
+				<PrivateRoutes role={['S']} exact path="/db/users/:id" name="UsuariosDetailsPage" component={UsuariosDetailsPage}/>
 
 
 			    <Route component={NotFoundPage} />

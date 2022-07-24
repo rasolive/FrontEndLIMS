@@ -5,6 +5,7 @@ import GlobalFilterTable from "../../../Layout/Table/GlobalFilterTable";
 import Table from "../../../Layout/Table/Table";
 import { ColumnFilter } from "../../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
+import HasPermission from "../../../Permission";
 
 function BackLogListPage(props) {
 
@@ -19,28 +20,6 @@ function BackLogListPage(props) {
 	// const { session } = useContext(AuthContext);
 
     useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
-	useEffect(() => {
 		async function getItens() {
 
 			const response = await BackendLIMSAxios.get(`lotes?statusLote=Q`,header);
@@ -116,7 +95,7 @@ function BackLogListPage(props) {
 			<Header
 				title={item}
 				showReturnButton
-				showNewExportButton
+				showNewExportButton = {HasPermission(["S","AQ","GQ"])}s
 				handleExportButton={handleExportButton}
 			/>
 

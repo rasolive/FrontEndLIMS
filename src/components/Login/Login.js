@@ -85,6 +85,8 @@ function Login(props) {
     const { fields, setFields, handleInputChange } = useDynamicForm();
     const [loading, setLoading] = useState(false);
     const { handleLogin } = useContext(AuthContext);
+    const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
    async function responseGoogle(response) {
         console.log("google", response);
@@ -94,12 +96,31 @@ function Login(props) {
         const body = Object.assign({}, fields)
         body.name = name
         body.email = email
-        body.role = "visitante"
-        const token = await BackendLIMSAxios.post("auth/authenticatevisitant", body);
+        //body.role = ["V"]
 
-        sessionStorage.setItem('token', token.data.token)
-        setisLoggedIn(true)
-        props.history.push(`/home?session=${token.data.token}`)
+        const user = await BackendLIMSAxios.post(`auth/findOne`,body,header);
+        
+
+        if (user.data.email === email) {
+            console.log('user', user.data.email, 'body', body)
+
+            const token = await BackendLIMSAxios.post("auth/authenticateGoogleUser", body);
+            sessionStorage.setItem('token', token.data.token)
+            setisLoggedIn(true)
+            props.history.push(`/home?session=${token.data.token}`)
+            
+        
+           }else{
+           const response = await BackendLIMSAxios.post(`auth/createGoogleUser`,body,header);
+
+           setLoading(false);
+   
+           const token = await BackendLIMSAxios.post("auth/authenticateGoogleUser", body);
+            sessionStorage.setItem('token', token.data.token)
+            setisLoggedIn(true)
+            props.history.push(`/home?session=${token.data.token}`)}
+
+     
     }
 
     async function responseFacebook(response) {
@@ -125,9 +146,14 @@ function Login(props) {
         console.log(email, password)
 
         const response = await handleLogin(email, password)
+       
         console.log('resp', response)
 
         props.history.push(response)
+        
+        //Recarregar a pagina para atualizar as permissões do usuário na Navbar
+        document.location.reload(true);      
+        
         
     },[email, password]
     )

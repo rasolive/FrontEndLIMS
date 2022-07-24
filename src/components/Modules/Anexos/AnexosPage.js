@@ -215,6 +215,7 @@ export default function AnexosSPage(props) {
 													)
 												}
 											/>
+											{props.roles &&
 											<Trash
 												color="#dc3545"
 												size={20}
@@ -223,7 +224,7 @@ export default function AnexosSPage(props) {
 														file.name
 													)
 												}
-											/>
+											/>}
 
 										</NoImgLabel>
 
@@ -235,11 +236,13 @@ export default function AnexosSPage(props) {
 					)}
 				</FormGroup>
 			</FieldSet>
+			{props.roles &&
 			<FieldSet>
 				<FormGroup>
 					<LabelFile htmlFor="files">
 						Inserir Anexo
 					</LabelFile>
+					
 					<InputFile
 						type="file"
 						name="files"
@@ -287,7 +290,7 @@ export default function AnexosSPage(props) {
 						</>
 					)}
 				</FormGroup>
-				</FieldSet>
+				</FieldSet>}
 			</StyledCard>
 
 

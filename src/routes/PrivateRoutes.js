@@ -12,15 +12,21 @@ function PrivateRoutes(...rest) {
   useEffect(() => {
     async function loadRoles() {
          
-      const response = await BackendLIMSAxios.get("users/roles", header);
-      console.log('roles', response.data)
-      console.log('roles.rest', rest[0].role)
-      const findRole = response.data.some((r) =>rest[0].role?.includes(r))
-      setPermissions(findRole);
-    }
+      if (token) {
+         const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).role;
+
+
+         const findRole = payload.some((r) =>rest[0].role?.includes(r))
+
+        setPermissions(findRole);
+     }else{
+
+       setPermissions(false);
+
+    }}
 
     loadRoles(); 
-  }, [rest[0].role]);
+  }, [rest[0].role, token]);
 
 
 

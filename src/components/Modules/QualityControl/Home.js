@@ -1,12 +1,13 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import {
 	Filter,
-    ThumbsDown,
-    ThumbsUp    
+	ThumbsDown,
+	ThumbsUp
 } from "react-feather";
 import Card from "../../Layout/Card/Card";
+import PermissionComponent from "../../PermissionComponent";
 
 const Container = styled.div`
 	margin-top: clamp(70px, 15%, 200px);;
@@ -87,75 +88,57 @@ const ModuleImg = styled.div`
 
 
 function QualityControlPage(props, req) {
-    const [loading, setLoading] = useState(false);
-    const [token, setToken] = useState(sessionStorage.getItem("token"));
-	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [loading, setLoading] = useState(false);
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({ headers: { 'authorization': `${token}` } });
 
-    useEffect(() => {
 
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
+	function handleModuleClick(module) {
 
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
-    function handleModuleClick(module) {
-		
 		props.history.push(`/${module}`);
-    }
-     
-  
+	}
 
-    return (
-        <>
-            <Container>
-			<Title>Controle de Qualidade</Title>
-			<Cards>
-				
-					<StyledCard
-						onClick={() => handleModuleClick("db/QualityControl/BackLog")}
-					>
-						<ModuleImg background="#ff9933">
-							<Filter size="32" />
-						</ModuleImg>
-						<Subtitle>BackLog</Subtitle>
-					</StyledCard>
-			
-				<StyledCard
-					onClick={() => handleModuleClick("db/QualityControl/aprovados")}
-				>
-					<ModuleImg background="#237c57">
-						<ThumbsUp size="32" />
-					</ModuleImg>
-					<Subtitle>Aprovados</Subtitle>
-				</StyledCard>
-			
-					<StyledCard onClick={() => handleModuleClick("db/QualityControl/reprovados")}>
-						<ModuleImg background= "#f53838">
-							<ThumbsDown size="32" />
-						</ModuleImg>
-						<Subtitle>Reprovados</Subtitle>
-					</StyledCard>
-						
-			</Cards>
-		
-		</Container>
-        </>
-    );
+
+
+	return (
+		<>
+			<Container>
+				<Title>Controle de Qualidade</Title>
+				<Cards>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/QualityControl/BackLog")}
+						>
+							<ModuleImg background="#ff9933">
+								<Filter size="32" />
+							</ModuleImg>
+							<Subtitle>BackLog</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/QualityControl/aprovados")}
+						>
+							<ModuleImg background="#237c57">
+								<ThumbsUp size="32" />
+							</ModuleImg>
+							<Subtitle>Aprovados</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/QualityControl/reprovados")}>
+							<ModuleImg background="#f53838">
+								<ThumbsDown size="32" />
+							</ModuleImg>
+							<Subtitle>Reprovados</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+				</Cards>
+
+			</Container>
+		</>
+	);
 }
 
 export default QualityControlPage;

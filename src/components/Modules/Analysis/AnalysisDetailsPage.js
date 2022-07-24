@@ -20,7 +20,7 @@ import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../../Modules/Anexos/AnexosPage";
 import CellTable from "../../Layout/CellTable/CellTable";
 import { Trash2, Truck } from "react-feather";
-//import { header } from "../../../utils/functions";
+import HasPermission from "../../Permission";
 
 
 const StyledCard = styled(Card)`
@@ -108,29 +108,7 @@ function AnalysisDetailsPage(props) {
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
-
+   
 	useEffect(() => {
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
@@ -613,7 +591,7 @@ function AnalysisDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-															
+								roles = {HasPermission(["S","AQ","GQ"])}															
 							/>
 						
 						</FieldSet>
@@ -627,6 +605,7 @@ function AnalysisDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
+										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -635,16 +614,10 @@ function AnalysisDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {!HasPermission(["S","AQ","GQ"])}
 								>
 									Salvar
 								</Button>
-								{/* <Button
-									type="button"
-									success
-									onClick={handleDownload}
-								>
-									Download
-								</Button> */}
 							</ButtonGroup>
 						</FieldSet>
 					</Form>

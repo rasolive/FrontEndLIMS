@@ -101,29 +101,6 @@ function Configuracoes(props, req) {
     const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
-
     function handleModuleClick(module) {
 		
 		props.history.push(`/${module}`);
@@ -139,7 +116,7 @@ function Configuracoes(props, req) {
 					<StyledCard
 						onClick={() => handleModuleClick("db/users")}
 					>
-						<ModuleImg background="#ff9933">
+						<ModuleImg background="#ff7d1a">
 							<Users size="32" />
 						</ModuleImg>
 						<Subtitle>Usuários</Subtitle>
@@ -148,28 +125,11 @@ function Configuracoes(props, req) {
 				<StyledCard
 					onClick={() => handleModuleClick("db/listas")}
 				>
-					<ModuleImg background="#237c57">
+					<ModuleImg background="#458e88">
 						<List size="32" />
 					</ModuleImg>
 					<Subtitle>Listas</Subtitle>
 				</StyledCard>
-			
-					<StyledCard onClick={() => handleModuleClick("db/analysis")}>
-						<ModuleImg background="#007bff">
-							<Sliders size="32" />
-						</ModuleImg>
-						<Subtitle>Análises</Subtitle>
-					</StyledCard>
-			
-			
-					<StyledCard
-						onClick={() => handleModuleClick("db/analysisMethod")}
-					>
-						<ModuleImg background="#ff9933">
-							<Layers size="32" />
-						</ModuleImg>
-						<Subtitle>MA's</Subtitle>
-					</StyledCard>
 				
 			</Cards>
 		

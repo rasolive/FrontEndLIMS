@@ -1,17 +1,19 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "../../Layout/Button/Button";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import {
 	Layers,
-    Truck,
-    Package,
-    Sliders,
-    Search,
-    BarChart2
-    
+	Truck,
+	Package,
+	Sliders,
+	Search,
+	BarChart2,
+	Activity,
+	Book
 } from "react-feather";
 import Card from "../../Layout/Card/Card";
+import PermissionComponent from "../../PermissionComponent";
 
 // const token = sessionStorage.getItem("token")
 
@@ -126,100 +128,110 @@ const Return = styled.a`
 
 
 function Home(props, req) {
-    const [loading, setLoading] = useState(false);
-    const [token, setToken] = useState(sessionStorage.getItem("token"));
-	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
-
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(true);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
+	const [loading, setLoading] = useState(false);
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({ headers: { 'authorization': `${token}` } });
 
 
-    function handleModuleClick(module) {
-		
+	function handleModuleClick(module) {
+
 		props.history.push(`/${module}`);
-    }
+	}
 
 
-    return (
-        <>
-        <Container>
-			<Title>Selecione o Módulo</Title>
-			<Cards>
-				
-					<StyledCard
-						onClick={() => handleModuleClick("db/fornecedores")}
-					>
-						<ModuleImg background="#ff9933">
-							<Truck size="32" />
-						</ModuleImg>
-						<Subtitle>Fornecedores</Subtitle>
-					</StyledCard>
-			
-				<StyledCard
-					onClick={() => handleModuleClick("db/materiais")}
-				>
-					<ModuleImg background="#237c57">
-						<Package size="32" />
-					</ModuleImg>
-					<Subtitle>Materiais</Subtitle>
-				</StyledCard>
-			
-					<StyledCard onClick={() => handleModuleClick("db/specification")}>
-						<ModuleImg background="#007bff">
-							<Sliders size="32" />
-						</ModuleImg>
-						<Subtitle>Especificação de Materiais</Subtitle>
-					</StyledCard>
-			
-			
-					<StyledCard
-						onClick={() => handleModuleClick("db/lotes")}
-					>
-						<ModuleImg background="#ff9933">
-							<Layers size="32" />
-						</ModuleImg>
-						<Subtitle>Lotes</Subtitle>
-					</StyledCard>
-				
-					<StyledCard onClick={() => handleModuleClick("db/qualitycontrol")}>
-						<ModuleImg background="#E75656">
-							<Search size="32" />
-						</ModuleImg>
-						<Subtitle>Controle de Qualidade</Subtitle>
-					</StyledCard>
-			
-				<StyledCard onClick={() => handleModuleClick("db/emConstrucao")}>
-					<ModuleImg background="#64D5A5">
-						<BarChart2 size="32" />
-					</ModuleImg>
-					<Subtitle>Estatísticas do Sistema</Subtitle>
-				</StyledCard>
-				
-				
-			</Cards>
-		
-		</Container>
-     </>
-    );
+	return (
+		<>
+			<Container>
+				<Title>Selecione o Módulo</Title>
+				<Cards>
+
+					<PermissionComponent role={['S','V', 'AC']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/fornecedores")}
+						>
+							<ModuleImg background="#7e86d6">
+								<Truck size="32" />
+							</ModuleImg>
+							<Subtitle>Fornecedores</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V','AC']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/materiais")}
+						>
+							<ModuleImg background="#30635f">
+								<Package size="32" />
+							</ModuleImg>
+							<Subtitle>Materiais</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V', 'AQ', 'GQ', 'AC']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/lotes")}
+						>
+							<ModuleImg background="#ff7d1a">
+								<Layers size="32" />
+							</ModuleImg>
+							<Subtitle>Lotes</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/specification")}>
+							<ModuleImg background="#558888">
+								<Sliders size="32" />
+							</ModuleImg>
+							<Subtitle>Especificação de Materiais</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/qualitycontrol")}>
+							<ModuleImg background="#E75656">
+								<Search size="32" />
+							</ModuleImg>
+							<Subtitle>Controle de Qualidade</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/analysis")}>
+							<ModuleImg background="#8d5d6c">
+								<Activity size="32" />
+							</ModuleImg>
+							<Subtitle>Análises</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard
+							onClick={() => handleModuleClick("db/analysisMethod")}
+						>
+							<ModuleImg background="#777766">
+								<Book size="32" />
+							</ModuleImg>
+							<Subtitle>MA's</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V', 'V', 'AQ', 'GQ', 'AC']}>
+						<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
+							<ModuleImg background="#64D5A5">
+								<BarChart2 size="32" />
+							</ModuleImg>
+							<Subtitle>Estatísticas do Sistema</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+
+				</Cards>
+
+			</Container>
+		</>
+	);
 }
 
 export default Home;

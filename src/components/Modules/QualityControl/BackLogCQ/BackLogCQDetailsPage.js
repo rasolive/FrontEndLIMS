@@ -19,6 +19,7 @@ import { UpIcon, DownIcon } from "../../../Layout/Icon/Icon";
 import Hr from "../../../Layout/Hr/Hr";
 import AnexosPage from "../../Anexos/AnexosPage";
 import AddAnalysisTable from "./AddAnalysisTable";
+import HasPermission from "../../../Permission";
 
 
 const StyledCard = styled(Card)`
@@ -104,32 +105,13 @@ function BackLogDetailsPage(props) {
 	const [umb, setUmb] = useState([]);
 	const [analysisResult, setAnalysisResult] = useState([]);
 
+	const updatePermission = HasPermission(["S","GQ"])
+	const savePermission = HasPermission(["S", "AQ", "GQ"])
+
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(false);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
-
+    
 	useEffect(() => {
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
@@ -605,6 +587,7 @@ function BackLogDetailsPage(props) {
 											}
 											history={props.history}
 											handleTableInputChange2={handleTableInputChange2}
+											
 										/>
 							</FieldSet>
 						
@@ -652,6 +635,7 @@ function BackLogDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
+								roles = {HasPermission(["S","AQ","GQ"])}
 															
 							/>
 						
@@ -665,6 +649,7 @@ function BackLogDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {fields.statusLote==="Q" ? savePermission ? false : true : !updatePermission }
 								>
 									Salvar
 								</Button>

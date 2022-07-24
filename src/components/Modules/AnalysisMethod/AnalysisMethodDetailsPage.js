@@ -17,6 +17,7 @@ import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
 import AnexosPage from "../../Modules/Anexos/AnexosPage";
+import HasPermission from "../../Permission";
 
 
 
@@ -103,30 +104,7 @@ function AnalysisMethodDetailsPage(props) {
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-    useEffect(() => {
-
-		async function isAuthenticated() {
-			const response = await BackendLIMSAxios.get(`auth/isAuthenticated`, header);
-
-			if (response.data.isAuthenticated === "true" & response.data.validPass === "true"){
-
-			  	console.log(response.data.isAuthenticated);
-
-			}else {
-                sessionStorage.removeItem('token')
-				props.history.push(`/`);
-                setLoading(true);
-			};
-
-			setLoading(false);
-		}
-		
-			isAuthenticated()		
-
-	}, []);
-
-
-	useEffect(() => {
+   	useEffect(() => {
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
 				`${page}/${itemId}`,header);
@@ -519,6 +497,7 @@ function AnalysisMethodDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
+								roles = {HasPermission(["S","AQ","GQ"])}
 															
 							/>
 						
@@ -533,6 +512,7 @@ function AnalysisMethodDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
+										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -541,16 +521,11 @@ function AnalysisMethodDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {!HasPermission(["S","AQ","GQ"])}
 								>
 									Salvar
 								</Button>
-								{/* <Button
-									type="button"
-									success
-									onClick={handleDownload}
-								>
-									Download
-								</Button> */}
+	
 							</ButtonGroup>
 						</FieldSet>
 					</Form>
