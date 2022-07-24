@@ -19,6 +19,7 @@ import { UpIcon, DownIcon } from "../../../Layout/Icon/Icon";
 import Hr from "../../../Layout/Hr/Hr";
 import AnexosPage from "../../Anexos/AnexosPage";
 import AddAnalysisTable from "./AddAnalysisTable";
+import HasPermission from "../../../Permission";
 
 
 const StyledCard = styled(Card)`
@@ -103,6 +104,8 @@ function BackLogDetailsPage(props) {
 	const [unidadesMedida, setUnidadesMedida] = useState([]);
 	const [umb, setUmb] = useState([]);
 	const [analysisResult, setAnalysisResult] = useState([]);
+
+	const updatePermission = HasPermission(["S","GQ"])
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -583,6 +586,7 @@ function BackLogDetailsPage(props) {
 											}
 											history={props.history}
 											handleTableInputChange2={handleTableInputChange2}
+											
 										/>
 							</FieldSet>
 						
@@ -630,6 +634,7 @@ function BackLogDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
+								roles = {HasPermission(["S","AQ","GQ"])}
 															
 							/>
 						
@@ -643,6 +648,7 @@ function BackLogDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
+									disabled= {fields.statusLote==="Q" ? false : !updatePermission }
 								>
 									Salvar
 								</Button>
