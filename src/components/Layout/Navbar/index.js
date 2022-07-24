@@ -125,11 +125,8 @@ const Navbar = ({toggle}) => {
                             Configurações
                         </NavLink>
                     </PermissionComponent>
-                    <NavLink to="/about" activeStyle>
-                        About
-                    </NavLink>
-                    <NavLink to="/services" activeStyle>
-                        Services
+                    <NavLink to="/sobre" activeStyle>
+                        Sobre a Página
                     </NavLink>
                     <NavLink to="/contato" activeStyle>
                         Contato
