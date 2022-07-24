@@ -185,6 +185,23 @@ function Home(props, req) {
 						</ModuleImg>
 						<Subtitle>Controle de Qualidade</Subtitle>
 					</StyledCard>
+
+					<StyledCard onClick={() => handleModuleClick("db/analysis")}>
+						<ModuleImg background="#007bff">
+							<Sliders size="32" />
+						</ModuleImg>
+						<Subtitle>Análises</Subtitle>
+					</StyledCard>
+			
+			
+					<StyledCard
+						onClick={() => handleModuleClick("db/analysisMethod")}
+					>
+						<ModuleImg background="#ff9933">
+							<Layers size="32" />
+						</ModuleImg>
+						<Subtitle>MA's</Subtitle>
+					</StyledCard>
 			
 			<PermissionComponent role={["S"]}>
 				<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>

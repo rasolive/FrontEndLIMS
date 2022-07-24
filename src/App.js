@@ -19,10 +19,10 @@ import UsuariosListPage from "./components/Configuracoes/Usuarios/UsuariosListPa
 import UsuariosDetailsPage from "./components/Configuracoes/Usuarios/UsuariosDetailsPage";
 import ResetPassPage from "./components/Login/resetPass";
 import RegisterPage from "./components/Login/Register";
-import AnalysisListPage from "./components/Configuracoes/Analysis/AnalysisListPage";
-import AnalysisDetailsPage from	"./components/Configuracoes/Analysis/AnalysisDetailsPage";
-import AnalysisMethodDetailsPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodDetailsPage";
-import AnalysisMethodListPage from "./components/Configuracoes/AnalysisMethod/AnalysisMethodListPage";
+import AnalysisListPage from "./components/Modules/Analysis/AnalysisListPage";
+import AnalysisDetailsPage from	"./components/Modules/Analysis/AnalysisDetailsPage";
+import AnalysisMethodDetailsPage from "./components/Modules/AnalysisMethod/AnalysisMethodDetailsPage";
+import AnalysisMethodListPage from "./components/Modules/AnalysisMethod/AnalysisMethodListPage";
 import SpecificationListPage from "./components/Modules/Specification/SpecificationListPage";
 import SpecificationDetailsPage from "./components/Modules/Specification/SpecificationDetailsPage";
 import QualityControlPage from "./components/Modules/QualityControl/Home";
