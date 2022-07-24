@@ -105,7 +105,7 @@ function QualityControlPage(props, req) {
 			<Container>
 				<Title>Controle de Qualidade</Title>
 				<Cards>
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/QualityControl/BackLog")}
 						>
@@ -115,7 +115,7 @@ function QualityControlPage(props, req) {
 							<Subtitle>BackLog</Subtitle>
 						</StyledCard>
 					</PermissionComponent>
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/QualityControl/aprovados")}
 						>
@@ -125,7 +125,7 @@ function QualityControlPage(props, req) {
 							<Subtitle>Aprovados</Subtitle>
 						</StyledCard>
 					</PermissionComponent>
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/QualityControl/reprovados")}>
 							<ModuleImg background="#f53838">
 								<ThumbsDown size="32" />

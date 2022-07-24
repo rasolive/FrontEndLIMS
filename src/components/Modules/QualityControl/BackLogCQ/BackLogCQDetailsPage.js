@@ -106,6 +106,7 @@ function BackLogDetailsPage(props) {
 	const [analysisResult, setAnalysisResult] = useState([]);
 
 	const updatePermission = HasPermission(["S","GQ"])
+	const savePermission = HasPermission(["S", "AQ", "GQ"])
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -648,7 +649,7 @@ function BackLogDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
-									disabled= {fields.statusLote==="Q" ? false : !updatePermission }
+									disabled= {fields.statusLote==="Q" ? savePermission ? false : true : !updatePermission }
 								>
 									Salvar
 								</Button>

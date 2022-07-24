@@ -94,7 +94,7 @@ function Login(props) {
         const body = Object.assign({}, fields)
         body.name = name
         body.email = email
-        body.role = "visitante"
+        body.role = ["V"]
         const token = await BackendLIMSAxios.post("auth/authenticatevisitant", body);
 
         sessionStorage.setItem('token', token.data.token)

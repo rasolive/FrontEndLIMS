@@ -145,7 +145,7 @@ function Home(props, req) {
 				<Title>Selecione o Módulo</Title>
 				<Cards>
 
-					<PermissionComponent role={['S', 'AC']}>
+					<PermissionComponent role={['S','V', 'AC']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/fornecedores")}
 						>
@@ -156,7 +156,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S','AC']}>
+					<PermissionComponent role={['S','V','AC']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/materiais")}
 						>
@@ -167,7 +167,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S', 'AQ', 'GQ', 'AC']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ', 'AC']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/lotes")}
 						>
@@ -178,7 +178,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/specification")}>
 							<ModuleImg background="#558888">
 								<Sliders size="32" />
@@ -187,7 +187,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/qualitycontrol")}>
 							<ModuleImg background="#E75656">
 								<Search size="32" />
@@ -196,7 +196,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/analysis")}>
 							<ModuleImg background="#8d5d6c">
 								<Activity size="32" />
@@ -206,7 +206,7 @@ function Home(props, req) {
 					</PermissionComponent>
 
 
-					<PermissionComponent role={['S', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/analysisMethod")}
 						>
@@ -217,7 +217,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S', 'V', 'AQ', 'GQ', 'AC']}>
+					<PermissionComponent role={['S','V', 'V', 'AQ', 'GQ', 'AC']}>
 						<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
 							<ModuleImg background="#64D5A5">
 								<BarChart2 size="32" />
