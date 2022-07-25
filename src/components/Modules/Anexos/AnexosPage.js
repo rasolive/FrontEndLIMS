@@ -83,7 +83,7 @@ export default function AnexosSPage(props) {
 	useEffect(() => {
 		const body = Object.assign({}, fields)
 
-		body.gcpPatch = `${props.gcpPatch}/${props.itemtId}`
+		body.gcpPatch = `${props.gcpPatch}/${props.itemtId}/`
 
 		async function getGcpDocuments() {
 			const response = await BackendLIMSAxios.post(
