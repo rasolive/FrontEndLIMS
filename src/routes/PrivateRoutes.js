@@ -41,7 +41,7 @@ function PrivateRoutes(...rest) {
     return <Route path={rest[0].path} exact component={rest[0].component} />;
 
   }
-  console.log('permissions', permissions)
+
   return permissions ? <Route path={rest[0].path} exact component={rest[0].component} /> : <Redirect to="/" />;
 };
 

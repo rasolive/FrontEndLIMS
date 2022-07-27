@@ -111,9 +111,7 @@ function EstatisticasPage(props) {
             const response = await BackendPythonLIMSAxios.post("plot_2",body);
     
             setLoading(false);
-            console.log("15",response)
-            console.log("16",response.data.data)
-            console.log("17",response.data.layout)
+  
             setPlot_2(response.data.data)
             setLayout(response.data.layout)
             
@@ -133,8 +131,7 @@ function EstatisticasPage(props) {
 		const response = await BackendPythonLIMSAxios.post("Grafico",body);
 
 		setLoading(false);
-		console.log("24",response)
-		console.log("25",response.data.data[0])
+
 	    setGraph(response.data.data[0])
         	
 	};

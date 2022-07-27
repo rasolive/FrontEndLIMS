@@ -6,12 +6,10 @@ import GlobalFilterTable from "../../Layout/Table/GlobalFilterTable";
 import Table from "../../Layout/Table/Table";
 import { ColumnFilter } from "../../Layout/Filter/ColumnFilter";
 import * as XLSX from "xlsx";
-import HasPermission from "../../Permission";
 
-
-function AnalysisListPage(props) {
-	const page = `analysis` // nome da rota no backend
-	const item = `Análises` // nome do Tipo de item
+function PermissionsListPage(props) {
+	const page = `permissions` // nome da rota no backend
+	const item = `Permisão` // nome do Tipo de item
 
 
 	const [loading, setLoading] = useState(false);
@@ -20,7 +18,7 @@ function AnalysisListPage(props) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	// const { session } = useContext(AuthContext);
 
-  	useEffect(() => {
+   	useEffect(() => {
 		
 		async function getItens() {
 			const response = await BackendLIMSAxios.get(`${page}`, header);
@@ -45,10 +43,9 @@ function AnalysisListPage(props) {
 			Objects: data.map(function(node) {
 			  return {
 				'ID': node._id,
-				'Análise': node.name,
-				'Método': node.AnalysisMethod,
-				'Tipo': node.AnalysisType,
-				'Unidade': node.unit,
+				'Usuário': node.name,
+				'E-mail': node.email,
+				'Perfil': node.role.map(function(node){ return node.perfil}).join(","),
 				'Criado_Por': node.createdBy,
 				'Criado_Em': node.createdAt,
 				'Atualizado_Por': node.updatedBy,
@@ -59,11 +56,9 @@ function AnalysisListPage(props) {
 
 		const wb = XLSX.utils.book_new();
 		const ws = XLSX.utils.json_to_sheet(exports.Objects);
-		XLSX.utils.book_append_sheet(wb, ws, "Análises");
-		XLSX.writeFile(wb, `Análises.xlsx`);
-
-
-	};
+		XLSX.utils.book_append_sheet(wb, ws, "Usuários");
+		XLSX.writeFile(wb, `Usuários.xlsx`);
+};
 
 	const columns = [
 		{
@@ -72,17 +67,10 @@ function AnalysisListPage(props) {
 			Filter: ColumnFilter,
 		},
 		{
-			Header: "Análise",
-			accessor: "name",
+			Header: `Nome da Rota`,
+			accessor: "page",
 			Filter: ColumnFilter,
 		},
-
-		{
-			Header: "Tipo",
-			accessor: "AnalysisType",
-			Filter: ColumnFilter,
-		},
-
 		{
 			Header: "Criado por",
 			accessor: "createdBy",
@@ -100,9 +88,9 @@ function AnalysisListPage(props) {
 		<>
 			<Header
 				title={item}
-				showNewRegisterButton = {HasPermission(["S","AQ", "GQ"])}
+				showNewRegisterButton
 				showReturnButton
-				showNewExportButton = {HasPermission(["S","AQ", "GQ"])}
+				showNewExportButton
 				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>
@@ -121,4 +109,4 @@ function AnalysisListPage(props) {
 	);
 }
 
-export default AnalysisListPage;
+export default PermissionsListPage;

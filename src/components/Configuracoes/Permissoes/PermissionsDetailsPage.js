@@ -9,7 +9,7 @@ import Form from "../../Layout/Form/Form";
 import Card from "../../Layout/Card/Card";
 import FormGroup from "../../Layout/FormGroup/FormGroup";
 import Label from "../../Layout/Label/Label";
-import { InputText, Select, InputNumber} from "../../Layout/Input/Input";
+import { InputText, Select, InputNumber, Checkbox} from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../../Layout/Button/Button";
@@ -17,14 +17,13 @@ import ButtonGroup from "../../Layout/ButtonGroup/ButtonGroup";
 import Loading from "../../Layout/Loading/Loading";
 import { UpIcon, DownIcon } from "../../Layout/Icon/Icon";
 import Hr from "../../Layout/Hr/Hr";
-import AnexosPage from "../../Modules/Anexos/AnexosPage";
-import CellTable from "../../Layout/CellTable/CellTable";
-import { Trash2, Truck } from "react-feather";
-import HasPermission from "../../Permission";
+//import { header } from "../../../utils/functions";
+import AddListasTable from "./AddListasTable";
+
 
 
 const StyledCard = styled(Card)`
-	max-width: 600px;
+	max-width: 500px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
@@ -69,11 +68,6 @@ const RightPanel = styled.div`
 	width: 50%;
 `;
 
-const AddButton = styled(Button)`
-	margin: 0px;
-	/* align-self: flex-end; */
-`;
-
 
 
 const Container = styled.div`
@@ -87,10 +81,10 @@ const Container = styled.div`
 `;
 
 
-function AnalysisDetailsPage(props) {
-	const page = `analysis`
+function PermissionsDetailsPage(props) {
+	const page = `permissions`;
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Analise`
+	const item = `permissão`
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
@@ -102,72 +96,60 @@ function AnalysisDetailsPage(props) {
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
-	const [unidade, setUnidade] = useState([]);
-	const [analysisMethods, setAnalysisMethods] = useState([]);
+	const [table, setTable] = useState([]);
+	const [list, setList] = useState([]);
+	const [userProfile, setUserProfile]= useState([]);
+	const [checked, setChecked] = useState(false);
+
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-   
+    
 	useEffect(() => {
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
 				`${page}/${itemId}`,header);
 
 			setFields(response.data || {});
+			const table = response?.data?.role || [];
+			setList([...list, ...table]);
 			setLoading(false);
 		}
 
-		async function getUnidade() {
-			const body = {name:'Unidades'}
+		async function getUserProfile() {
+			const body = {name:'UserProfile'}
 			
 			const response = await BackendLIMSAxios.post("listas/lista",body, header);
 			const data = response.data[0]?.lista || [];
 
-			setUnidade(data);
-		
+			setUserProfile(data);
+
 			setLoading(false);
 		}
 
-		async function getAnalysisMethods() {
-					
-			const response = await BackendLIMSAxios.get('analysisMethod',header);
-			const data = response.data || [];
-
-			setAnalysisMethods(data);
-		
-			setLoading(false);
-		}
-		
-		setLoading(true);
-		getUnidade()
-		getAnalysisMethods()
-
-		
-		
-		setLoading(true);
-	
+		getUserProfile();
 
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
 		}
-		
-	}, []);
+	}, [itemId, newItem, setFields, setFiles]);
 
 	
 	const createItem = async () => {
+
 		const body = Object.assign({}, fields)
 
-		const newAnalisis = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+		// const newUser = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
 
-		if (newAnalisis.data.name === body.name){ 
-			setLoading(false);
-			toast.error("Análise já existe",
-			{ closeOnClick: true, autoClose: 6000 });
+		//setLoading(false);
 
-		}
-		else{
+	     table.map((dt) => {
+			return delete dt.id;
+		});
+
+		body.role = list;
 
 		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
@@ -175,18 +157,24 @@ function AnalysisDetailsPage(props) {
 
 		const status = response.status || {};
 		const id = response.data.message._id;
-
+	
 		if (status === 200) {
 			handleUploadFiles(id);
-			toast.success(`${item} Criada com sucesso`);
+			toast.success(`${item} Criado com sucesso`);
 			props.history.push(`/db/${page}`);
 
-		}
-	}
-	};
+		}}
+	;
+
 
 	const updateItem = async () => {
 		const body = Object.assign({}, fields)
+
+		table.map((dt) => {
+			return delete dt.id;
+		});
+
+		body.role = list;
 
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
@@ -194,10 +182,9 @@ function AnalysisDetailsPage(props) {
 		const id = response.data._id;
 
 		const status = response.status || {};
-
 		if (status === 200) {
 			handleUploadFiles(id);
-			toast.success(`${item} Atualizada com sucesso`);
+			toast.success(`${item} Atualizado com sucesso`);
 			props.history.push(`/db/${page}`);
 		}
 		setLoading(false);		
@@ -210,53 +197,13 @@ function AnalysisDetailsPage(props) {
 
 		setLoading(false);
 		if (data.success) {
-			toast.success(`${item} Excluída com sucesso`);
+			toast.success(`${item} Excluído com sucesso`);
 			props.history.push(`/db/${page}`);
 		}
 	};
 
 	
-	const docExtras =
-	uploadedFiles.find((uf) => uf.folder === "extras") || {};
-
 	
-	const handleShowDocuments = () => {
-		setShowDocuments(!showDocuments);
-	};
-
-	const handleFileInput = (e, path) => {
-
-		const hasPicture = e.target.files.length > 0 && path.includes("Foto"); // Boolean - comparativo
-		hasPicture && setImage(URL.createObjectURL(e.target.files[0]));
-	
-		const newFiles = e.target.files;
-		let newFilesDescription = [...files];
-	
-		for (let i = 0; i < newFiles.length; i++) {
-			const sameFileAndFolder = newFilesDescription.find(
-				(fileObj) =>
-					fileObj.name === newFiles[i].name &&
-					fileObj.size === newFiles[i].size &&
-					fileObj.file.lastModified === newFiles[i].lastModified
-			);
-	
-			if (sameFileAndFolder) {
-				toast.error(`Arquivo ${newFiles[i].name} já foi inserido`);
-				continue;
-			}
-	
-			newFilesDescription.push({
-				name: newFiles[i].name,
-				size: newFiles[i].size,
-				path: `${path}`,				
-				file: newFiles[i],
-			});
-		}
-	
-		e.target.value = null;
-		setFiles(newFilesDescription);
-	
-	};
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
@@ -264,11 +211,10 @@ function AnalysisDetailsPage(props) {
 
 		if (newItem) {
 
-			const validate = [fields.name, fields.AnalysisType, fields.AnalysisMethod];
-
+			const validate = [fields.page];
 
 			if ( !validate.every(item => Boolean(item) === true) )  {
-				toast.error("Preencha os campos obrigatórios \"Nome\", \"Tipo\"  e \"Método de Análise\"", {
+				toast.error("O nome dapágina é obrigatório", {
 					closeOnClick: true,
 					autoClose: 7000,});
 				return;
@@ -279,14 +225,6 @@ function AnalysisDetailsPage(props) {
 		else {
 			updateItem();
 		}
-	};
-
-	const removeFile = (fileObj) => {
-		const filteredFiles = files.filter(
-			(file) => file.name !== fileObj.name || file.path !== fileObj.path
-		);
-
-		setFiles(filteredFiles);
 	};
 
 	
@@ -303,7 +241,6 @@ function AnalysisDetailsPage(props) {
 
 
 	const handleUploadFiles = async (id) => {
-		
 		if (files.length === 0) {
 			return;
 		}
@@ -312,7 +249,6 @@ function AnalysisDetailsPage(props) {
 			setLoading(true);
 	
 			const path = `${fileObj.path}/${id}`
-		
 			const archiveData = {
 				path
 			};
@@ -345,20 +281,40 @@ function AnalysisDetailsPage(props) {
 		}
 	};
 
-	
+	function handleAddLineButtonClick() {
+		setList([
+			...list,
+			{
+				id: Math.random().toString(36).substr(2, 9),
+				perfil: "",
+				},
+		]);
+	}
+
+	function handleRemoveLineButtonClick(id) {
+		const result = list.filter((dt) => dt.id !== id);
+		setList(result);
+	}
+
+	function handleTableInputChange(e, key, id) {
+		const result = list.find((dt) => dt.id === key);
+
+		result[`${id}`] = e.target.value;
+	}
+
 	
 	return (
 		<>
 			<Modal
 				showModal={showModal}
-				modalTitle="Tem certeza que deseja excluir este item?"
+				modalTitle={`Tem certeza que deseja excluir este ${item}?`}
 				modalBody="Caso continue, essas informações serão perdidas!"
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
 			/>
 			<Container showModal={showModal}>
 				<Header
-					title="Cadastro de Análises"
+					title="Cadastro de Usuários"
 					showReturnButton
 				/>
 				<StyledCard>
@@ -370,119 +326,54 @@ function AnalysisDetailsPage(props) {
 							alignItems: "center",
 						}}>
 							<FormGroup>
-								<Label htmlFor="name">Nome da Análise</Label>
+								<Label htmlFor="_id">ID da rota</Label>
 								<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
-									<InputText
-										type="text"
-										id="name"
-										defaultValue={fields.name}
-										onChange={handleInputChange}
-									/>
-								</FieldSet>
-							</FormGroup>
-							<FormGroup>
-								<Label htmlFor="AnalysisType">Tipo</Label>
-								<Select
-									id="AnalysisType"
-									onChange={handleInputChange}
-									value={fields.AnalysisType}
-								>
-									<option value="">Selecione</option>
-									<option	key="ql" value="Qualitativa">Qualitativa</option>
-									<option	key="qt" value="Quantitativa">Quantitativa</option>
-									
-									
-								</Select>
-							</FormGroup>
-						</FieldSet>
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-						<FormGroup>
-								<Label htmlFor="AnalysisMethod">Método de Análise</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<Select
-									id="AnalysisMethod"
-									onChange={handleInputChange}
-									value={fields.AnalysisMethod}	
-									//disabled={!newItem}
-								>
-									<option value="">Selecione</option>
-									{analysisMethods.map((value) => {
-										return (
-											<option
-												key={value.name}
-												value={value.name}
-											>
-												{value.description}
-											</option>
-										);
-									})}
-								</Select>
-								</FieldSet>
-							</FormGroup>
-
-							</FieldSet>
-
-						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							<FormGroup>
-								<Label htmlFor="ma">MA</Label>
-								<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-									<InputText
-										type="text"
-										id="ma"
-										defaultValue={fields.AnalysisMethod}
+									<InputNumber
+										type="number"
+										id="_id"
+										defaultValue={fields._id}
 										onChange={handleInputChange}
 										disabled
 									/>
 								</FieldSet>
 							</FormGroup>
-
+														
+						</FieldSet>		
+                        <FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
 							<FormGroup>
-								<Label htmlFor="unit">
-									Unidade
-								</Label>
-								<Select
-									id="unit"
+								<Label htmlFor="name">Página:</Label>
+								<InputText
+									type="text"
+									id="component"
+									defaultValue={fields.component}
 									onChange={handleInputChange}
-									value={fields.unit}	
-									//disabled={!newItem}
-								>
-									<option value="">Selecione</option>
-									{unidade.map((value) => {
-										return (
-											<option
-												key={value.chave}
-												value={value.chave}
-											>
-												{value.valor}
-											</option>
-										);
-									})}
-								</Select>
+								/>
 							</FormGroup>
-							</FieldSet>
 
 							
+						</FieldSet>						
+						
+						<AddListasTable
+											data={list}
+											UserProfile ={userProfile}
+											handleAddLineButtonClick={
+												handleAddLineButtonClick
+											}
+											handleRemoveLineButtonClick={
+												handleRemoveLineButtonClick
+											}
+											handleTableInputChange={
+												handleTableInputChange
+											}
+										/>
 
-												
-							
 						<FieldSet style={{
 											flexWrap: "wrap",
 											alignItems: "center",
@@ -512,88 +403,9 @@ function AnalysisDetailsPage(props) {
 								/>
 							</FormGroup>
 						</FieldSet>
-
-						<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
-							<FormGroup>
-								<Label htmlFor="createdAt">
-									Criado em
-								</Label>
-								<InputText
-									type="text"
-									id="createdAt"
-									defaultValue={fields.createdAt}
-									onChange={handleInputChange}
-									disabled
-								/>
-							</FormGroup>
-                            <FormGroup>
-								<Label htmlFor="updatedAt">
-									Atualizado em
-								</Label>
-								<InputText
-									type="text"
-									id="updatedAt"
-									defaultValue={fields.updatedAt}
-									onChange={handleInputChange}
-									disabled
+						
+						
 																	
-								/>
-							</FormGroup>
-						</FieldSet>
-						
-						
-							<FieldSet>
-							
-							<FormGroup>
-								<Group>
-									<LeftPanel>Anexos</LeftPanel>
-									<RightPanel>
-									{showDocuments ? (
-										<SmallButton
-											type="button"
-											small
-											onClick={handleShowDocuments}
-											title="Exibir Anexos"
-										>
-											<DownIcon />
-										</SmallButton>
-										) : 
-										(
-											<SmallButton
-											type="button"
-											small
-											onClick={handleShowDocuments}
-											title="Esconder Anexos"
-										>
-											<UpIcon />
-										</SmallButton>
-										)}
-									</RightPanel>
-								</Group>
-								<Hr />
-							</FormGroup>
-						</FieldSet>
-						<Collapse className={`${showDocuments && "collapsed"}`}>
-						<FieldSet>
-
-							<AnexosPage
-								fileName = {fileName}
-								newItem = {newItem}
-								docExtras = {docExtras}
-								itemtId = {itemId}
-								handleFileInput = {handleFileInput}
-								files = {files}
-								removeFile = {removeFile}
-								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S","AQ","GQ"])}															
-							/>
-						
-						</FieldSet>
-						</Collapse>
-														
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
@@ -602,7 +414,6 @@ function AnalysisDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
-										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -611,7 +422,6 @@ function AnalysisDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
-									disabled= {!HasPermission(["S","AQ","GQ"])}
 								>
 									Salvar
 								</Button>
@@ -624,4 +434,4 @@ function AnalysisDetailsPage(props) {
 	);
 }
 
-export default AnalysisDetailsPage;
+export default PermissionsDetailsPage;

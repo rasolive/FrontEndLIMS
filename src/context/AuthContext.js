@@ -12,7 +12,7 @@ function AuthProvider(props) {
 
 	const [token, setToken] = useState(() => {
 		const token = sessionStorage.getItem('token');
-		console.log('token', token)		
+		
 		if (token) {
 		  setHeader({headers: {'authorization': `${token}`}});
 		}
@@ -23,7 +23,7 @@ function AuthProvider(props) {
 		const body = Object.assign({})
 		body.email = email
 		body.password = password
-		console.log(body)
+	
 
 		try {
             const response = await BackendLIMSAxios.post("auth/finduser", body);
@@ -35,8 +35,7 @@ function AuthProvider(props) {
             else
                 try {
                     const response = await BackendLIMSAxios.post("auth/authenticate", body);
-					console.log('vali',response.data.user.validPass)
-
+					
                     sessionStorage.setItem('token', response.data.token)
                     
                     if(!response.data.user.validPass){

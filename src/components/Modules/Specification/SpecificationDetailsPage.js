@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { BackendLIMSAxios } from "../../../utils/axiosInstances";
 import useDynamicForm from "../../../hooks/useDynamicForm";
@@ -8,7 +8,7 @@ import Form from "../../Layout/Form/Form";
 import Card from "../../Layout/Card/Card";
 import FormGroup from "../../Layout/FormGroup/FormGroup";
 import Label from "../../Layout/Label/Label";
-import { InputText, Select} from "../../Layout/Input/Input";
+import { InputText, Select } from "../../Layout/Input/Input";
 import FieldSet from "../../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../../Layout/Button/Button";
@@ -99,7 +99,7 @@ function SpecificationDetailsPage(props) {
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
-	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [header, setHeader] = useState({ headers: { 'authorization': `${token}` } });
 	const [materiais, setMateriais] = useState([]);
 	const [analysis, setAnalysis] = useState([]);
 	const [selectedAnalysis, setSelectedAnalysis] = useState([]);
@@ -110,10 +110,10 @@ function SpecificationDetailsPage(props) {
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-    useEffect(() => {
+	useEffect(() => {
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
-				`${page}/${itemId}`,header);
+				`${page}/${itemId}`, header);
 
 			setFields(response.data || {});
 			const table = response?.data?.specification || [];
@@ -125,51 +125,48 @@ function SpecificationDetailsPage(props) {
 		async function getMateriais() {
 			const response = await BackendLIMSAxios.get('materiais', header);
 
-			console.log("1",response)			
-			
-			setMateriais(response.data.filter( element => element.statusMaterial === 'L') || []);
-			
+			setMateriais(response.data.filter(element => element.statusMaterial === 'L') || []);
+
 			setLoading(false);
-			
+
 		}
 
 		async function getAnalysis() {
 			const response = await BackendLIMSAxios.get('analysis', header);
 
-			console.log("analysis",response.data)			
-			
+
 			setAnalysis(response.data || []);
-			
+
 			setLoading(false);
-			
+
 		}
-		
+
 		setLoading(true);
 		getMateriais()
 		getAnalysis()
-	
+
 
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
 		}
-		
+
 	}, []);
 
-	useEffect(() => {		
+	useEffect(() => {
 		/** @Describe: Controla a visualização dos analysis no Select e Tabela. */
-		const analysisFiltered = analysis.filter((analysis) => {			
+		const analysisFiltered = analysis.filter((analysis) => {
 
 			return !selectedAnalysis.find(
 				(selectedAnalysis) => selectedAnalysis._id === Number(analysis._id)
-				);
-			});
+			);
+		});
 
-			setShowAnalysis(analysisFiltered);
-			
-	} ,[selectedAnalysis, setSelectedAnalysis, analysis])
+		setShowAnalysis(analysisFiltered);
 
-	
+	}, [selectedAnalysis, setSelectedAnalysis, analysis])
+
+
 
 
 
@@ -178,9 +175,6 @@ function SpecificationDetailsPage(props) {
 			try {
 				const analysisIds = fields.specification.map(analysis => analysis._id);
 				const getAnalysis = analysis.filter(item => analysisIds.includes(item._id));
-				console.log("getAnalysis", getAnalysis)
-				console.log("specification", fields.specification)
-				console.log('selectedAnalysis', selectedAnalysis)
 				setSelectedAnalysis(fields.specification);
 			} catch (error) { }
 		}
@@ -194,7 +188,7 @@ function SpecificationDetailsPage(props) {
 
 		body.specification = specification;
 
-		const response = await BackendLIMSAxios.post(`${page}`,body, header);
+		const response = await BackendLIMSAxios.post(`${page}`, body, header);
 
 		setLoading(false);
 
@@ -213,24 +207,24 @@ function SpecificationDetailsPage(props) {
 
 		body.specification = specification;
 
-		
+
 		const response = await BackendLIMSAxios.put(`${page}/${itemId}`, body, header);
 
 		setLoading(false);
 		const id = response.data._id;
 
 		const status = response.status || {};
-	
+
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Atualizado com sucesso`);
 			props.history.push(`/db/${page}`);
 		}
-		setLoading(false);		
+		setLoading(false);
 	};
 
 	const deleteItem = async () => {
-	
+
 		const response = await BackendLIMSAxios.delete(`${page}/${itemId}`, header);
 		const data = response.data || {};
 
@@ -241,11 +235,11 @@ function SpecificationDetailsPage(props) {
 		}
 	};
 
-	
-	const docExtras =
-	uploadedFiles.find((uf) => uf.folder === "extras") || {};
 
-	
+	const docExtras =
+		uploadedFiles.find((uf) => uf.folder === "extras") || {};
+
+
 	const handleShowDocuments = () => {
 		setShowDocuments(!showDocuments);
 	};
@@ -254,10 +248,10 @@ function SpecificationDetailsPage(props) {
 
 		const hasPicture = e.target.files.length > 0 && path.includes("Foto"); // Boolean - comparativo
 		hasPicture && setImage(URL.createObjectURL(e.target.files[0]));
-	
+
 		const newFiles = e.target.files;
 		let newFilesDescription = [...files];
-	
+
 		for (let i = 0; i < newFiles.length; i++) {
 			const sameFileAndFolder = newFilesDescription.find(
 				(fileObj) =>
@@ -265,23 +259,23 @@ function SpecificationDetailsPage(props) {
 					fileObj.size === newFiles[i].size &&
 					fileObj.file.lastModified === newFiles[i].lastModified
 			);
-	
+
 			if (sameFileAndFolder) {
 				toast.error(`Arquivo ${newFiles[i].name} já foi inserido`);
 				continue;
 			}
-	
+
 			newFilesDescription.push({
 				name: newFiles[i].name,
 				size: newFiles[i].size,
-				path: `${path}`,				
+				path: `${path}`,
 				file: newFiles[i],
 			});
 		}
-	
+
 		e.target.value = null;
 		setFiles(newFilesDescription);
-		console.log("50",newFilesDescription)
+	
 	};
 
 	const handleFormSubmit = (e) => {
@@ -303,7 +297,7 @@ function SpecificationDetailsPage(props) {
 		setFiles(filteredFiles);
 	};
 
-	
+
 	const handleToggleModal = () => {
 		setShowModal(!showModal);
 	};
@@ -317,25 +311,24 @@ function SpecificationDetailsPage(props) {
 
 
 	const handleUploadFiles = async (id) => {
-		console.log(files)
+	
 		if (files.length === 0) {
 			return;
 		}
-	
+
 		for (const [idx, fileObj] of files.entries()) {
 			setLoading(true);
-	
+
 			const path = `${fileObj.path}/${id}`
-			console.log('fileObj',fileObj)
-			console.log('fileObj path',path)
+	
 			const archiveData = {
 				path
 			};
-	
+
 			const formData = new FormData();
 			formData.append("archiveFullData", JSON.stringify(archiveData));
 			formData.append("files", fileObj.file);
-	
+
 			await BackendLIMSAxios
 				.post(`anexos/upload`, formData, {
 					"Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
@@ -348,7 +341,7 @@ function SpecificationDetailsPage(props) {
 					});
 					if (idx === files.length - 1) {
 						toast.success("Anexo criado com sucesso");
-						}
+					}
 				})
 				.catch((err) => {
 					setLoading(false);
@@ -372,24 +365,21 @@ function SpecificationDetailsPage(props) {
 
 		const JoinSelectedAnalysis = [...selectedAnalysis, result]
 		setSelectedAnalysis(JoinSelectedAnalysis);
-		console.log('selectedAnalysis',selectedAnalysis)
-
-		console.log('JoinSelectedAnalysis',JoinSelectedAnalysis)
 
 		setFields({ ...fields, analysis: "" });
 
 		setSpecification([
 			...JoinSelectedAnalysis
 		]);
-	
+
 	};
 
 	const handleRemoveAnalysis = (id) => {
 		const result = specification.filter((dt) => dt._id !== id);
-		console.log(222,result)
+	
 		setSelectedAnalysis(result);
 		setSpecification(result);
-		
+
 	};
 
 
@@ -399,7 +389,7 @@ function SpecificationDetailsPage(props) {
 		result[`${id}`] = e.target.value;
 	}
 
-	
+
 	return (
 		<>
 			<Modal
@@ -418,10 +408,10 @@ function SpecificationDetailsPage(props) {
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							<FormGroup>
 								<Label htmlFor="material">
 									Material
@@ -432,7 +422,7 @@ function SpecificationDetailsPage(props) {
 									value={
 										fields.material
 									}
-									disabled = {!newItem}
+									disabled={!newItem}
 								>
 									<option value="">Selecione</option>
 									{materiais.map((value) => {
@@ -447,62 +437,62 @@ function SpecificationDetailsPage(props) {
 									})}
 								</Select>
 							</FormGroup>
-							
-							
+
+
 						</FieldSet>
 
 						<FieldSet alignItems="flex-end">
-								<FormGroup>
-									<Label htmlFor="analysis2">Analysis</Label>
-									<Select
-										id="analysis2"
-										onChange={handleInputChange}
-									>
-										<option value="">Selecione</option>
-										{showAnalysis.map((analysis) => {											
-											return (
-												<option
-													key={analysis._id}
-													value={analysis._id}
-												>
-													{analysis.name}
-												</option>
-											);
-										})}
-									</Select>
-								</FormGroup>
-								<FormGroup>
-									<AddButton
-										type="button"
-										onClick={handleAddAnalysis}
-									>
-										Adicionar
-									</AddButton>
-								</FormGroup>
-							</FieldSet>
-							<FieldSet>
-								
-							</FieldSet>
-							<FieldSet>
-								
-								<AddSpecificationTable
-											data={specification}
-											analysis={analysis}
+							<FormGroup>
+								<Label htmlFor="analysis2">Analysis</Label>
+								<Select
+									id="analysis2"
+									onChange={handleInputChange}
+								>
+									<option value="">Selecione</option>
+									{showAnalysis.map((analysis) => {
+										return (
+											<option
+												key={analysis._id}
+												value={analysis._id}
+											>
+												{analysis.name}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+							<FormGroup>
+								<AddButton
+									type="button"
+									onClick={handleAddAnalysis}
+								>
+									Adicionar
+								</AddButton>
+							</FormGroup>
+						</FieldSet>
+						<FieldSet>
 
-											handleRemoveLineButtonClick={
-												handleRemoveAnalysis
-											}
-											handleTableInputChange={
-												handleTableInputChange
-											}
-											history={props.history}
-										/>
-							</FieldSet>
+						</FieldSet>
+						<FieldSet>
+
+							<AddSpecificationTable
+								data={specification}
+								analysis={analysis}
+
+								handleRemoveLineButtonClick={
+									handleRemoveAnalysis
+								}
+								handleTableInputChange={
+									handleTableInputChange
+								}
+								history={props.history}
+							/>
+						</FieldSet>
 
 						<FieldSet style={{
-											flexWrap: "wrap",
-											alignItems: "center",
-										}}>
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
 							<FormGroup>
 								<Label htmlFor="createdBy">
 									Criado Por
@@ -515,7 +505,7 @@ function SpecificationDetailsPage(props) {
 									disabled
 								/>
 							</FormGroup>
-                            <FormGroup>
+							<FormGroup>
 								<Label htmlFor="updatedBy">
 									Atualizado Por
 								</Label>
@@ -528,10 +518,10 @@ function SpecificationDetailsPage(props) {
 								/>
 							</FormGroup>
 						</FieldSet>
-						
-						
-							<FieldSet>
-							
+
+
+						<FieldSet>
+
 							<FormGroup>
 								<Group>
 									<LeftPanel>Anexos</LeftPanel>
@@ -553,24 +543,24 @@ function SpecificationDetailsPage(props) {
 							</FormGroup>
 						</FieldSet>
 						<Collapse className={`${showDocuments && "collapsed"}`}>
-						<FieldSet>
+							<FieldSet>
 
-							<AnexosPage
-								fileName = {fileName}
-								newItem = {newItem}
-								docExtras = {docExtras}
-								itemtId = {itemId}
-								handleFileInput = {handleFileInput}
-								files = {files}
-								removeFile = {removeFile}
-								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S","AQ","GQ"])}
-															
-							/>
-						
-						</FieldSet>
+								<AnexosPage
+									fileName={fileName}
+									newItem={newItem}
+									docExtras={docExtras}
+									itemtId={itemId}
+									handleFileInput={handleFileInput}
+									files={files}
+									removeFile={removeFile}
+									gcpPatch={gcpPatch}
+									roles={HasPermission(["S", "AQ", "GQ"])}
+
+								/>
+
+							</FieldSet>
 						</Collapse>
-														
+
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
@@ -579,7 +569,7 @@ function SpecificationDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
-										disabled= {!HasPermission(["S"])}
+										disabled={!HasPermission(["S"])}
 									>
 										Excluir
 									</Button>
@@ -588,11 +578,11 @@ function SpecificationDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
-									disabled= {!HasPermission(["S","AQ","GQ"])}
+									disabled={!HasPermission(["S", "AQ", "GQ"])}
 								>
 									Salvar
 								</Button>
-							
+
 							</ButtonGroup>
 						</FieldSet>
 					</Form>
