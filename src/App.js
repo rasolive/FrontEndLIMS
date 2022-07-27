@@ -17,6 +17,8 @@ import ListasDetailsPage from "./components/Configuracoes/Listas/ListasDetailsPa
 import ListasListPage from "./components/Configuracoes/Listas/ListasListPage";
 import UsuariosListPage from "./components/Configuracoes/Usuarios/UsuariosListPage";
 import UsuariosDetailsPage from "./components/Configuracoes/Usuarios/UsuariosDetailsPage";
+import PermissionsListPage from "./components/Configuracoes/Permissoes/PermissionsListPage";
+import PermissionsDetailsPage from "./components/Configuracoes/Permissoes/PermissionsDetailsPage";
 import ResetPassPage from "./components/Login/resetPass";
 import RegisterPage from "./components/Login/Register";
 import AnalysisListPage from "./components/Modules/Analysis/AnalysisListPage";
@@ -71,6 +73,8 @@ function App() {
 				<PrivateRoutes role={['S']} exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
 				<PrivateRoutes role={['S']} exact path="/db/users" name="UsuariosListPage" component={UsuariosListPage}/>
 				<PrivateRoutes role={['S']} exact path="/db/users/:id" name="UsuariosDetailsPage" component={UsuariosDetailsPage}/>
+				<PrivateRoutes role={['S']} exact path="/db/permissions" name="UsuariosListPage" component={PermissionsListPage}/>
+				<PrivateRoutes role={['S']} exact path="/db/permissions/:id" name="UsuariosDetailsPage" component={PermissionsDetailsPage}/>
 
 
 			    <Route component={NotFoundPage} />

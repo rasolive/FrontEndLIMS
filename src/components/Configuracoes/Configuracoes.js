@@ -121,6 +121,15 @@ function Configuracoes(props, req) {
 						</ModuleImg>
 						<Subtitle>Usuários</Subtitle>
 					</StyledCard>
+
+					{/* <StyledCard
+						onClick={() => handleModuleClick("db/permissions")}
+					>
+						<ModuleImg background="#ff7d1a">
+							<Users size="32" />
+						</ModuleImg>
+						<Subtitle>Permissões</Subtitle>
+					</StyledCard> */}
 			
 				<StyledCard
 					onClick={() => handleModuleClick("db/listas")}
