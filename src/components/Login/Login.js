@@ -89,39 +89,15 @@ function Login(props) {
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
    async function responseGoogle(response) {
-        console.log("google", response);
-        const { profileObj: { name, email } } = response;
-        setName(name)
-        setEmail(email)
+       
         const body = Object.assign({}, fields)
-        body.name = name
-        body.email = email
-        //body.role = ["V"]
-
-        const user = await BackendLIMSAxios.post(`auth/findOne`,body,header);
-        
-
-        if (user.data.email === email) {
-            console.log('user', user.data.email, 'body', body)
-
-            const token = await BackendLIMSAxios.post("auth/authenticateGoogleUser", body);
-            sessionStorage.setItem('token', token.data.token)
-            setisLoggedIn(true)
-            props.history.push(`/home?session=${token.data.token}`)
-            
-        
-           }else{
-           const response = await BackendLIMSAxios.post(`auth/createGoogleUser`,body,header);
-
-           setLoading(false);
-   
-           const token = await BackendLIMSAxios.post("auth/authenticateGoogleUser", body);
-            sessionStorage.setItem('token', token.data.token)
-            setisLoggedIn(true)
-            props.history.push(`/home?session=${token.data.token}`)}
+        body.tokenId = response.tokenId  
+        const token = await BackendLIMSAxios.post("auth/authenticateGoogleUser", body);
+        sessionStorage.setItem('token', token.data.token)
+        setisLoggedIn(true)
+        props.history.push(`/home?session=${token.data.token}`)}
 
      
-    }
 
     async function responseFacebook(response) {
         console.log(response.name);
