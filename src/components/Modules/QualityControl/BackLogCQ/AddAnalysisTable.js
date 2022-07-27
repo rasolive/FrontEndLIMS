@@ -297,8 +297,6 @@ export default function AddListasTable(props) {
 		},
 	];
 
-	console.log('data', props.data.length)
-
 	if (props.data.length === 0) {
 		return (
 			<div>

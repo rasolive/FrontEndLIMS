@@ -182,7 +182,6 @@ function PermissionsDetailsPage(props) {
 		const id = response.data._id;
 
 		const status = response.status || {};
-		console.log("10",files)
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Atualizado com sucesso`);
@@ -242,7 +241,6 @@ function PermissionsDetailsPage(props) {
 
 
 	const handleUploadFiles = async (id) => {
-		console.log(files)
 		if (files.length === 0) {
 			return;
 		}
@@ -251,8 +249,6 @@ function PermissionsDetailsPage(props) {
 			setLoading(true);
 	
 			const path = `${fileObj.path}/${id}`
-			console.log('fileObj',fileObj)
-			console.log('fileObj path',path)
 			const archiveData = {
 				path
 			};

@@ -100,7 +100,7 @@ function Login(props) {
      
 
     async function responseFacebook(response) {
-        console.log(response.name);
+    
         setName(response.name)
         setEmail(response.email)
         const body = Object.assign({}, fields)
@@ -119,11 +119,7 @@ function Login(props) {
 		e.preventDefault();
 		setLoading(true);
 
-        console.log(email, password)
-
         const response = await handleLogin(email, password)
-       
-        console.log('resp', response)
 
         props.history.push(response)
         

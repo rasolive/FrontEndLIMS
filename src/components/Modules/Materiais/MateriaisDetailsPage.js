@@ -154,9 +154,7 @@ function ReagentsDetailsPage(props) {
 		}
 
 		async function getFornecedores() {
-			const response = await BackendLIMSAxios.get('fornecedores', header);
-
-			console.log("1",response)			
+			const response = await BackendLIMSAxios.get('fornecedores', header);	
 			
 			setFornecedores(response.data || []);
 			
@@ -212,7 +210,7 @@ function ReagentsDetailsPage(props) {
 
 			try {
 				const getFornecedores = fornecedores.filter(item => fornecedoresIds.includes(item._id));
-				console.log("getFornecedores", getFornecedores)
+			
 				setSelectedFornecedores([...selectedFornecedores, ...getFornecedores]);
 			} catch (error) { }
 		}
@@ -235,9 +233,7 @@ function ReagentsDetailsPage(props) {
 
 		const status = response.status || {};
 		const id = response.data.message._id;
-		console.log(response)
-		console.log(response.data)
-		console.log(response.data.message._id)
+
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Criado com sucesso`);
@@ -257,7 +253,7 @@ function ReagentsDetailsPage(props) {
 		const id = response.data._id;
 
 		const status = response.status || {};
-		console.log("10",files)
+		
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Atualizado com sucesso`);
@@ -318,7 +314,7 @@ function ReagentsDetailsPage(props) {
 	
 		e.target.value = null;
 		setFiles(newFilesDescription);
-		console.log("50",newFilesDescription)
+	
 	};
 
 	const handleFormSubmit = (e) => {
@@ -365,7 +361,7 @@ function ReagentsDetailsPage(props) {
 
 
 	const handleUploadFiles = async (id) => {
-		console.log(files)
+		
 		if (files.length === 0) {
 			return;
 		}
@@ -374,8 +370,7 @@ function ReagentsDetailsPage(props) {
 			setLoading(true);
 	
 			const path = `${fileObj.path}/${id}`
-			console.log('fileObj',fileObj)
-			console.log('fileObj path',path)
+	
 			const archiveData = {
 				path
 			};

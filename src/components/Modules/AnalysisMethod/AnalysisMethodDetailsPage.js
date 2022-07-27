@@ -133,9 +133,7 @@ function AnalysisMethodDetailsPage(props) {
 
 		const status = response.status || {};
 		const id = response.data.message._id;
-		console.log(response)
-		console.log(response.data)
-		console.log(response.data.message._id)
+
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Criada com sucesso`);
@@ -153,7 +151,7 @@ function AnalysisMethodDetailsPage(props) {
 		const id = response.data._id;
 
 		const status = response.status || {};
-		console.log("10",files)
+
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Atualizada com sucesso`);
@@ -214,7 +212,7 @@ function AnalysisMethodDetailsPage(props) {
 	
 		e.target.value = null;
 		setFiles(newFilesDescription);
-		console.log("50",newFilesDescription)
+
 	};
 
 	const handleFormSubmit = (e) => {
@@ -261,7 +259,7 @@ function AnalysisMethodDetailsPage(props) {
 
 
 	const handleUploadFiles = async (id) => {
-		console.log(files)
+	
 		if (files.length === 0) {
 			return;
 		}
@@ -270,8 +268,7 @@ function AnalysisMethodDetailsPage(props) {
 			setLoading(true);
 	
 			const path = `${fileObj.path}/${id}`
-			console.log('fileObj',fileObj)
-			console.log('fileObj path',path)
+		
 			const archiveData = {
 				path
 			};

@@ -155,8 +155,6 @@ function ResetPassPage(props) {
 
 		const body = Object.assign({}, fields)
 
-		console.log("body", body);
-
 		const validate = [fields.password, fields.repeatPassword];
 
 			if ( !validate.every(item => Boolean(item) === true) )  {

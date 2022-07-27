@@ -57,11 +57,6 @@ function AnalysisListPage(props) {
 			})
 		  }
 
-
-		//console.log('data',data);
-
-		//console.log('exportando',exports.Objects);
-
 		const wb = XLSX.utils.book_new();
 		const ws = XLSX.utils.json_to_sheet(exports.Objects);
 		XLSX.utils.book_append_sheet(wb, ws, "Análises");
