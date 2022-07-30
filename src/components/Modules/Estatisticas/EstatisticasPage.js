@@ -23,12 +23,12 @@ import AnexosPage from "../Anexos/AnexosPage";
 
 
 const StyledCard = styled(Card)`
-	max-width: 800px;
+	max-width: 900px;
 	margin: auto;
 	z-index: 0;
 	overflow: hidden;
 	//position: relative;
-	width: 100%;
+	width: 80%;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 1%;
@@ -97,8 +97,10 @@ function EstatisticasPage(props) {
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
     const [graph, setGraph] = useState();
-    const [plot_2, setPlot_2] = useState();
-    const [layout, setLayout] = useState();
+    const [statusLotes, setStatusLotes] = useState();
+	const [statusMateriais, setStatusMateriais] = useState();
+    const [layoutLotes, setLayoutLotes] = useState();
+	const [layoutMateriais, setLayoutMateriais] = useState();
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -106,19 +108,24 @@ function EstatisticasPage(props) {
 	
     useEffect(() => {
 		
-		const plot_2 = async () => {
+		const statusLotes = async () => {
             const body = Object.assign({}, fields)
-            const response = await BackendPythonLIMSAxios.post("plot_2",body);
+
+            const statusLotes = await BackendPythonLIMSAxios.post("statusLotes",body);
+			setStatusLotes(statusLotes.data.data)
+			setLayoutLotes(statusLotes.data.layout)
+
+			const statusMateriais = await BackendPythonLIMSAxios.post("statusMateriais",body);
+			setStatusMateriais(statusMateriais.data.data)
+			setLayoutMateriais(statusMateriais.data.layout)
     
-            setLoading(false);
-  
-            setPlot_2(response.data.data)
-            setLayout(response.data.layout)
+            //setLoading(false);
+
             
         
         };
 		
-        plot_2()
+        statusLotes()
 
 	}, []);
 
@@ -126,24 +133,24 @@ function EstatisticasPage(props) {
 
 	
 
-	const gerarGrafico = async () => {
-		const body = Object.assign({}, fields)
-		const response = await BackendPythonLIMSAxios.post("Grafico",body);
+	// const gerarGrafico = async () => {
+	// 	const body = Object.assign({}, fields)
+	// 	const response = await BackendPythonLIMSAxios.post("Grafico",body);
 
-		setLoading(false);
+	// 	setLoading(false);
 
-	    setGraph(response.data.data[0])
+	//     setGraph(response.data.data[0])
         	
-	};
+	// };
 
 	
 
-	const handleFormSubmit = (e) => {
-		e.preventDefault();
-		setLoading(true);
+	// const handleFormSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	setLoading(true);
 
-		gerarGrafico();
-	};
+	// 	gerarGrafico();
+	// };
 
 	
 	
@@ -156,13 +163,13 @@ function EstatisticasPage(props) {
 					/>
 			<Container showModal={showModal}>
 				<Header
-					title="Grafico"
+					title="Estatísticas do sistema"
 					showReturnButton
 				/>
 				<StyledCard>
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
-						<FieldSet
+						{/* <FieldSet
 						style={{
 							flexWrap: "wrap",
 							alignItems: "center",
@@ -203,37 +210,62 @@ function EstatisticasPage(props) {
 
 
 
-                        </FieldSet>
-                        <Hr />
-                        <FieldSet>
-
+                        </FieldSet> */}
+                        {/* <Hr /> */}
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup>
+                       
+							{statusLotes && 
                             <Plot
-                                data={plot_2}
-                                layout={layout}
-                            />
+                                data={statusLotes}
+                                layout={layoutLotes}
+								useResizeHandler={true}
+								autosize = {true}
+								style={{width: "100%", height: "350px", minWidth: "350px", maxWidth: "400px"}}
+                            />}
 
 
-                        </FieldSet>
-                        <FieldSet>
+                      
+							</FormGroup>
+								
+							
+							<FormGroup>
+							{statusMateriais && 
+                            <Plot
+                                data={statusMateriais}
+                                layout={layoutMateriais}
+								useResizeHandler={true}
+								autosize = {true}
+								style={{width: "100%", height: "350px", minWidth: "350px", maxWidth: "400px"}}
+                            />}
+
+
+								</FormGroup>
+						</FieldSet>
+                        {/* <FieldSet>
 
                             <img src ="http://localhost:5000//matplot.png/10"></img>
 
 
 
-                        </FieldSet>
+                        </FieldSet> */}
 
 
 
                         <FieldSet justifyContent="flex-end">
                             <ButtonGroup>
 
-                                <Button
+                                {/* <Button
                                     type="button"
                                     success
                                     onClick={handleFormSubmit}
                                 >
                                     Salvar
-                                </Button>
+                                </Button> */}
                                 {/* <Button
 									type="button"
 									success
