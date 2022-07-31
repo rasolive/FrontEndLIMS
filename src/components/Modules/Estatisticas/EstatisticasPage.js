@@ -99,8 +99,10 @@ function EstatisticasPage(props) {
     const [graph, setGraph] = useState();
     const [statusLotes, setStatusLotes] = useState();
 	const [statusMateriais, setStatusMateriais] = useState();
+	const [fornecedoresMap, setFornecedoresMap] = useState();
     const [layoutLotes, setLayoutLotes] = useState();
 	const [layoutMateriais, setLayoutMateriais] = useState();
+	const [layoutFornecedores, setLayoutFornecedores] = useState();
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -118,6 +120,10 @@ function EstatisticasPage(props) {
 			const statusMateriais = await BackendPythonLIMSAxios.post("statusMateriais",body);
 			setStatusMateriais(statusMateriais.data.data)
 			setLayoutMateriais(statusMateriais.data.layout)
+
+			const fornecedoresMap = await BackendPythonLIMSAxios.post("fornecedoresMap",body);
+			setFornecedoresMap(fornecedoresMap.data.data)
+			setLayoutFornecedores(fornecedoresMap.data.layout)
     
             //setLoading(false);
 
@@ -217,7 +223,11 @@ function EstatisticasPage(props) {
 							flexWrap: "wrap",
 							alignItems: "center",
 						}}>
-							<FormGroup>
+							<FormGroup
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
                        
 							{statusLotes && 
                             <Plot
@@ -225,7 +235,8 @@ function EstatisticasPage(props) {
                                 layout={layoutLotes}
 								useResizeHandler={true}
 								autosize = {true}
-								style={{width: "100%", height: "350px", minWidth: "350px", maxWidth: "400px"}}
+								config={{displayModeBar: false}}
+								style={{width: "100%", height: "350px", minWidth: "320px", maxWidth: "400px"}}
                             />}
 
 
@@ -233,19 +244,53 @@ function EstatisticasPage(props) {
 							</FormGroup>
 								
 							
-							<FormGroup>
+							<FormGroup
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							{statusMateriais && 
                             <Plot
                                 data={statusMateriais}
                                 layout={layoutMateriais}
 								useResizeHandler={true}
 								autosize = {true}
-								style={{width: "100%", height: "350px", minWidth: "350px", maxWidth: "400px"}}
+								config={{displayModeBar: false}}
+								style={{width: "100%", height: "350px", minWidth: "320px", maxWidth: "400px"}}
                             />}
 
 
 								</FormGroup>
 						</FieldSet>
+
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+                       
+							{fornecedoresMap && 
+                            <Plot
+                                data={fornecedoresMap}
+                                layout={layoutFornecedores}
+								useResizeHandler={true}
+								autosize = {true}
+								config={{displayModeBar: false}}
+								style={{width: "100%", height: "350px", minWidth: "300px", maxWidth: "800px"}}
+                            />}                      
+							</FormGroup>
+								
+							
+		
+						</FieldSet>
+
+
+
                         {/* <FieldSet>
 
                             <img src ="http://localhost:5000//matplot.png/10"></img>

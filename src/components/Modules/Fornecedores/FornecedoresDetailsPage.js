@@ -93,6 +93,7 @@ function FornecedoresDetailsPage(props) {
 	const [files, setFiles] = useState([]);
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
+	const [estados, setEstados] = useState([]);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
@@ -108,10 +109,19 @@ function FornecedoresDetailsPage(props) {
 			setLoading(false);
 		}
 
+		async function getEstados() {
+			const response = await BackendLIMSAxios.get('estados',header);
+			setEstados(response.data);
+			setLoading(false);
+		}
+
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
 		}
+		getEstados()
+
+
 	}, [itemId, newItem, setFields, setFiles]);
 
 	
@@ -443,12 +453,26 @@ function FornecedoresDetailsPage(props) {
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
-									<InputText
-										type="text"
-										id="estado"
-										defaultValue={fields.estado}
-										onChange={handleInputChange}
-									/>
+									<Select
+									id="estado"
+									onChange={handleInputChange}
+									value={
+										fields.estado &&
+										fields.estado
+									}
+								>
+									<option value="">Selecione</option>
+									{estados.map((value) => {
+										return (
+											<option
+												key={value.Sigla}
+												value={value.Sigla}
+											>
+												{value.Estado}
+											</option>
+										);
+									})}
+								</Select>
 								</FieldSet>
 							</FormGroup>
 							<FormGroup>
