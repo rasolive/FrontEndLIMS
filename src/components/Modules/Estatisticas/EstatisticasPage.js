@@ -103,6 +103,10 @@ function EstatisticasPage(props) {
     const [layoutLotes, setLayoutLotes] = useState();
 	const [layoutMateriais, setLayoutMateriais] = useState();
 	const [layoutFornecedores, setLayoutFornecedores] = useState();
+	const [userProfiles, setUserProfiles] = useState();
+	const [layoutUserProfiles, setLayoutUserProfiles] = useState();
+	const [suppliersMaterials, setSuppliersMaterials] = useState();
+	const [layoutSuppliersMaterials, setLayoutSuppliersMaterials] = useState();
 
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
@@ -120,6 +124,14 @@ function EstatisticasPage(props) {
 			const statusMateriais = await BackendPythonLIMSAxios.post("statusMateriais",body);
 			setStatusMateriais(statusMateriais.data.data)
 			setLayoutMateriais(statusMateriais.data.layout)
+
+			const userProfiles = await BackendPythonLIMSAxios.post("userProfiles",body);
+			setUserProfiles(userProfiles.data.data)
+			setLayoutUserProfiles(userProfiles.data.layout)
+
+			const suppliersMaterials = await BackendPythonLIMSAxios.post("suppliersMaterials",body);
+			setSuppliersMaterials(suppliersMaterials.data.data)
+			setLayoutSuppliersMaterials(suppliersMaterials.data.layout)
 
 			const fornecedoresMap = await BackendPythonLIMSAxios.post("fornecedoresMap",body);
 			setFornecedoresMap(fornecedoresMap.data.data)
@@ -261,6 +273,48 @@ function EstatisticasPage(props) {
 
 
 								</FormGroup>
+						</FieldSet>
+						<FieldSet
+						style={{
+							flexWrap: "wrap",
+							alignItems: "center",
+						}}>
+							<FormGroup
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+                       
+							{userProfiles && 
+                            <Plot
+                                data={userProfiles}
+                                layout={layoutUserProfiles}
+								useResizeHandler={true}
+								autosize = {true}
+								config={{displayModeBar: false}}
+								style={{width: "100%", height: "350px", minWidth: "300px", maxWidth: "800px"}}
+                            />}                      
+							</FormGroup>
+
+							<FormGroup
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+                       
+							{suppliersMaterials && 
+                            <Plot
+                                data={suppliersMaterials}
+                                layout={layoutSuppliersMaterials}
+								useResizeHandler={true}
+								autosize = {true}
+								config={{displayModeBar: false}}
+								style={{width: "100%", height: "350px", minWidth: "300px", maxWidth: "800px"}}
+                            />}                      
+							</FormGroup>
+								
+							
+		
 						</FieldSet>
 
 						<FieldSet
