@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
+import { BackendLIMSAxios } from "./utils/axiosInstances";
 
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 
@@ -39,6 +40,29 @@ import EstatisticasPage from "./components/Modules/Estatisticas/EstatisticasPage
 
 
 function App() {
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+
+	useEffect(() => {
+		async function getStatusMaterial() {
+			const body = {name:'Status Material'}
+			
+			const response = await BackendLIMSAxios.post("listas/lista",body, header);
+			const data = response.data[0]?.lista || [];
+			console.log('data55', data)
+	
+		}
+
+		
+		getStatusMaterial()
+	
+		
+	}, []);
+
+	const role = {"FornecedoresListPage":['S', 'V', 'AC']
+					}
+	console.log('role1',role.FornecedoresListPage)
+
 	return (
 		
 		<AuthProvider>
@@ -54,7 +78,7 @@ function App() {
                 <PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/materiais" name="MateriaisListPage" component={MateriaisListPage}/>
 				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/backlog" name="BackLogListPage" component={BackLogListPage}/>
                 <PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/materiais/:id" name="MateriaisDetailsPage" component={MateriaisDetailsPage}/>
-				<PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/Fornecedores" name="FornecedoresListPage" component={FornecedoresListPage}/>
+				<PrivateRoutes role={role.FornecedoresListPage} exact path="/db/Fornecedores" name="FornecedoresListPage" component={FornecedoresListPage}/>
 				<PrivateRoutes role={['S', 'V', 'AC']} exact path="/db/Fornecedores/:id" name="FornecedoresDetailsPage" component={FornecedoresDetailsPage}/>
 				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
 				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/analysis" name="AnalysisListPage" component={AnalysisListPage}/>
