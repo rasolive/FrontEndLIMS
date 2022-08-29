@@ -94,6 +94,7 @@ function Login(props) {
         body.tokenId = response.tokenId  
         const token = await BackendLIMSAxios.post("auth/authenticateGoogleUser", body);
         sessionStorage.setItem('token', token.data.token)
+        sessionStorage.setItem('load', false)
         setisLoggedIn(true)
         props.history.push(`/home?session=${token.data.token}`)}
 
@@ -121,11 +122,7 @@ function Login(props) {
 
         const response = await handleLogin(email, password)
 
-        props.history.push(response)
-        
-        //Recarregar a pagina para atualizar as permissões do usuário na Navbar
-        document.location.reload(true);      
-        
+        props.history.push(response)     
         
     },[email, password]
     )
