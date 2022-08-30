@@ -105,6 +105,7 @@ function SpecificationDetailsPage(props) {
 	const [selectedAnalysis, setSelectedAnalysis] = useState([]);
 	const [showAnalysis, setShowAnalysis] = useState([]);
 	const [specification, setSpecification] = useState([]);
+	const [spec, setSpec] = useState([]);
 
 
 	const itemId = props.match.params.id;
@@ -141,6 +142,14 @@ function SpecificationDetailsPage(props) {
 
 		}
 
+		async function getSpec() {
+			const response = await BackendLIMSAxios.get(`${page}`,header);
+
+
+			setSpec(response.data || []);
+			setLoading(false);
+		}
+
 		setLoading(true);
 		getMateriais()
 		getAnalysis()
@@ -149,6 +158,9 @@ function SpecificationDetailsPage(props) {
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
+		}
+		if (newItem) {
+			getSpec(itemId);
 		}
 
 	}, []);
@@ -183,23 +195,37 @@ function SpecificationDetailsPage(props) {
 	}, [fields.specification]);
 
 
-	const createItem = async () => {
+	const createItem = async () => {	
 		const body = Object.assign({}, fields)
 
 		body.specification = specification;
 
-		const response = await BackendLIMSAxios.post(`${page}`, body, header);
+		const newSpec = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+
+		console.log('newSpec', body.material)
+
+		if (newSpec.data.material === Number(body.material)){ 
+			setLoading(false);
+			toast.error("Especificação já cadastrada, altere o Material",
+			{ closeOnClick: true, autoClose: 4000 });
+
+		}
+		else{
+	
+		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
 
 		const status = response.status || {};
 		const id = response.data.message._id;
+
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Criado com sucesso`);
 			props.history.push(`/db/${page}`);
 
 		}
+	}
 	};
 
 	const updateItem = async () => {
@@ -280,11 +306,22 @@ function SpecificationDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.material];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Preencha os campos obrigatórios \"Material\"", {
+					closeOnClick: true,
+					autoClose: 4000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};
@@ -390,6 +427,19 @@ function SpecificationDetailsPage(props) {
 	}
 
 
+	async function handleSpec(itemId) {
+		
+			const response = await BackendLIMSAxios.get(
+				`${page}/${itemId}`, header);
+
+			const table = response?.data?.specification || [];
+			setSpecification([...table]);
+			setLoading(false);
+		
+	}
+
+
+
 	return (
 		<>
 			<Modal
@@ -407,6 +457,38 @@ function SpecificationDetailsPage(props) {
 				<StyledCard>
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
+					{newItem &&
+					<FieldSet
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+							<FormGroup>
+								<Label htmlFor="espec">
+									Criar por cópia a partir de:
+								</Label>
+								<Select
+									id="espec"
+									onChange={(e)=>handleSpec(e.target.value)}
+									disabled={!newItem}
+								>
+									<option value="">Selecione</option>
+									{spec.map((value) => {
+										return (
+											<option
+												key={value._id}
+												value={value._id}
+											>
+												{value.material.name}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+
+
+						</FieldSet>}
+						
 						<FieldSet
 							style={{
 								flexWrap: "wrap",

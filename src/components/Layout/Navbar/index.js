@@ -108,6 +108,7 @@ const Navbar = ({toggle}) => {
 
     const sair = () => {
         sessionStorage.removeItem('token')
+        sessionStorage.removeItem('load')
         window.location.reload()    
     }
 

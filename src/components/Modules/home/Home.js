@@ -133,6 +133,11 @@ function Home(props, req) {
 	const [header, setHeader] = useState({ headers: { 'authorization': `${token}` } });
 
 
+	if(sessionStorage.getItem('load') === 'false'){    
+        window.location.reload();
+        sessionStorage.setItem('load', 'true')
+    } 
+
 	function handleModuleClick(module) {
 
 		props.history.push(`/${module}`);
