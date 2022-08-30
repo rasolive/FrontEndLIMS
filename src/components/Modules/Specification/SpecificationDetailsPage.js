@@ -105,6 +105,7 @@ function SpecificationDetailsPage(props) {
 	const [selectedAnalysis, setSelectedAnalysis] = useState([]);
 	const [showAnalysis, setShowAnalysis] = useState([]);
 	const [specification, setSpecification] = useState([]);
+	const [spec, setSpec] = useState([]);
 
 
 	const itemId = props.match.params.id;
@@ -141,6 +142,14 @@ function SpecificationDetailsPage(props) {
 
 		}
 
+		async function getSpec() {
+			const response = await BackendLIMSAxios.get(`${page}`,header);
+
+
+			setSpec(response.data || []);
+			setLoading(false);
+		}
+
 		setLoading(true);
 		getMateriais()
 		getAnalysis()
@@ -149,6 +158,9 @@ function SpecificationDetailsPage(props) {
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
+		}
+		if (newItem) {
+			getSpec(itemId);
 		}
 
 	}, []);
@@ -390,6 +402,19 @@ function SpecificationDetailsPage(props) {
 	}
 
 
+	async function handleSpec(itemId) {
+		
+			const response = await BackendLIMSAxios.get(
+				`${page}/${itemId}`, header);
+
+			const table = response?.data?.specification || [];
+			setSpecification([...table]);
+			setLoading(false);
+		
+	}
+
+
+
 	return (
 		<>
 			<Modal
@@ -407,6 +432,38 @@ function SpecificationDetailsPage(props) {
 				<StyledCard>
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
+					{newItem &&
+					<FieldSet
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+							<FormGroup>
+								<Label htmlFor="espec">
+									Criar por cópia a partir de:
+								</Label>
+								<Select
+									id="espec"
+									onChange={(e)=>handleSpec(e.target.value)}
+									disabled={!newItem}
+								>
+									<option value="">Selecione</option>
+									{spec.map((value) => {
+										return (
+											<option
+												key={value._id}
+												value={value._id}
+											>
+												{value.material.name}
+											</option>
+										);
+									})}
+								</Select>
+							</FormGroup>
+
+
+						</FieldSet>}
+						
 						<FieldSet
 							style={{
 								flexWrap: "wrap",
