@@ -195,23 +195,37 @@ function SpecificationDetailsPage(props) {
 	}, [fields.specification]);
 
 
-	const createItem = async () => {
+	const createItem = async () => {	
 		const body = Object.assign({}, fields)
 
 		body.specification = specification;
 
-		const response = await BackendLIMSAxios.post(`${page}`, body, header);
+		const newSpec = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+
+		console.log('newSpec', body.material)
+
+		if (newSpec.data.material === Number(body.material)){ 
+			setLoading(false);
+			toast.error("Especificação já cadastrada, altere o Material",
+			{ closeOnClick: true, autoClose: 4000 });
+
+		}
+		else{
+	
+		const response = await BackendLIMSAxios.post(`${page}`,body,header);
 
 		setLoading(false);
 
 		const status = response.status || {};
 		const id = response.data.message._id;
+
 		if (status === 200) {
 			handleUploadFiles(id);
 			toast.success(`${item} Criado com sucesso`);
 			props.history.push(`/db/${page}`);
 
 		}
+	}
 	};
 
 	const updateItem = async () => {
@@ -292,11 +306,22 @@ function SpecificationDetailsPage(props) {
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoading(false);
 
 		if (newItem) {
+
+			const validate = [fields.material];
+
+			if ( !validate.every(item => Boolean(item) === true) )  {
+				toast.error("Preencha os campos obrigatórios \"Material\"", {
+					closeOnClick: true,
+					autoClose: 4000,});
+				return;
+			}
+			else{
 			createItem();
-		} else {
+		}} 
+		else {
 			updateItem();
 		}
 	};
