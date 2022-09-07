@@ -3,6 +3,9 @@ import styled from "styled-components"
 
 import { NavLink as Link } from 'react-router-dom'
 import PermissionComponent from "../../PermissionComponent";
+import {
+	Home
+} from "react-feather";
 
 import { FaBars } from 'react-icons/fa'
 
@@ -32,6 +35,14 @@ export const NavLink = styled(Link)`
         color: #15cdfc;
     }
 
+    :hover {
+		transition: 0.2s;
+		transform: translate(3px, -3px);
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+        color: #15cdfc;
+	}
+
 `
 
 export const NavDiv = styled.div`
@@ -43,9 +54,13 @@ export const NavDiv = styled.div`
     height: 100%;
     cursor: pointer;
 
-    &.active {
+    :hover {
+		transition: 0.2s;
+		transform: translate(3px, -3px);
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
         color: #15cdfc;
-    }
+	}
 
 `
 export const Bars = styled(FaBars)`
@@ -116,7 +131,8 @@ const Navbar = ({toggle}) => {
    <>
             <Nav>
                 <NavLink to={`/home`}>
-                    <h1>Home page</h1>
+                    <Home size="20" />
+                    Home
                     {/* <img src="" alt=""/> */}
                 </NavLink>
                 <Bars onClick={toggle} />
@@ -132,7 +148,7 @@ const Navbar = ({toggle}) => {
                     <NavLink to="/contato" activeStyle>
                         Contato
                     </NavLink>
-                    <NavDiv style={{ cursor: 'pointer' }} onClick={sair} >
+                    <NavDiv onClick={sair} >
                         Sair
                     </NavDiv>
                     {/* <NavBtn>
