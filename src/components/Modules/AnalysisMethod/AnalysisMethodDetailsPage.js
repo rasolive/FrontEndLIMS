@@ -88,7 +88,7 @@ const Container = styled.div`
 function AnalysisMethodDetailsPage(props) {
 	const page = `analysisMethod`;
 	const gcpPatch = `prd/anexos/${page}`
-	const item = `Analise`
+	const item = `Método`
 
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
@@ -105,19 +105,19 @@ function AnalysisMethodDetailsPage(props) {
 	const newItem = itemId === "new";
 
    	useEffect(() => {
+		
+
 		async function getItem(itemId) {
 			const response = await BackendLIMSAxios.get(
 				`${page}/${itemId}`,header);
 
 			setFields(response.data || {});
 			setLoading(false);
-		}
-	
-		setLoading(true);
+		}	
 	
 
 		if (!newItem) {
-			setLoading(true);
+			setLoading(false);
 			getItem(itemId);
 		}
 		
@@ -136,7 +136,7 @@ function AnalysisMethodDetailsPage(props) {
 
 		if (status === 200) {
 			handleUploadFiles(id);
-			toast.success(`${item} Criada com sucesso`);
+			toast.success(`${item} Criado com sucesso`);
 			props.history.push(`/db/${page}`);
 
 		}
@@ -154,7 +154,7 @@ function AnalysisMethodDetailsPage(props) {
 
 		if (status === 200) {
 			handleUploadFiles(id);
-			toast.success(`${item} Atualizada com sucesso`);
+			toast.success(`${item} Atualizado com sucesso`);
 			props.history.push(`/db/${page}`);
 		}
 		setLoading(false);		
@@ -167,7 +167,7 @@ function AnalysisMethodDetailsPage(props) {
 
 		setLoading(false);
 		if (data.success) {
-			toast.success(`${item} Excluída com sucesso`);
+			toast.success(`${item} Excluído com sucesso`);
 			props.history.push(`/db/${page}`);
 		}
 	};
@@ -221,7 +221,7 @@ function AnalysisMethodDetailsPage(props) {
 
 		if (newItem) {
 
-			const validate = [fields.name];
+			const validate = [fields.description];
 
 			if ( !validate.every(item => Boolean(item) === true) )  {
 				toast.error("O Campo \"Descrição\" é Obrigatório", {

@@ -58,7 +58,7 @@ const StyledCard = styled(Card)`
 
 	:hover {
 		transition: 0.2s;
-		transform: translate(-3px, -3px);
+		transform: translate(3px, -3px);
 		box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
 		cursor: pointer;
 	}
