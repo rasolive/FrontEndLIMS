@@ -5,6 +5,7 @@ import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
 import AboutPage from "./components/Modules/About/AboutPage";
+import ContactPage from "./components/Modules/About/ContactPage";
 import PrivateRoutes from "./routes/PrivateRoutes"
 import HomePage from "./components/Home/HomePage";
 import Home from "./components/Modules/home/Home";
@@ -69,6 +70,7 @@ function App() {
 		<AuthProvider>
 			<Switch>
 				<Route exact path="/sobre" name="AboutPage" component={AboutPage} />
+				<Route exact path="/contato" name="ContactPage" component={ContactPage} />
 				<Route exact path="/" name="HomePage" component={HomePage} />
 				<Route exact path="/login" name="Login" component={Login} />
 				<Route exact path="/register" name="Register" component={RegisterPage} />
