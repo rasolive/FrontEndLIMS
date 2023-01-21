@@ -95,6 +95,7 @@ function AnalysisDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [showCancelModal, setShowCancelModal] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [showDocuments, setShowDocuments] = useState(true);
 	const [files, setFiles] = useState([]);
@@ -301,6 +302,15 @@ function AnalysisDetailsPage(props) {
 		deleteItem();
 	};
 
+	const handleToggleCancelModal = () => {
+		setShowCancelModal(!showCancelModal);
+	};
+
+	const handleConfirmCancelModalButton = () => {
+		setShowCancelModal(false);
+		toast.success(`Cadastro cancelado com sucesso`);
+		props.history.push(`/db/${page}`);
+	};
 
 	const handleUploadFiles = async (id) => {
 		
@@ -356,6 +366,15 @@ function AnalysisDetailsPage(props) {
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
 			/>
+			<Modal
+				showModal={showCancelModal}
+				modalTitle="Tem certeza que deseja Excluir o cadastro?"
+				modalBody="Caso continue, as informações preenchidas serão perdidas!"
+				handleToggleModal={handleToggleCancelModal}
+				handleConfirmModalButton={handleConfirmCancelModalButton}
+				item={item}
+			/>
+
 			<Container showModal={showModal}>
 				<Header
 					title="Cadastro de Análises"
@@ -605,6 +624,15 @@ function AnalysisDetailsPage(props) {
 										disabled= {!HasPermission(["S"])}
 									>
 										Excluir
+									</Button>
+								)}
+								{newItem && (
+									<Button
+										type="button"
+										onClick={handleToggleCancelModal}
+										danger
+									>
+										Cancelar
 									</Button>
 								)}
 								<Button
