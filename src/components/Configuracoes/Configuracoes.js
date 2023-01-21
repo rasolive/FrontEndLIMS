@@ -6,7 +6,9 @@ import {
     List,
     Package,
     Sliders,
-    Users
+    Users,
+	Home, 
+	ArrowLeft,
     
 } from "react-feather";
 import Card from "../Layout/Card/Card";
@@ -95,6 +97,33 @@ const ModuleImg = styled.div`
 	margin: 20px;
 `;
 
+const Return = styled.a`
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	text-align: center;
+	color: #888888;
+	margin-top: 20px;
+
+	vertical-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+
+	:hover {
+		cursor: pointer;
+		color: #626262;
+	}
+`;
+
+const HomeIcon = styled(Home)`
+	padding: 0px 10px;
+`;
+
 
 function Configuracoes(props, req) {
     const [loading, setLoading] = useState(false);
@@ -141,7 +170,14 @@ function Configuracoes(props, req) {
 				</StyledCard>
 				
 			</Cards>
-		
+				<Return onClick={() => handleModuleClick("home")}>
+					<ArrowLeft />
+					Voltar
+				</Return>
+				<Return onClick={() => handleModuleClick("home")}>
+					<HomeIcon size="25" />
+				</Return>
+
 		</Container>
      </>
     

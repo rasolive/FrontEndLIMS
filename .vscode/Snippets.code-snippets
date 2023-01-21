@@ -1,0 +1,245 @@
+{
+
+	"dataList": {
+		"scope": "javascript",
+		"prefix": "dataList",
+		"body": [
+					"<FormGroup>",
+					"\t<Label htmlFor=\"$1\">",
+					"\t\t$2",
+					"\t</Label>",
+					"\t<InputText",
+					"\t\tid=\"$1\"",
+					"\t\tonChange={handleInputChange}",
+					"\t\tonFocus={(e) => resetInput(e)}",
+					"\t\tdefaultValue={fields.$1}",
+					"\t\tlist=\"$3\"",
+					"\t\tplaceholder=\"Selecione\"",
+					"\t\tautoComplete=\"off\"",
+					"\t\tdisabled={$4}",
+					"\t/>",
+					"\t<datalist id=\"$3\">",
+					"\t\t{$5.map((node) => {",
+					"\t\t\treturn (",
+					"\t\t\t\t<option id=\"$1_id\" value={node.$6} >",
+					"\t\t\t\t\t{node.$6}",
+					"\t\t\t\t</option>",
+					"\t\t\t\t\t\t);",
+					"\t\t})}",
+					"\t</datalist>",
+					"</FormGroup>",
+		],
+		"description": "dataList"
+	},
+	
+	"resetInput": {
+		"scope": "javascript",
+		"prefix": "resetInput",
+		"body": [
+			"const resetInput = (e) => {",
+			"\t\te.target.value = \"\";",
+			"}"
+		],
+		"description": "resetInput"
+	},
+
+	"useState": {
+		"scope": "javascript",
+		"prefix": "useState",
+		"body": [
+			"const [$1, set$2$1] = useState([]);"
+		],
+		"description": "useState"
+	},
+
+	"useEffect": {
+		"scope": "javascript",
+		"prefix": "useEffect",
+		"body": [
+			"useEffect(() => {",
+			"\t\t$1",
+			"}, [$2]);",
+		],
+		"description": "useEffect"
+	},
+
+	"body": {
+		"scope": "javascript",
+		"prefix": "body",
+		"body": [
+			"const body = Object.assign({}, fields)"
+		],
+		"description": "body"
+	},
+
+	"select": {
+		"scope": "javascript",
+		"prefix": "select",
+		"body": [
+			"<FormGroup>",
+			"\t<Label htmlFor=\"$2\">",
+			"\t\t$1",
+			"\t</Label>",
+			"\t<Select",
+			"\t\tid=\"$2\"",
+			"\t\tonChange={handleInputChange}",
+			"\t\tvalue={fields.$2}",
+			"\t>",
+			"\t<option value=\"\">Selecione</option>",
+			"\t\t{$3.map((node) => {",
+			"\t\t\treturn (",
+			"\t\t\t\t<option value={node.$4}>",
+			"\t\t\t\t\t{node.$5} ",
+			"\t\t\t\t</option>",
+			"\t\t\t);",
+			"\t\t})}",
+			"\t</Select>",
+			"</FormGroup>",
+		],
+		"description": "select"
+	},
+
+	"checkBox": {
+		"scope": "javascript",
+		"prefix": "checkBox",
+		"body": [
+			"<FormGroup>",
+			"\t<FieldSet alignItems=\"center\">",
+			"\t\t<Checkbox",
+			"\t\t\tid=\"$1\"",
+			"\t\t\tlabel={\"$2\"}",
+			"\t\t\tonChange={(e) => { handleCheckboxChange(e) }}",
+			"\t\t\tchecked={fields.$1}",
+			"\t\t/>",
+			"\t</FieldSet>",
+			"</FormGroup>",
+		],
+		"description": "checkBox"
+	},
+
+	
+	"handleCheckBoxChange": {
+		"scope": "javascript",
+		"prefix": "handleCheckBoxChange",
+		"body": [
+			"function handleCheckboxChange(e) {",
+			"\tconst id = e.target.id",				
+			"\tsetFields({ ...fields, [`${id}`]: !fields[id] });",
+			"}",
+		],
+		"description": "handleCheckBoxChange"
+	},
+	"style": {
+		"scope": "javascript",
+		"prefix": "style",
+		"body": [
+			"style={{$1}}"
+			
+		],
+		"description": "style"
+	},
+	"flexGrow:": {
+		"scope": "javascript",
+		"prefix": "flexGrow:",
+		"body": [
+			"flexGrow:$1"
+			
+		],
+		"description": "flexGrow:"
+	},
+	"InputText": {
+		"scope": "javascript",
+		"prefix": "InputText",
+		"body": [
+			"<FormGroup>",
+			"\t<Label htmlFor=\"$1\">$2</Label>",
+			"\t<InputText",
+			"\t\t\ttype=\"text\"",
+			"\t\t\tid=\"$1\"",
+			"\t\t\tdefaultValue={fields.$1}",
+			"\t\t\tonChange={handleInputChange}",
+			"\t\t\tdisabled={false}",
+			"\t/>",
+			"</FormGroup>",
+			
+		],
+		"description": "InputText"
+	},
+	"float": {
+		"scope": "javascript",
+		"prefix": "float",
+		"body": [
+							"<FormGroup>",
+							"\t<Label htmlFor=\"$2\">$1</Label>",
+							"\t<InputText",
+							"\t\t\ttype=\"number\"",
+							"\t\t\tid=\"$2\"",
+							"\t\t\tplaceholder=\"\"",
+							"\t\t\tstep=\"0.01\"",
+							"\t\t\tmax=\"1\"",
+							"\t\t\tonChange={handleInputChange}",
+							"\t\t\tdefaultValue={fields.$2}",
+							"\t\t\tdisabled= {$3}",
+							"\t/>",
+							"</FormGroup>",
+			
+		],
+		"description": "float"
+	},
+	"int": {
+		"scope": "javascript",
+		"prefix": "int",
+		"body": [
+							"<FormGroup>",
+							"\t<Label htmlFor=\"$2\">$1</Label>",
+							"\t<InputText",
+							"\t\t\ttype=\"number\"",
+							"\t\t\tid=\"$2\"",
+							"\t\t\tplaceholder=\"\"",
+							"\t\t\tstep=\"1.0\"",
+							"\t\t\tmax=\"1\"",
+							"\t\t\tonChange={handleInputChange}",
+							"\t\t\tdefaultValue={fields.$2}",
+							"\t\t\tdisabled= {$3}",
+							"\t/>",
+							"</FormGroup>",
+			
+		],
+		"description": "int"
+	},
+	"Container": {
+		"scope": "javascript",
+		"prefix": "Container",
+		"body": [
+				"<Container showModal={showModal}>",
+				"\t<Header title=\"$1\" showReturnButton />",
+				"\t<StyledCard>",
+				"\t\t<Loading loading={loading} absolute />\n\t\t\t\n",
+				"\t\t\t<FieldSet justifyContent=\"flex-end\">",
+				"\t\t\t\t<ButtonGroup>",
+				"\t\t\t\t\t<Button",
+				"\t\t\t\t\t\ttype=\"button\"",
+				"\t\t\t\t\t\tonClick={handleToggleModal}",
+				"\t\t\t\t\t\tdanger",
+				"\t\t\t\t\t\tdisabled={!HasPermission(deletePermission)}",
+				"\t\t\t\t\t>",
+				"\t\t\t\t\t\tExcluir",
+				"\t\t\t\t\t</Button>",
+				"\t\t\t\t\t<Button",
+				"\t\t\t\t\t\ttype=\"button\"",
+				"\t\t\t\t\t\tonClick={handleFormSubmit}",
+				"\t\t\t\t\t\tsuccess",
+				"\t\t\t\t\t\tdisabled={!HasPermission(updatePermission)}",
+				"\t\t\t\t\t>",
+				"\t\t\t\t\t\tSalvar",
+				"\t\t\t\t\t</Button>",
+				"\t\t\t\t</ButtonGroup>",
+				"\t\t\t</FieldSet>",
+				"\t</StyledCard>",
+				"</Container>",
+			
+		],
+		"description": "Container"
+	},
+	
+}
