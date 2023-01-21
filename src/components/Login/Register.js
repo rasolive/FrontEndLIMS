@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { BackendLIMSAxios } from "../../utils/axiosInstances";
 import useDynamicForm from "../../hooks/useDynamicForm";
@@ -9,7 +9,7 @@ import Form from "../Layout/Form/Form";
 import Card from "../Layout/Card/Card";
 import FormGroup from "../Layout/FormGroup/FormGroup";
 import Label from "../Layout/Label/Label";
-import { InputText, Checkbox} from "../Layout/Input/Input";
+import { InputText, Checkbox } from "../Layout/Input/Input";
 import FieldSet from "../Layout/FieldSet/FieldSet";
 import styled, { css } from "styled-components";
 import Button from "../Layout/Button/Button";
@@ -89,7 +89,7 @@ function RegisterPage(props) {
 	const [loading, setLoading] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
-	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
+	const [header, setHeader] = useState({ headers: { 'authorization': `${token}` } });
 	const [table, setTable] = useState([]);
 	const [list, setList] = useState([]);
 	const [checked, setChecked] = useState(false);
@@ -98,77 +98,83 @@ function RegisterPage(props) {
 	const itemId = props.match.params.id;
 	const newItem = itemId === "new";
 
-    	
+
 	const createItem = async () => {
 
 		const body = Object.assign({}, fields)
 
-		const newUser = await BackendLIMSAxios.post(`${page}/findOne`,body,header);
+		const newUser = await BackendLIMSAxios.post(`${page}/findOne`, body, header);
 
 		//setLoading(false);
 
-		if (newUser.data.email === body.email){ 
+		if (newUser.data.email === body.email) {
 			setLoading(false);
 			toast.error("Usuário já cadastrado, altere o E-mail",
-			{ closeOnClick: true, autoClose: 6000 });
+				{ closeOnClick: true, autoClose: 6000 });
 
 		}
-		else{ table.map((dt) => {
-			return delete dt.id;
-		});
+		else {
+			table.map((dt) => {
+				return delete dt.id;
+			});
 
-		if (body.password) {body.validPass = true}		
+			if (body.password) { body.validPass = true }
 
-		const response = await BackendLIMSAxios.post(`${page}/createUser`,body,header);
+			const response = await BackendLIMSAxios.post(`${page}/createUser`, body, header);
 
-		setLoading(false);
+			setLoading(false);
 
-		const status = response.status || {};
-		const id = response.data.message._id;
-	
-		if (status === 200) {
-			toast.success(`${item} Cadastrado com sucesso`, {closeOnClick: true, autoClose: 6000});
-			props.history.push(`/`);
+			const status = response.status || {};
+			const id = response.data.message._id;
 
-		}}
-		
+			if (status === 200) {
+				toast.success(`${item} Cadastrado com sucesso`, { closeOnClick: true, autoClose: 6000 });
+				props.history.push(`/`);
 
-		
+			}
+		}
+
+
+
 	};
 
 	const cancelRegister = async () => {
-			props.history.push(`/`);
+		props.history.push(`/`);
 	};
 
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 		setLoading(false);
+		const validate = [fields.name, fields.email, fields.password, fields.repeatPassword];
 
-		
-
-			const validate = [fields.name, fields.email, fields.password, fields.repeatPassword];	
-
-			if ( !validate.every(item => Boolean(item) === true) )  {
-				toast.error("Preencha os campos obrigatórios \"Nome\", \"E-mail\", \"Senha\" e \"Confirme a senha\"", {
-					closeOnClick: true,
-					autoClose: 7000,});
-				return;
+		if (!validate.every(item => Boolean(item) === true)) {
+			toast.error("Preencha os campos obrigatórios \"Nome\", \"E-mail\", \"Senha\" e \"Confirme a senha\"", {
+				closeOnClick: true,
+				autoClose: 7000,
+			});
+			return;
+		}
+		else {
+			if (ValidateEmail(fields.email) === false) {
+				toast.error("E-mail inválido",
+					{ closeOnClick: true, autoClose: 7000, });
 			}
-			else{
+			else {
 				if (fields.password !== fields.repeatPassword) {
 
 					toast.error("As senhas não conferem",
-					 {closeOnClick: true, autoClose: 7000,});}
-				else{
+						{ closeOnClick: true, autoClose: 7000, });
+				}
+				else {
 					createItem();
-		}
-			
-		}} 
-		
-	;
+				}
 
-	
+			}
+		}
+	};
+
+
 	const handleToggleModal = () => {
 		setShowModal(!showModal);
 	};
@@ -181,9 +187,23 @@ function RegisterPage(props) {
 	};
 
 
-	
+	function ValidateEmail(input) {
 
-		
+		var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		if (input.match(validRegex)) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+
 	return (
 		<>
 			<Modal
@@ -192,7 +212,7 @@ function RegisterPage(props) {
 				modalBody="Caso continue, as informações preenchidas serão excluídas!"
 				handleToggleModal={handleToggleModal}
 				handleConfirmModalButton={handleConfirmModalButton}
-				item = {item}
+				item={item}
 			/>
 			<Container showModal={showModal}>
 				<Header
@@ -203,11 +223,11 @@ function RegisterPage(props) {
 					<Loading loading={loading} absolute />
 					<Form flexFlow="row wrap">
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+
 							<FormGroup>
 								<Label htmlFor="name">Nome:</Label>
 								<InputText
@@ -218,13 +238,13 @@ function RegisterPage(props) {
 								/>
 							</FormGroup>
 
-							
+
 						</FieldSet>
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							<FormGroup>
 								<Label htmlFor="email">E-Mail:</Label>
 								<InputText
@@ -232,15 +252,15 @@ function RegisterPage(props) {
 									id="email"
 									defaultValue={fields.email}
 									onChange={handleInputChange}
-									/>
+								/>
 							</FormGroup>
 						</FieldSet>
 
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							<FormGroup>
 								<Label htmlFor="password">Senha:</Label>
 								<InputText
@@ -252,10 +272,10 @@ function RegisterPage(props) {
 							</FormGroup>
 						</FieldSet>
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							<FormGroup>
 								<Label htmlFor="repeatPassword">Confirme a Senha:</Label>
 								<InputText
@@ -268,35 +288,36 @@ function RegisterPage(props) {
 						</FieldSet>
 
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
-							
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
+
 							<FormGroup>
 								<Label htmlFor="showPass">Mostrar senha:
-								<Checkbox
-									type= 'checkbox'
-									id="showPass"
-									onClick={()=>{setChecked(!checked);
-										if(checked === true){document.getElementById('password').setAttribute('type', 'password')}
-									else{document.getElementById('password').setAttribute('type', 'text')}
-								
-									if(checked === true){document.getElementById('repeatPassword').setAttribute('type', 'password')}
-									else{document.getElementById('repeatPassword').setAttribute('type', 'text')}
-								
-								}}
-									checked= {checked}
-								/></Label>
-								
-								
+									<Checkbox
+										type='checkbox'
+										id="showPass"
+										onClick={() => {
+											setChecked(!checked);
+											if (checked === true) { document.getElementById('password').setAttribute('type', 'password') }
+											else { document.getElementById('password').setAttribute('type', 'text') }
+
+											if (checked === true) { document.getElementById('repeatPassword').setAttribute('type', 'password') }
+											else { document.getElementById('repeatPassword').setAttribute('type', 'text') }
+
+										}}
+										checked={checked}
+									/></Label>
+
+
 							</FormGroup>
 						</FieldSet>
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							<FormGroup>
 								<Label htmlFor="perfil">Perfil:</Label>
 								<InputText
@@ -309,17 +330,17 @@ function RegisterPage(props) {
 							</FormGroup>
 						</FieldSet>
 						<FieldSet
-						style={{
-							flexWrap: "wrap",
-							alignItems: "center",
-						}}>
+							style={{
+								flexWrap: "wrap",
+								alignItems: "center",
+							}}>
 							<FormGroup>
 								<Label>O Perfil "Visitante" será atribuído à sua conta, para realizar alteração entre em contato com o administrtador do sistema:</Label>
-								
+
 							</FormGroup>
 						</FieldSet>
-						
-						
+
+
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
 								{!newItem && (
