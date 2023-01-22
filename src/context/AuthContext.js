@@ -63,6 +63,51 @@ function AuthProvider(props) {
 		
 	}, []);
 
+	const handleForgotPass = React.useCallback(async (email) => {
+		
+		const body = Object.assign({})
+		body.email = email
+	
+		try {
+            const response = await BackendLIMSAxios.post("auth/finduser", body);
+			if(response){
+				const response = await BackendLIMSAxios.post("email/forgotPassword", body);
+				if(response.status === 200){
+					toast.success("Senha alterada com sucesso, verifique sua caixa de e-mail", {
+						closeOnClick: true,
+						autoClose: 7000,
+					});
+					return "/";
+				}
+				else{
+					toast.error("Algo deu errado, entre em contato com o administrador do sistema", {
+						closeOnClick: true,
+						autoClose: 7000,
+					});
+					return "/";
+
+				}
+			}
+			else{
+
+				toast.error("Algo deu errado, entre em contato com o administrador do sistema", {
+					closeOnClick: true,
+					autoClose: 7000,
+				});
+				return "/";
+			}
+			
+		}
+		catch (err) {
+            toast.error(`Usuário não encontrado`, {
+                closeOnClick: true,
+                autoClose: true,
+            });
+        }                 
+     
+		
+	}, []);
+
 	const userLogged = React.useCallback(() => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
@@ -77,6 +122,7 @@ function AuthProvider(props) {
 				handleLogin,
 				userLogged,
 				header,
+				handleForgotPass,
 			}}
 		>
 			{props.children}
