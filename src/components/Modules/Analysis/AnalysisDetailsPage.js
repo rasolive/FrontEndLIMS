@@ -241,10 +241,17 @@ function AnalysisDetailsPage(props) {
 					fileObj.file.lastModified === newFiles[i].lastModified
 			);
 	
+			if (Math.round(newFiles[i].size / 1024 /1024) >= 5) {
+				toast.error(`O Arquivo ${newFiles[i].name} contem mais de 5MB e não será anexado`);
+				continue;
+			}
+	
+	
 			if (sameFileAndFolder) {
 				toast.error(`Arquivo ${newFiles[i].name} já foi inserido`);
 				continue;
 			}
+	
 	
 			newFilesDescription.push({
 				name: newFiles[i].name,

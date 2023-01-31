@@ -271,7 +271,7 @@ export default function AnexosSPage(props) {
 								return (
 									<>
 										<NoImgLabel>
-											{file.name}
+											{`${file.name} ${Math.round(file.size / 1024 /1024)}MB`}
 											<Trash
 												color="#dc3545"
 												size={20}
