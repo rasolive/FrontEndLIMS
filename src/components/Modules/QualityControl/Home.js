@@ -7,6 +7,7 @@ import {
 	ThumbsUp,
 	Home, 
 	ArrowLeft,
+	Clock,
 } from "react-feather";
 import Card from "../../Layout/Card/Card";
 import PermissionComponent from "../../PermissionComponent";
@@ -160,6 +161,15 @@ function QualityControlPage(props, req) {
 								<ThumbsDown size="32" />
 							</ModuleImg>
 							<Subtitle>Reprovados</Subtitle>
+						</StyledCard>
+					</PermissionComponent>
+
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+						<StyledCard onClick={() => handleModuleClick("db/QualityControl/vencidos")}>
+							<ModuleImg >
+								<Clock size="55" color="red"/>
+							</ModuleImg>
+							<Subtitle>Vencidos</Subtitle>
 						</StyledCard>
 					</PermissionComponent>
 

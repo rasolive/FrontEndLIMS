@@ -35,6 +35,7 @@ import BackLogListPage from "./components/Modules/QualityControl/BackLogCQ/BackL
 import BackLogDetailsPage from "./components/Modules/QualityControl/BackLogCQ/BackLogCQDetailsPage";
 import AprovadosListPage from "./components/Modules/QualityControl/BackLogCQ/AprovadosCQListPage";
 import ReprovadosListPage from "./components/Modules/QualityControl/BackLogCQ/ReprovadosCQListPage";
+import VencidosListPage from "./components/Modules/QualityControl/BackLogCQ/VencidosCQListPage";
 import LotesListPage from "./components/Modules/Lotes/LotesListPage";
 import LotesDetailsPage from "./components/Modules/Lotes/LotesDetailsPage";
 import EstatisticasPage from "./components/Modules/Estatisticas/EstatisticasPage";
@@ -96,6 +97,7 @@ function App() {
 				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/backlog/:id" name="BackLogDetailsPage" component={BackLogDetailsPage}/>
 				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/aprovados" name="AprovadosListPage" component={AprovadosListPage}/>
 				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/reprovados" name="ReprovadosListPage" component={ReprovadosListPage}/>
+				<PrivateRoutes role={['S', 'V', 'AQ', 'GQ']} exact path="/db/qualityControl/vencidos" name="VencidosListPage" component={VencidosListPage}/>
 				<PrivateRoutes role={['S']} exact path="/configuracoes" name="Configuracoes" component={Configuracoes}/>
 				<PrivateRoutes role={['S']} exact path="/db/Listas" name="ListasListPage" component={ListasListPage}/>
 				<PrivateRoutes role={['S']} exact path="/db/Listas/:id" name="ListasDetailsPage" component={ListasDetailsPage}/>
