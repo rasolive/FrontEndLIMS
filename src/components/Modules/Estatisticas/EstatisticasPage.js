@@ -50,29 +50,28 @@ function EstatisticasPage(props) {
 	const [layoutPrazoValidade, setLayoutPrazoValidade] = useState();
 	const [suppliersMaterials, setSuppliersMaterials] = useState();
 	const [layoutSuppliersMaterials, setLayoutSuppliersMaterials] = useState();
-
+	const [token, setToken] = useState(sessionStorage.getItem("token"));
+	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 	useEffect(() => {
 
 		const statusLotes = async () => {
-			const body = Object.assign({}, fields)
-
-			const suppliersMaterials = await BackendPythonLIMSAxios.post("suppliersMaterials", body);
+			const suppliersMaterials = await BackendPythonLIMSAxios.get("suppliersMaterials", header);
 			setSuppliersMaterials(suppliersMaterials.data.data)
 			setLayoutSuppliersMaterials(suppliersMaterials.data.layout)
 
-			const statusMateriais = await BackendPythonLIMSAxios.post("statusMateriais", body);
+			const statusMateriais = await BackendPythonLIMSAxios.get("statusMateriais", header);
 			setStatusMateriais(statusMateriais.data.data)
 			setLayoutMateriais(statusMateriais.data.layout)
 
-			const statusLotes = await BackendPythonLIMSAxios.post("statusLotes", body);
+			const statusLotes = await BackendPythonLIMSAxios.get("statusLotes", header);
 			setStatusLotes(statusLotes.data.data)
 			setLayoutLotes(statusLotes.data.layout)
 
-			const prazoValidade = await BackendPythonLIMSAxios.post("prazoValidade", body);
+			const prazoValidade = await BackendPythonLIMSAxios.get("prazoValidade", header);
 			setPrazoValidade(prazoValidade.data.data)
 			setLayoutPrazoValidade(prazoValidade.data.layout)
 
-			const userProfiles = await BackendPythonLIMSAxios.post("userProfiles", body);
+			const userProfiles = await BackendPythonLIMSAxios.get("userProfiles", header);
 			setUserProfiles(userProfiles.data.data)
 			setLayoutUserProfiles(userProfiles.data.layout)
 
