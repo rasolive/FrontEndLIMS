@@ -410,6 +410,7 @@ function ListasDetailsPage(props) {
 									id="name"
 									defaultValue={fields.name}
 									onChange={handleInputChange}
+									disabled= {!newItem}
 								/>
 							</FormGroup>
 						</FieldSet>
