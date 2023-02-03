@@ -406,6 +406,7 @@ function AnalysisDetailsPage(props) {
 										id="name"
 										defaultValue={fields.name}
 										onChange={handleInputChange}
+										disabled = {!newItem}
 									/>
 								</FieldSet>
 							</FormGroup>
