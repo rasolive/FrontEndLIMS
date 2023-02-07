@@ -451,6 +451,7 @@ function SpecificationDetailsPage(props) {
 				`${page}/${itemId}`, header);
 
 			const table = response?.data?.specification || [];
+			setSelectedAnalysis(table)
 			setSpecification([...table]);
 			setLoading(false);
 		
