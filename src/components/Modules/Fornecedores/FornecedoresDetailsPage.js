@@ -627,7 +627,7 @@ function FornecedoresDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S","AC"])}
+								roles = {HasPermission(["S","GC"])}
 															
 							/>
 						
@@ -642,7 +642,7 @@ function FornecedoresDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
-										disabled= {!HasPermission(["S"])}
+										disabled= {!HasPermission(["S","GC"])}
 									>
 										Excluir
 									</Button>
@@ -660,7 +660,7 @@ function FornecedoresDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
-									disabled= {!HasPermission(["S","AC"])}
+									disabled= {!HasPermission(["S","AC","GC"])}
 								>
 									Salvar
 								</Button>

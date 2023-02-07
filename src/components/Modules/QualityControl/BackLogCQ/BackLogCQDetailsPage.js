@@ -655,7 +655,7 @@ function BackLogDetailsPage(props) {
 									files={files}
 									removeFile={removeFile}
 									gcpPatch={gcpPatch}
-									roles={HasPermission(["S", "AQ", "GQ"])}
+									roles={HasPermission(["S","GQ"])}
 
 								/>
 

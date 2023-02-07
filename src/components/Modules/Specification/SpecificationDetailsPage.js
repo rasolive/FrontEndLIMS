@@ -664,7 +664,7 @@ function SpecificationDetailsPage(props) {
 									files={files}
 									removeFile={removeFile}
 									gcpPatch={gcpPatch}
-									roles={HasPermission(["S", "AQ", "GQ"])}
+									roles={HasPermission(["S","GQ"])}
 
 								/>
 
@@ -679,7 +679,7 @@ function SpecificationDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
-										disabled={!HasPermission(["S"])}
+										disabled={!newItem}
 									>
 										Excluir
 									</Button>

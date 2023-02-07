@@ -150,7 +150,7 @@ function Home(props, req) {
 				<Title>Selecione o Módulo</Title>
 				<Cards>
 
-					<PermissionComponent role={['S','V', 'AC']}>
+					<PermissionComponent role={['S','V', 'AC', 'GC']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/fornecedores")}
 						>
@@ -161,7 +161,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S','V','AC']}>
+					<PermissionComponent role={['S','V','AC', 'GC']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/materiais")}
 						>
@@ -172,7 +172,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S','V', 'AQ', 'GQ', 'AC']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ', 'AC', 'GC']}>
 						<StyledCard
 							onClick={() => handleModuleClick("db/lotes")}
 						>
@@ -222,7 +222,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					<PermissionComponent role={['S','V', 'V', 'AQ', 'GQ', 'AC']}>
+					<PermissionComponent role={['S','V', 'V', 'AQ', 'GQ', 'AC', 'GC']}>
 						<StyledCard onClick={() => handleModuleClick("db/Estatisticas")}>
 							<ModuleImg background="#64D5A5">
 								<BarChart2 size="32" />

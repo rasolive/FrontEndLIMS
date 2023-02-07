@@ -98,9 +98,9 @@ function LotesListPage(props) {
 		<>
 			<Header
 				title={item}
-				showNewRegisterButton = {HasPermission(["S","AC"])}
+				showNewRegisterButton = {HasPermission(["S","AC","GC"])}
 				showReturnButton
-				showNewExportButton = {HasPermission(["S","AC",'AQ','GQ'])}
+				showNewExportButton = {HasPermission(["S","AC",'AQ','GQ',"GC"])}
 				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>
