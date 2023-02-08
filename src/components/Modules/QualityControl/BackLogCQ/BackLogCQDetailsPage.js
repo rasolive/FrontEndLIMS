@@ -351,7 +351,7 @@ function BackLogDetailsPage(props) {
 	const handleConfirmCancelModalButton = () => {
 		setShowCancelModal(false);
 		toast.success(`Cadastro cancelado com sucesso`);
-		props.history.push(`/db/qualityControl/backlog`);
+		props.history.push(`/db/qualityControl`);
 	};
 
 

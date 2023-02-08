@@ -148,9 +148,11 @@ const Navbar = ({toggle}) => {
                     <NavLink to="/contato" activeStyle>
                         Contato
                     </NavLink>
+                    <PermissionComponent role={['S', 'V', 'AQ', 'GQ', 'AC', 'GC']}>
                     <NavDiv onClick={sair} >
                         Sair
                     </NavDiv>
+                    </PermissionComponent>
                     {/* <NavBtn>
                 <NavBtnLink to="/login">Entrar</NavBtnLink>
             </NavBtn> */}

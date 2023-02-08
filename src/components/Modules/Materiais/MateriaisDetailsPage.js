@@ -787,7 +787,7 @@ function ReagentsDetailsPage(props) {
 										type="button"
 										onClick={handleToggleModal}
 										danger
-										disabled= {!newItem}
+										disabled= {true}
 									>
 										Excluir
 									</Button>

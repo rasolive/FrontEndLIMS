@@ -39,11 +39,11 @@ export const Icon = styled.div`
     outline: none;
 
 `
-export const SidebarWrapper= styled.div`
+export const SidebarWrapper = styled.div`
     color: #fff;
 
 `
-export const SidebarMenu= styled.ul`
+export const SidebarMenu = styled.ul`
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, 80px);
@@ -56,7 +56,7 @@ export const SidebarMenu= styled.ul`
 
 
 `
-export const SidebarLink= styled(LinkS)`
+export const SidebarLink = styled(LinkS)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,7 +80,7 @@ export const SideBtnWrap = styled.div`
     display: flex;
     justify-content: center;
 `
-export const SidebarRoute= styled(LinkR)`
+export const SidebarRoute = styled(LinkR)`
     border-radius: 50px;
     background: #01bf71; 
     white-space: nowrap;
@@ -122,38 +122,40 @@ cursor: pointer;
 
 `
 
-const Sidebar = ({isOpen, toggle}) => {
+const Sidebar = ({ isOpen, toggle }) => {
 
     const sair = () => {
         sessionStorage.removeItem('token')
-        window.location.reload()    
+        window.location.reload()
     }
     return (
         <>
-            <SidebarContainer  isOpen = {isOpen}
-            onClick= {toggle}>
-                <Icon onClick= {toggle}>
+            <SidebarContainer isOpen={isOpen}
+                onClick={toggle}>
+                <Icon onClick={toggle}>
                     <CloseIcon />
                 </Icon>
                 <SidebarWrapper>
                     <SidebarMenu>
-                    <PermissionComponent role={["S"]}>
-                        <SidebarLink to="/configuracoes" onClick= {toggle}>
-                            Configurações
-                        </SidebarLink>
-                    </PermissionComponent>
-                        <SidebarLink to="/sobre" onClick= {toggle}>
+                        <PermissionComponent role={["S"]}>
+                            <SidebarLink to="/configuracoes" onClick={toggle}>
+                                Configurações
+                            </SidebarLink>
+                        </PermissionComponent>
+                        <SidebarLink to="/sobre" onClick={toggle}>
                             Sobre a Página
                         </SidebarLink>
-                        <SidebarLink to="/contato" onClick= {toggle}>
+                        <SidebarLink to="/contato" onClick={toggle}>
                             Contato
                         </SidebarLink>
-                       
+
                     </SidebarMenu>
                     <SideBtnWrap>
-                        <SidebarRoute style={{cursor: 'pointer'}}onClick={sair}>
-                            Sair
-                        </SidebarRoute>
+                        <PermissionComponent role={['S', 'V', 'AQ', 'GQ', 'AC', 'GC']}>
+                            <SidebarRoute style={{ cursor: 'pointer' }} onClick={sair}>
+                                Sair
+                            </SidebarRoute>
+                        </PermissionComponent>
                     </SideBtnWrap>
                 </SidebarWrapper>
             </SidebarContainer>
