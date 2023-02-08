@@ -796,7 +796,7 @@ function ReagentsDetailsPage(props) {
 									<Button
 										type="button"
 										onClick={handleToggleCancelModal}
-										danger
+										cancel
 									>
 										Cancelar
 									</Button>

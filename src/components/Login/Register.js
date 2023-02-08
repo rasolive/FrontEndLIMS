@@ -347,7 +347,7 @@ function RegisterPage(props) {
 									<Button
 										type="button"
 										onClick={handleToggleModal}
-										danger
+										cancel
 									>
 										Cancelar
 									</Button>
