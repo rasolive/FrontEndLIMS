@@ -785,16 +785,6 @@ function ReagentsDetailsPage(props) {
 								{!newItem && (
 									<Button
 										type="button"
-										onClick={handleToggleModal}
-										danger
-										disabled= {true}
-									>
-										Excluir
-									</Button>
-								)}
-								{newItem && (
-									<Button
-										type="button"
 										onClick={handleToggleCancelModal}
 										cancel
 									>
