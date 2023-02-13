@@ -426,11 +426,11 @@ function AnalysisMethodDetailsPage(props) {
 											flexWrap: "wrap",
 											alignItems: "center",
 										}}>
-									<InputNumber
+									<InputNumber										
 										type="number"
 										id="rev"
 										defaultValue={fields.rev}
-										onChange={handleInputChange}
+										onChange={handleInputChange}									
 									/>
 								</FieldSet>
 							</FormGroup>
@@ -531,16 +531,6 @@ function AnalysisMethodDetailsPage(props) {
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newItem && (
-									<Button
-										type="button"
-										onClick={handleToggleModal}
-										danger
-										disabled= {!newItem}
-									>
-										Excluir
-									</Button>
-								)}
 								{newItem && (
 									<Button
 										type="button"
