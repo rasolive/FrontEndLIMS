@@ -94,7 +94,6 @@ function FornecedoresDetailsPage(props) {
 	const [files, setFiles] = useState([]);
 	const [fileName, setFileName] = useState([]);
 	const [image, setImage] = useState(null);
-	const [estados, setEstados] = useState([]);
 	const [token, setToken] = useState(sessionStorage.getItem("token"));
 	const [header, setHeader] = useState({headers: {'authorization': `${token}`}});
 
@@ -110,18 +109,10 @@ function FornecedoresDetailsPage(props) {
 			setLoading(false);
 		}
 
-		async function getEstados() {
-			const response = await BackendLIMSAxios.get('estados',header);
-			setEstados(response.data);
-			setLoading(false);
-		}
-
 		if (!newItem) {
 			setLoading(true);
 			getItem(itemId);
 		}
-		getEstados()
-
 
 	}, [itemId, newItem, setFields, setFiles]);
 
@@ -337,6 +328,196 @@ function FornecedoresDetailsPage(props) {
 		}
 	};
 
+	const estados = [{
+		"_id": 2,
+		"Estado": "Acre",
+		"Longitude": -9.49865,
+		"Latitude": -69.629581,
+		"Sigla": "AC",
+		"active": true
+	  },{
+		"_id": 14,
+		"Estado": "Alagoas",
+		"Longitude": -9.521841,
+		"Latitude": -36.039082,
+		"Sigla": "AL",
+		"active": true
+	  },{
+		"_id": 6,
+		"Estado": "Amapá",
+		"Longitude": 2.406605,
+		"Latitude": -51.428199,
+		"Sigla": "AP",
+		"active": true
+	  },{
+		"_id": 3,
+		"Estado": "Amazonas",
+		"Longitude": -3.976318,
+		"Latitude": -64.399382,
+		"Sigla": "AM",
+		"active": true
+	  },{
+		"_id": 16,
+		"Estado": "Bahia",
+		"Longitude": -12.197327,
+		"Latitude": -40.191427,
+		"Sigla": "BA",
+		"active": true
+	  },{
+		"_id": 10,
+		"Estado": "Ceará",
+		"Longitude": -4.354732,
+		"Latitude": -39.712723,
+		"Sigla": "CE",
+		"active": true
+	  },{
+		"_id": 27,
+		"Estado": "Distrito Federal",
+		"Longitude": -15.858437,
+		"Latitude": -47.596956,
+		"Sigla": "DF",
+		"active": true
+	  },{
+		"_id": 18,
+		"Estado": "Espírito Santo",
+		"Longitude": -19.768337,
+		"Latitude": -40.3565,
+		"Sigla": "ES",
+		"active": true
+	  },{
+		"_id": 26,
+		"Estado": "Goiás",
+		"Longitude": -16.8529,
+		"Latitude": -51.105,
+		"Sigla": "GO",
+		"active": true
+	  },{
+		"_id": 8,
+		"Estado": "Maranhão",
+		"Longitude": -4.042,
+		"Latitude": -45.107216,
+		"Sigla": "MA",
+		"active": true
+	  },{
+		"_id": 25,
+		"Estado": "Mato Grosso",
+		"Longitude": -13.434091,
+		"Latitude": -55.501919,
+		"Sigla": "MT",
+		"active": true
+	  },{
+		"_id": 24,
+		"Estado": "Mato Grosso do Sul",
+		"Longitude": -20.616023,
+		"Latitude": -55.095124,
+		"Sigla": "MS",
+		"active": true
+	  },{
+		"_id": 17,
+		"Estado": "Minas Gerais",
+		"Longitude": -18.824095,
+		"Latitude": -44.0345,
+		"Sigla": "MG",
+		"active": true
+	  },{
+		"_id": 21,
+		"Estado": "Paraná",
+		"Longitude": -24.722653,
+		"Latitude": -51.09548,
+		"Sigla": "PR",
+		"active": true
+	  },{
+		"_id": 12,
+		"Estado": "Paraíba",
+		"Longitude": -6.950165,
+		"Latitude": -35.588089,
+		"Sigla": "PB",
+		"active": true
+	  },{
+		"_id": 5,
+		"Estado": "Pará",
+		"Longitude": -4.239015,
+		"Latitude": -52.218322,
+		"Sigla": "PA",
+		"active": true
+	  },{
+		"_id": 13,
+		"Estado": "Pernambuco",
+		"Longitude": -8.140122,
+		"Latitude": -37.779227,
+		"Sigla": "PE",
+		"active": true
+	  },{
+		"_id": 9,
+		"Estado": "Piauí",
+		"Longitude": -6.995318,
+		"Latitude": -41.807852,
+		"Sigla": "PI",
+		"active": true
+	  },{
+		"_id": 11,
+		"Estado": "Rio Grande do Norte",
+		"Longitude": -5.607038,
+		"Latitude": -36.8261,
+		"Sigla": "RN",
+		"active": true
+	  },{
+		"_id": 23,
+		"Estado": "Rio Grande do Sul",
+		"Longitude": -30.055067,
+		"Latitude": -52.387882,
+		"Sigla": "RS",
+		"active": true
+	  },{
+		"_id": 19,
+		"Estado": "Rio de Janeiro",
+		"Longitude": -22.7641,
+		"Latitude": -42.1726,
+		"Sigla": "RJ",
+		"active": true
+	  },{
+		"_id": 1,
+		"Estado": "Rondônia",
+		"Longitude": -11.474053,
+		"Latitude": -62.226545,
+		"Sigla": "RO",
+		"active": true
+	  },{
+		"_id": 4,
+		"Estado": "Roraima",
+		"Longitude": 2.148823,
+		"Latitude": -61.412437,
+		"Sigla": "RR",
+		"active": true
+	  },{
+		"_id": 22,
+		"Estado": "Santa Catarina",
+		"Longitude": -27.257104,
+		"Latitude": -49.879454,
+		"Sigla": "SC",
+		"active": true
+	  },{
+		"_id": 15,
+		"Estado": "Sergipe",
+		"Longitude": -8.263146,
+		"Latitude": -35.510823,
+		"Sigla": "SE",
+		"active": true
+	  },{
+		"_id": 20,
+		"Estado": "São Paulo",
+		"Longitude": -22.763116,
+		"Latitude": -47.9046,
+		"Sigla": "SP",
+		"active": true
+	  },{
+		"_id": 7,
+		"Estado": "Tocantins",
+		"Longitude": -9.596869,
+		"Latitude": -48.201864,
+		"Sigla": "TO",
+		"active": true
+	  }]
 	
 	return (
 		<>
