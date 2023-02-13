@@ -669,7 +669,7 @@ function BackLogDetailsPage(props) {
 								<Button
 									type="button"
 									onClick={handleToggleCancelModal}
-									danger
+									cancel
 								>
 									Cancelar
 								</Button>
