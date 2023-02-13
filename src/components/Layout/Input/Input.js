@@ -34,9 +34,12 @@ const StyledInputMask = styled(InputMask)`
 	font-size: 12px;
 `;
 
-const InputText = styled.input`
+const InputText = styled.input.attrs({
+	maxLength: 200
+})`
 	${defaultProps};
 	font-size: 12px;
+	
 `;
 
 const Checkbox = styled.input`
@@ -48,7 +51,7 @@ const Checkbox = styled.input`
 `
 
 const InputNumber = styled.input.attrs({
-	type: "number",
+	type: "number"
 })`
 	${defaultProps};
 	font-size: 12px;
@@ -66,7 +69,9 @@ const Select = styled.select`
 	${defaultProps};
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.textarea.attrs({
+	maxLength: 4000
+})`
 	${defaultProps};
 	flex: 1;
 	resize: none;

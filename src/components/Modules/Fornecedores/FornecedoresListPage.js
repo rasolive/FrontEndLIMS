@@ -98,9 +98,9 @@ function FornecedoresListPage(props) {
 		<>
 			<Header
 				title={item}
-				showNewRegisterButton = {HasPermission(["S","AC"])}
+				showNewRegisterButton = {HasPermission(["S","AC","GC"])}
 				showReturnButton
-				showNewExportButton = {HasPermission(["S","AC"])}
+				showNewExportButton = {HasPermission(["S","AC","GC"])}
 				handleExportButton={handleExportButton}
 				handleNewRegisterButtonClick={handleNewRegisterButtonClick}
 			/>

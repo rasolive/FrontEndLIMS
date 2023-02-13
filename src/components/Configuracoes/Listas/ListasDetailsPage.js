@@ -464,20 +464,11 @@ function ListasDetailsPage(props) {
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newItem && (
-									<Button
-										type="button"
-										onClick={handleToggleModal}
-										danger
-									>
-										Excluir
-									</Button>
-								)}
 								{newItem && (
 									<Button
 										type="button"
 										onClick={handleToggleCancelModal}
-										danger
+										cancel
 									>
 										Cancelar
 									</Button>

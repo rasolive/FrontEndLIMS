@@ -451,6 +451,7 @@ function SpecificationDetailsPage(props) {
 				`${page}/${itemId}`, header);
 
 			const table = response?.data?.specification || [];
+			setSelectedAnalysis(table)
 			setSpecification([...table]);
 			setLoading(false);
 		
@@ -663,7 +664,7 @@ function SpecificationDetailsPage(props) {
 									files={files}
 									removeFile={removeFile}
 									gcpPatch={gcpPatch}
-									roles={HasPermission(["S", "AQ", "GQ"])}
+									roles={HasPermission(["S","GQ"])}
 
 								/>
 
@@ -673,21 +674,11 @@ function SpecificationDetailsPage(props) {
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newItem && (
-									<Button
-										type="button"
-										onClick={handleToggleModal}
-										danger
-										disabled={!HasPermission(["S"])}
-									>
-										Excluir
-									</Button>
-								)}
 								{newItem && (
 									<Button
 										type="button"
 										onClick={handleToggleCancelModal}
-										danger
+										cancel
 									>
 										Cancelar
 									</Button>

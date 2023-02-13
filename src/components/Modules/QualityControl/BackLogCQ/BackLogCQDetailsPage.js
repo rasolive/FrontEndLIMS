@@ -351,7 +351,7 @@ function BackLogDetailsPage(props) {
 	const handleConfirmCancelModalButton = () => {
 		setShowCancelModal(false);
 		toast.success(`Cadastro cancelado com sucesso`);
-		props.history.push(`/db/qualityControl/backlog`);
+		props.history.push(`/db/qualityControl`);
 	};
 
 
@@ -655,7 +655,7 @@ function BackLogDetailsPage(props) {
 									files={files}
 									removeFile={removeFile}
 									gcpPatch={gcpPatch}
-									roles={HasPermission(["S", "AQ", "GQ"])}
+									roles={HasPermission(["S","GQ"])}
 
 								/>
 
@@ -669,7 +669,7 @@ function BackLogDetailsPage(props) {
 								<Button
 									type="button"
 									onClick={handleToggleCancelModal}
-									danger
+									cancel
 								>
 									Cancelar
 								</Button>

@@ -661,7 +661,7 @@ function LotesDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S","AC"])}
+								roles = {HasPermission(["S","GC"])}
 															
 							/>
 						
@@ -671,21 +671,11 @@ function LotesDetailsPage(props) {
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newItem && (
-									<Button
-										type="button"
-										onClick={handleToggleModal}
-										danger
-										disabled = {!HasPermission(["S"])}
-									>
-										Excluir
-									</Button>
-								)}
 								{newItem && (
 									<Button
 										type="button"
 										onClick={handleToggleCancelModal}
-										danger
+										cancel
 									>
 										Cancelar
 									</Button>
@@ -694,7 +684,7 @@ function LotesDetailsPage(props) {
 									type="button"
 									success
 									onClick={handleFormSubmit}
-									disabled = {!HasPermission(["S","AC"])}
+									disabled = {!HasPermission(["S","AC","GC"])}
 								>
 									Salvar
 								</Button>

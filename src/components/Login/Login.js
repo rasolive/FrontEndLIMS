@@ -264,14 +264,19 @@ function Login(props) {
 								
 							</FormGroup>
                 <Hr2 />
+                {!forgotPass && (
                 <NavLink to={`/register`}>
                     Não tem uma conta? cadastre-se
-                </NavLink>
+                </NavLink>)}
 
-                <Hr2 />
-                <StyledHr />
-                ou
-                <StyledHr />
+                {!forgotPass && (
+                <Hr2 />)}
+                {!forgotPass && (
+                <StyledHr /> )}
+                {!forgotPass && <label>ou</label> }
+                    {!forgotPass && (<StyledHr />
+                )}
+                {!forgotPass && (
                 <GoogleLogin
                     clientId="740172199715-nbnl62219tbaq0vov9uekvj5ptcvjm62.apps.googleusercontent.com"
                     buttonText="Faça login com Google"
@@ -280,7 +285,7 @@ function Login(props) {
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
                         <button class="loginBtn loginBtn--google" onClick={renderProps.onClick}  >  Faça login com Google </button>
-                    )} />
+                    )} />)}
                 <Hr2 />
                 {/* <FacebookLogin
                     appId="1784312231764830"

@@ -615,7 +615,7 @@ function AnalysisDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S","AQ","GQ"])}															
+								roles = {HasPermission(["S", "GQ"])}															
 							/>
 						
 						</FieldSet>
@@ -624,21 +624,11 @@ function AnalysisDetailsPage(props) {
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newItem && (
-									<Button
-										type="button"
-										onClick={handleToggleModal}
-										danger
-										disabled= {!HasPermission(["S"])}
-									>
-										Excluir
-									</Button>
-								)}
 								{newItem && (
 									<Button
 										type="button"
 										onClick={handleToggleCancelModal}
-										danger
+										cancel
 									>
 										Cancelar
 									</Button>
