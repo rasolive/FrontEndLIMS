@@ -772,7 +772,9 @@ function ReagentsDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S",,"GC"])}
+								rolesRemove = {HasPermission(["S","GC"])}
+								rolesAdd = {HasPermission(["S","GC", "AC"])}
+								rolesDownload = {HasPermission(["S","GC", "AC"])}
 															
 							/>
 						
