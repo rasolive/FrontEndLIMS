@@ -283,8 +283,17 @@ function UsuariosDetailsPage(props) {
 					autoClose: 7000,});
 				return;
 			}
-			else{
-			createItem();
+			else {
+				if (ValidateEmail(fields.email) === false) {
+					toast.error("E-mail inválido",
+						{ closeOnClick: true, autoClose: 7000, });
+				}
+				else {
+					
+						createItem();
+	
+				}
+			
 		}} 
 		else {
 			updateItem();
@@ -383,6 +392,22 @@ function UsuariosDetailsPage(props) {
 		const result = list.find((dt) => dt.id === key);
 
 		result[`${id}`] = e.target.value;
+	}
+
+	function ValidateEmail(input) {
+
+		var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		if (input.match(validRegex)) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
 	}
 
 	
