@@ -74,7 +74,7 @@ const NavLink = styled(Link)`
 					das funcionalidades do analista de qualidade tem o poder de editar resultados
 					de análises.</p>
 
-				<h3>Como acecssar</h3>
+				<h3>Como acessar</h3>
 				<p>Para acessar <a href="/register">faça um cadastro </a>ou utilize sua conta Google, você receberá o perfil 
 				de visitante e conseguirá visualizar a maioria dos dados cadastrados, para testar 
 				todas funcionalidades e perfis <a href="/contato">entre em contato com o administrador do sistema.</a></p>
