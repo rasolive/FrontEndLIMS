@@ -205,7 +205,7 @@ export default function AnexosSPage(props) {
 									<>
 										<NoImgLabel>
 											{file.name.replace(`${props.gcpPatch}/${props.itemtId}/`, "")}
-
+											{props.rolesDownload &&
 											<Download
 												color="#34b6c8"
 												size={20}
@@ -214,8 +214,8 @@ export default function AnexosSPage(props) {
 														file.name.replace(`${props.gcpPatch}/${props.itemtId}/`, "")
 													)
 												}
-											/>
-											{props.roles &&
+											/>}
+											{props.rolesRemove &&
 											<Trash
 												color="#dc3545"
 												size={20}
@@ -236,7 +236,7 @@ export default function AnexosSPage(props) {
 					)}
 				</FormGroup>
 			</FieldSet>
-			{props.roles &&
+			{props.rolesAdd &&
 			<FieldSet>
 				<FormGroup>
 					<LabelFile htmlFor="files">

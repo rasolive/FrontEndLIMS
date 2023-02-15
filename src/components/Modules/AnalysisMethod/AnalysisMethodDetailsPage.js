@@ -521,7 +521,9 @@ function AnalysisMethodDetailsPage(props) {
 								files = {files}
 								removeFile = {removeFile}
 								gcpPatch = {gcpPatch}
-								roles = {HasPermission(["S", "GQ"])}
+								rolesRemove = {HasPermission(["S","GQ"])}
+								rolesAdd = {HasPermission(["S","GQ", "AQ"])}
+								rolesDownload = {HasPermission(["S","GQ", "AQ"])}	
 															
 							/>
 						
