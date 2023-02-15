@@ -784,7 +784,7 @@ function ReagentsDetailsPage(props) {
 
 						<FieldSet justifyContent="flex-end">
 							<ButtonGroup>
-								{!newItem && (
+								{newItem && (
 									<Button
 										type="button"
 										onClick={handleToggleCancelModal}
