@@ -183,7 +183,7 @@ function Home(props, req) {
 						</StyledCard>
 					</PermissionComponent>
 
-					{/* <PermissionComponent role={['S','V', 'AQ', 'GQ']}>
+					<PermissionComponent role={['S','V', 'AQ', 'GQ']}>
 						<StyledCard onClick={() => handleModuleClick("db/specification")}>
 							<ModuleImg background="#558888">
 								<Sliders size="32" />
@@ -229,7 +229,7 @@ function Home(props, req) {
 							</ModuleImg>
 							<Subtitle>Estatísticas do Sistema</Subtitle>
 						</StyledCard>
-					</PermissionComponent> */}
+					</PermissionComponent>
 
 
 				</Cards>
