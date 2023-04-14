@@ -278,7 +278,7 @@ function Login(props) {
                 )}
                 {!forgotPass && (
                 <GoogleLogin
-                    clientId="740172199715-nbnl62219tbaq0vov9uekvj5ptcvjm62.apps.googleusercontent.com"
+                    clientId= {process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Faça login com Google"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
@@ -288,7 +288,7 @@ function Login(props) {
                     )} />)}
                 <Hr2 />
                 {/* <FacebookLogin
-                    appId="1784312231764830"
+                    appId=""
                     autoLoad={true}
                     fields="name,email,picture"
                     callback={responseFacebook}
